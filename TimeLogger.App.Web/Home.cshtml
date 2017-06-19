@@ -1,0 +1,58 @@
+﻿@using Newtonsoft.Json;
+@using Resources;
+@using TimeLogger.App.Web.Code.Common;
+@using TimeLogger.App.Web.Code.TimeLog;
+@{
+    Layout = $"~/_Layout.cshtml";
+    var timeLogs = TimeLogService.GetAllFor(Site.ConnectionString, DateTime.Today, (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey);
+}
+
+@dateNavigationBarHelper.Display(DateTime.Today)
+
+<section>
+    <p id="entry-list-info" style="display: none;"></p>
+    <table class="table table-striped entry-list">
+        <thead>
+            <tr>
+                <th class="from">@Entry.From</th>
+                <th class="to">@Entry.To</th>
+                <th>@Entry.Description</th>
+                <th class="action">@Entry.Action</th>
+                <th class="status">@Entry.Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var log in timeLogs)
+            {
+                <tr data-id="@log.Id">
+                    <td contenteditable="false" class="time">@log.From</td>
+                    <td contenteditable="false" class="time">@log.To</td>
+                    <td contenteditable="false">@log.Description</td>
+                    <td><button class="action-clear"><i class="fa fa-times"></i></button>
+                    <td><i class="fa fa-check-circle"></i></td>
+                </tr>
+            }
+            <tr class="entry-ph">
+                <td colspan="5">
+                    @Entry.ClickToAdd
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">@Entry.TotalDaily</td>
+                <td colspan="2" class="entry-total">@TimeLogDurationPrinter.Display(timeLogs.Sum(tl => tl.Duration))</td>
+            </tr>
+        </tfoot>
+    </table>
+</section>
+
+@section script {
+    <script type="text/javascript">
+        var currentTimeLogs = @Html.Raw(
+  JsonConvert.SerializeObject(timeLogs.Select(tl => new { id = tl.Id, duration = tl.Duration }))
+     .Replace("{\"", "{")
+     .Replace(",\"", ",")
+     .Replace("\":", ":"));
+    </script>
+}

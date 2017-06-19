@@ -1,0 +1,18 @@
+﻿[
+  {
+    "outputFile": "Content/Login.css",
+    "inputFile": "Content/Login.less"
+  },
+  {
+    "outputFile": "Scripts/account.es5.js",
+    "inputFile": "Scripts/account.js"
+  },
+  {
+    "outputFile": "Content/App.css",
+    "inputFile": "Content/App.less"
+  },
+  {
+    "outputFile": "Scripts/app.es5.js",
+    "inputFile": "Scripts/app.js"
+  }
+]

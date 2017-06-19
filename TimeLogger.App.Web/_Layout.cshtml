@@ -1,0 +1,65 @@
+﻿@using System.Web.Caching;
+@using Resources;
+@{
+    if (!Request.IsLocal)
+    {
+        var dateLastModified = DateTime.MinValue;
+        Response.Cache.AppendCacheExtension("max-age=0");
+        Response.Cache.SetValidUntilExpires(true);
+        Response.Cache.SetCacheability(HttpCacheability.ServerAndPrivate);
+        Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/")));
+        Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/scripts")));
+        Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/Content")));
+        TimeLogger.Web.Core.Site.SetConditionalGetHeaders(dateLastModified.ToLocalTime(), Context);
+    }
+}
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <title>@Page.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <link rel="stylesheet" href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/bootstrap-theme.min.css")" />
+    <link rel="stylesheet" href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/font-awesome.min.css")" />
+    <link rel="stylesheet" href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/app.min.css")" />
+</head>
+<body>
+    <header role="banner" class="navbar-wrapper">
+        <div class="container-fluid">
+            <nav class="site-navbar navbar navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed navbar-right" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand site-brand" href="/" title="TimeLoggerLive"></a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse navbar-right">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <form action="@FormsAuthentication.LoginUrl" method="post">
+                                    <input type="hidden" name="signout" value="true" />
+                                    <input type="hidden" name="returnUrl" value="@HttpUtility.HtmlEncode(Request.RawUrl)" />
+                                    <button type="submit" title="@AppResources.SignedInAs @User.Identity.Name" class="btn btn-link pull-right">
+                                        @AppResources.SignOut &nbsp;<span class="glyphicon glyphicon-log-out"></span>
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        @RenderBody()
+    </div>
+    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/jquery-1.9.1.min.js")"></script>
+    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/app.es5.min.js")"></script>
+    @RenderSection("script", false)
+</body>
+</html>

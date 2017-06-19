@@ -1,0 +1,58 @@
+﻿@import "variables.less";
+
+html, body, .container-table {
+    background-color: @color-light-grey;
+    color: @color-dark-grey;
+    height: 100%;
+}
+.container-table {
+    display: table;
+}
+.vertical-center-row {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+form.form-signin {
+    background-color: @color-white;
+    border: 1px solid @color-light-grey - #333;
+    border-radius: 10px;
+    padding: 30px 15px;
+
+    fieldset {
+        background-image: url('images/login_logo.png');
+        background-repeat: no-repeat;
+        background-position: 50% top;
+        padding-top: 78px;
+    }
+
+    div, p {
+        margin-top: 15px;
+    }
+
+    p.bg-danger {
+        border-radius: 5px;
+        padding: 5px;
+        text-align: center;
+    }
+
+    p.footnote {
+        color: @color-light-grey - #333;
+    }
+}
+
+.form-input-error {
+    border-color: @color-base !important;
+}
+
+.form-input-error:focus {
+    box-shadow: 0 0 5px @color-base !important;
+}
+
+.form-input-success {
+    border-color: @color-accent !important;
+}
+
+.form-input-success:focus {
+    box-shadow: 0 0 5px @color-accent !important;
+}

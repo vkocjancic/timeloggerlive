@@ -1,0 +1,51 @@
+﻿@using Resources
+@using TimeLogger.App.Web.Code.Billing
+@{ 
+    Layout = "~/Account/_Layout.cshtml";
+    Page.Title = $"{AppResources.Register} | TimeLoggerLive";
+    var accountType = AccountTypeFactory.FromString(Request["plan"]);
+}
+<section class="container container-table">
+    <div class="row vertical-center-row">
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <form name="register" action="" method="post" accept-charset="utf-8" class="form-signin text-center col-md-4 col-md-offset-4">
+                <fieldset>
+                    <input type="hidden" id="inPaymentPlan" name="inPaymentPlan" value="@accountType.GetCode()" />
+                    <div id="app-warning">
+
+                    </div>
+                    <div>
+                        <label for="inUsername" class="text-left">@AppResources.Username:</label>
+                        <input type="text" name="inUsername" id="inUsername" value="" class="form-control" autofocus />
+                    </div>
+                    <div>
+                        <label for="inPassword">@AppResources.Password:</label>
+                        <input type="password" name="inPassword" id="inPassword" value="" class="form-control" />
+                    </div>
+                    <div>
+                        <label for="inPasswordConfirmation">@AppResources.ConfirmPassword:</label>
+                        <input type="password" name="inPasswordConfirmation" id="inPasswordConfirmation" value="" class="form-control" />
+                    </div>
+                    <div class="form-signin-btn">
+                        <button type="submit" id="btnRegister" class="btn btn-lg btn-danger btn-block">
+                            <i class="fa fa-sign-in"></i>
+                            @AppResources.Register
+                        </button>
+                    </div>
+                    <p class="footnote">
+                        By signing up, you agree to our <a href="/go/PrivacyPolicy">Terms & Privacy Policy</a>.
+                    </p>
+                    <p class="footnote">
+                        Upon registration, you will be redirected to PayPal website to complete your subscription.
+                        Your account will be activated as soon as we verify your payment.
+                    </p>
+                </fieldset>
+                @AntiForgery.GetHtml()
+            </form>
+        }
+    </div>
+</section>
+<script type="text/javascript">
+    var global_paypal_link = '@accountType.GeneratePayPalLink()';
+</script>

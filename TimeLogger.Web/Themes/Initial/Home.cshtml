@@ -1,0 +1,170 @@
+﻿@using Resources
+@using TimeLogger.Web.Code.Common
+<main id="content" role="banner" class="site-main">
+    <div class="container">
+        <div class="row">
+            <span class="site-logo" itemprop="logo">
+                <img src="~/Content/images/TimeLogger-logo-alt.png" class="img-responsive" alt="@Site.Title - @Site.Description" />
+            </span>
+            <p class="lead last">
+                <a class="btn btn-lg" href="#pricing" title="@SiteResource.Purchase">@SiteResource.Purchase</a>
+            </p>
+            @*<p class="version">@SiteResource.Version v1.0.0</p>*@
+        </div>
+    </div>
+</main>
+
+<article class="row" itemprop="about">
+    <div class="container">
+        <h3 id="about">@SiteResource.About</h3>
+        <section itemprop="articleSection">
+            <p>
+                @Site.Title will be task time logging application for individuals, freelancers and small companies
+                with no need for complex project management solutions.
+                With emphasis on simplicity, transparency and great support (whenever needed), I am hoping to make
+                this tedious task as pleasant as possible.
+            </p>
+            <p>
+                @Site.Title is currently <span class="site-app-status app-status-@Site.StatusSlug">@Site.Status</span> and is expected to be in
+                beta by <span class="site-app-release-date">@Site.ReleaseDate.ToString("D")</span>.
+            </p>
+            <p>
+                If you are not satisfied wtih the application or we miss the deadline or cancel the project,
+                I will give you your money back. No questions asked. But don't worry, your data will remain
+                accessible to you.
+            </p>
+        </section>
+    </div>
+</article>
+
+<article class="row" itemprop="articleBody">
+    <div class="container">
+        <h3 id="features">@SiteResource.Features</h3>
+        <section itemprop="articleSection" class="site-section-main col-sm-4">
+            <h4 class="site-simple"><span>@SiteResource.EasyToUse</span></h4>
+            <p>
+                @SiteResource.EasyToUseShortDescription
+            </p>
+        </section>
+        <section itemprop="articleSection" class="site-section-main col-sm-4">
+            <h4 class="site-transparent"><span>@SiteResource.Transparent</span></h4>
+            <p>
+                @SiteResource.TransperentShortDescription
+            </p>
+        </section>
+        <section itemprop="articleSection" class="site-section-main col-sm-4">
+            <h4 class="site-moneyback"><span>@SiteResource.MoneyBackGuarantee</span></h4>
+            <p>
+                @SiteResource.MoneyBackGuaranteeShortDescription
+            </p>
+        </section>
+    </div>
+</article>
+
+<article class="row" itemprop="offers">
+    <div class="container">
+        <h3 id="pricing">@SiteResource.Pricing</h3>
+        <table class="table table-responsive site-pricing">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Personal</th>
+                    <th>Business</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Unlimited logged tasks</td>
+                    <td><span class="fa fa-check"></span></td>
+                    <td><span class="fa fa-check"></span></td>
+                </tr>
+                <tr>
+                    <td>Daily, weekly and monthly reports</td>
+                    <td><span class="fa fa-check"></span></td>
+                    <td><span class="fa fa-check"></span></td>
+                </tr>
+                <tr>
+                    <td>Task management</td>
+                    <td><span class="fa fa-check"></span></td>
+                    <td><span class="fa fa-check"></span></td>
+                </tr>
+                <tr>
+                    <td>Subscription overview and extension</td>
+                    <td><span class="fa fa-check"></span></td>
+                    <td><span class="fa fa-check"></span></td>
+                </tr>
+                <tr>
+                    <td>Bundling tasks into projects</td>
+                    <td></td>
+                    <td><span class="fa fa-check"></span></td>
+                </tr>
+                <tr>
+                    <td>Team management &amp; reporting</td>
+                    <td></td>
+                    <td><span class="fa fa-check"></span></td>
+                </tr>
+                <tr>
+                    <td>User management</td>
+                    <td></td>
+                    <td><span class="fa fa-check"></span></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td>
+                        
+                        <p class="price" itemprop="price">€ 10</p>
+                        <p class="footnote">yearly</p>
+                        <p class="full-price" itemprop="price">(regular price € 50)</p>
+                        <p class="site-purchase">
+                            <a href="/app/register/personal" class="btn">@SiteResource.Purchase</a>
+                        </p>
+                    </td>
+                    <td>
+                        
+                        <p class="price" itemprop="price">€ 100</p>
+                        <p class="footnote">yearly</p>
+                        <p class="full-price" itemprop="price">(regular price € 500)</p>
+                        <p class="site-purchase">
+                            <a href="/app/register/business" class="btn">@SiteResource.Purchase</a>
+                        </p>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</article>
+
+<article class="row" itemprop="about">
+    <div class="container">
+        <h3 id="about">@SiteResource.Author</h3>
+        <section itemprop="articleSection">
+            <div class="col-sm-2">
+                <img src="~/Content/images/author.jpg" class="img-responsive" alt="Author - Vladimir Kocjancic" />
+            </div>
+            <div clss="col-sm-10">
+                <p>
+                    Hi. I am Vladimir Kocjancic. A software developer with nearly 20 years of experience in software development.
+                    In my career, I have worked on automation of a small brewery, bandwidth monitoring application, financial
+                    applications and created about 5 different CMS engines and one shopping cart engine.
+                </p>
+                <p>
+                    I am also a father, a brewer and a software development enthusiast. I spend every free moment either learning
+                    about being better software developer or coding.
+                </p>
+                <p>
+                    I am creating this application due to one need I had at every gig. The need to stop wasting paper and count
+                    the hours used for tasks mutliple times per day and leave all hard work to a computer. I hope you find it
+                    as useful and easy to use as I do.
+                </p>
+                <p>
+                    You can follow me on <a href="https://twitter.com/lotushints">Twitter</a>,
+                    <a href="https://www.linkedin.com/in/vladimir-kocjancic-6990798/">LinkedIn</a>,
+                    <a href="https://github.com/vkocjancic/">GitHub</a>
+                    and my blog <a href="https://www.lotushints.com">Lotushints</a>
+                </p>
+            </div>
+        </section>
+    </div>
+</article>

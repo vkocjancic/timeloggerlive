@@ -1,0 +1,31 @@
+﻿@using System.Web.Caching;
+@{ 
+    if (!Request.IsLocal && !User.Identity.IsAuthenticated)
+    {
+        var dateLastModified = DateTime.MinValue;
+        Response.Cache.AppendCacheExtension("max-age=0");
+        Response.Cache.SetValidUntilExpires(true);
+        Response.Cache.SetCacheability(HttpCacheability.ServerAndPrivate);
+        Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/")));
+        Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/scripts")));
+        Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/Content")));
+        TimeLogger.Web.Core.Site.SetConditionalGetHeaders(dateLastModified.ToLocalTime(), Context);
+    }
+}
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <title>@Page.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <link rel="stylesheet" href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/bootstrap-theme.min.css")" />
+    <link rel="stylesheet" href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/font-awesome.min.css")" />
+    <link rel="stylesheet" href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/login.min.css")" />
+</head>
+<body>
+    @RenderBody()
+    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/jquery-1.9.1.min.js")"></script>
+    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/account.es5.min.js")"></script>
+</body>
+</html>

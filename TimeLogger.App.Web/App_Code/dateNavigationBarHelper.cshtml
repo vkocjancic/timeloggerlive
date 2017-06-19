@@ -1,0 +1,9 @@
+﻿@helper Display(DateTime date) { 
+    <nav id="date-nav" class="app-date-nav">
+        <ul>
+            <li><a href="#"><i class="fa fa-2x fa-chevron-circle-left"></i></a></li>
+            <li><a href="#"><i class="fa fa-2x fa-chevron-circle-right"></i></a></li>
+            <li class="info">@date.ToString("MMMM dd, yyyy")</li>
+        </ul>
+    </nav>
+}

@@ -1,0 +1,5 @@
+base:		#c71f16;
+white:		#ffffff;
+light-gray:	#fbf8f8;
+dark-gray:	#4d3332;
+accent: 	#7eb914;

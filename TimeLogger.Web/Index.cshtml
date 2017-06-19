@@ -1,0 +1,20 @@
+﻿@using System.Web.Caching;
+@using TimeLogger.Web.Code.Common;
+@{
+    Layout = $"~/themes/{Site.Theme}/_Layout.cshtml";
+    var dateLastModified = DateTime.MinValue;
+    Page.Title = $"{Site.Title} | {Site.Description}";
+    Page.Description = Site.MetaDescription;
+    @RenderPage($"~/themes/{Site.Theme}/{Site.CurrentPage}")
+    @AntiForgery.GetHtml()
+        if (!Request.IsLocal && !User.Identity.IsAuthenticated)
+        {
+            Response.Cache.AppendCacheExtension("max-age=0");
+            Response.Cache.SetValidUntilExpires(true);
+            Response.Cache.SetCacheability(HttpCacheability.ServerAndPrivate);
+            Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/")));
+            Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/scripts")));
+            Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/Content")));
+        TimeLogger.Web.Core.Site.SetConditionalGetHeaders(dateLastModified.ToLocalTime(), Context);
+    }
+}

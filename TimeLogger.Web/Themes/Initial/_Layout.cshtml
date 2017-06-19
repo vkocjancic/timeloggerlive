@@ -1,0 +1,89 @@
+﻿@using Resources
+@using TimeLogger.Web.Code.Common
+<!DOCTYPE html>
+<html lang="sl">
+<head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8" />
+    <title>@Page.Title</title>
+    <meta name="description" content="@Page.Description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+    <meta name="application-name" content="@Site.Title" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+
+    <meta property="og:title" content="@Page.Title" />
+    <meta property="og:image" content="@(Request.Url.Scheme +"://" + Request.Url.Authority + @Site.Image)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@(Request.Url.Scheme +"://" + Request.Url.Authority + Request.RawUrl)" />
+
+    <link href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/bootstrap-theme.min.css")" rel="stylesheet" />
+    <link href="@TimeLogger.Web.Core.Site.FingerPrint("/Content/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@TimeLogger.Web.Core.Site.FingerPrint("/Themes/" + Site.Theme +"/site.min.css")" rel="stylesheet" />
+    <link rel="icon" href="@TimeLogger.Web.Core.Site.FingerPrint("/favicon.ico")" sizes="16x16 32x32 48x48 64x64" type="image/vnd.microsoft.icon">
+</head>
+<body itemscope itemtype="http://schema.org/WebPage">
+
+    <header role="banner" class="navbar-wrapper">
+        <div class="container-fluid">
+            <nav class="site-navbar navbar navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed navbar-right" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand site-brand" href="/" title="@Site.Title - @Site.Description"></a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse navbar-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="/index#about" title="@SiteResource.About">@SiteResource.About</a></li>
+                            <li><a href="/index#features" title="@SiteResource.Features">@SiteResource.Features</a></li>
+                            <li><a href="/index#pricing" title="@SiteResource.Pricing">@SiteResource.Pricing</a></li>
+                            <li><a href="/go/privacypolicy" title="@SiteResource.PrivacyPolicy">@SiteResource.PrivacyPolicy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div role="main">
+        @RenderBody()
+    </div>
+
+    <footer role="contentinfo" itemscope itemtype="http://schema.org/Person" class="site-footer">
+        <div class="container">
+            <div class="row">
+                <p class="col-md-12 site-copyright">
+                    Copyright &copy; @DateTime.Now.Year <a href="/" itemprop="url name">@Site.Copyright</a>,
+                    Slovenia,
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;<a href="mailto:@Site.Email">@Site.Email</a>,
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>&nbsp;<a href="https://www.facebook.com/TimeLoggerLive/" style="">TimeLoggerLive</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/site.es5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/cookie-bar/latest/cookiebar-latest.min.js?top=1&forceLang=en&tracking=1&thirdparty=1&always=1&noGeoIp=1&refreshPage=1&remember=365&privacyPage=%2Fgo%2FPrivacyPolicy"></script>
+    @if (Site.AreCookiesEnabled)
+    {
+        <script type="text/javascript">
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+            ga('create', '@Site.GoogleAnalyticsTrackerId', 'auto');
+            ga('send', 'pageview');
+        </script>
+    }
+</body>
+</html>
+
