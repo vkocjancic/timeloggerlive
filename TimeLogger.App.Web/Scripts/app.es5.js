@@ -3,6 +3,7 @@
 (function ($) {
     var navigationBarDate = new DateNavigationBar('date-nav');
     var timeLogList = new TimeLogList('entry-list');
+    var dailyReport = new DailyReport('dailyReportModal');
 
     // #region jQuery extensions
 
@@ -43,6 +44,10 @@
         return this.locale[lang].month_names[this.getMonth()];
     };
 
+    Date.prototype.toApiDateString = function () {
+        return this.getFullYear() + '-' + ('0' + (this.getMonth() + 1)).slice(-2) + '-' + ('0' + this.getDate()).slice(-2);
+    };
+
     // #endregion
 
     // #region TemplateFormatter
@@ -67,24 +72,40 @@
         this.element = obj;
     }
 
+    TimeLogStatus.prototype.displayNone = function () {
+        this.resetClass(this.element.get(0), '');
+    };
+
     TimeLogStatus.prototype.displayNew = function () {
-        this.resetClass(this.element.get(0), "fa fa-plus-circle");
+        this.resetClass(this.element.get(0), 'fa fa-plus-circle');
     };
 
     TimeLogStatus.prototype.displayError = function () {
-        this.resetClass(this.element.get(0), "fa fa-exclamation-circle");
+        this.resetClass(this.element.get(0), 'fa fa-exclamation-circle');
     };
 
     TimeLogStatus.prototype.displayLoading = function () {
-        this.resetClass(this.element.get(0), "fa fa-spinner fa-pulse fa-fw");
+        this.resetClass(this.element.get(0), 'fa fa-spinner fa-pulse fa-fw');
     };
 
     TimeLogStatus.prototype.displaySuccess = function () {
-        this.resetClass(this.element.get(0), "fa fa-check-circle");
+        this.resetClass(this.element.get(0), 'fa fa-check-circle');
     };
 
     TimeLogStatus.prototype.resetClass = function (obj, classes) {
         obj.className = classes;
+    };
+
+    // #endregion
+
+    // #region DurationFormatter
+
+    function DurationFormatter() {}
+
+    DurationFormatter.prototype.format = function (totalInMinutes) {
+        var hours = Math.floor(totalInMinutes / 60),
+            minutes = totalInMinutes % 60;
+        return hours + "h " + minutes + "m";
     };
 
     // #endregion
@@ -125,6 +146,7 @@
     function DateNavigationBar(id) {
         this.element = $('#' + id);
         this.startDate = new Date();
+        this.elementStatus = $('li.status i', this.element);
     }
 
     DateNavigationBar.prototype.dateOffset = 0;
@@ -148,12 +170,28 @@
     DateNavigationBar.prototype.addDays = function (days) {
         this.dateOffset += days;
         this.displayDate();
-        timeLogList.loadItemsForDate(this.selectedDate());
+        this.toggleStatus(true);
+        var obj = this;
+        timeLogList.loadItemsForDate(this.selectedDate(), function () {
+            obj.toggleStatus(false);
+        });
     };
 
     DateNavigationBar.prototype.displayDate = function () {
-        var dat = this.selectedDate();
-        $('li.info', this.element).text(dat.getMonthName() + " " + dat.getDate() + ", " + dat.getFullYear());
+        $('li.info', this.element).text(this.displayDateString(this.selectedDate()));
+    };
+
+    DateNavigationBar.prototype.displayDateString = function (dat) {
+        return dat.getMonthName() + ' ' + dat.getDate() + ', ' + dat.getFullYear();
+    };
+
+    DateNavigationBar.prototype.toggleStatus = function (visible) {
+        var status = new TimeLogStatus(this.elementStatus);
+        if (visible) {
+            status.displayLoading();
+        } else {
+            status.displayNone();
+        }
     };
 
     // #endregion
@@ -173,8 +211,8 @@
         this.placeholderNewItem.click(function () {
             obj.newItem();
         });
-        $('tbody', this.element).on('click', 'tr:not(.entry-ph)', function () {
-            obj.editItem(this);
+        $('tbody', this.element).on('click', 'tr:not(.entry-ph)', function (e) {
+            obj.editItem(this, $(e.target).get(0));
         });
         $('tbody', this.element).on('click', 'tr .action-save', function () {
             obj.saveItem(this);
@@ -218,12 +256,13 @@
         });
     };
 
-    TimeLogList.prototype.editItem = function (obj) {
+    TimeLogList.prototype.editItem = function (obj, cell) {
         var id = $(obj).attr('data-id');
         if (id && id.length > 0) {
             $('td:lt(3) div', obj).each(function () {
                 if ('false' === $(this).prop('contenteditable')) {
                     $(this).prop('contenteditable', 'true');
+                    $('div', cell).focus();
                 }
             });
             if (!$('.action-save', obj).get(0)) {
@@ -353,17 +392,23 @@
         }
     };
 
-    TimeLogList.prototype.loadItemsForDate = function (date) {
+    TimeLogList.prototype.loadItemsForDate = function (date, callback) {
         var timeLogList = this,
             errorHandler = new ErrorHandler($('#entry-list-info'));
         $.get('/App/api/timelog', { 'date': navigationBarDate.selectedDate().toJSON() }).success(function (data) {
             timeLogList.clearData();
             timeLogList.createItems(data.timelogs);
+            if (callback) {
+                callback();
+            }
         }).fail(function (data) {
             if (data.responseText) {
                 errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
             } else {
                 errorHandler.displayMessage('error', data.statusText);
+            }
+            if (callback) {
+                callback();
             }
             $(obj).show();
         });
@@ -375,21 +420,71 @@
 
     TimeLogList.prototype.updateTotal = function () {
         if (currentTimeLogs) {
-            var total = 0;
+            var total = 0,
+                formatter = new DurationFormatter();
             for (var cnLog = 0; cnLog < currentTimeLogs.length; cnLog++) {
                 total += currentTimeLogs[cnLog].duration;
             }
-            var hours = Math.floor(total / 60);
-            var minutes = total % 60;
-            this.placeholderTotal.text(hours + "h " + minutes + "m");
+            this.placeholderTotal.text(formatter.format(total));
         }
     };
+    // #endregion
+
+    // #region DailyReport
+
+    function DailyReport(id) {
+        this.element = $('#' + id);
+        this.body = $('.modal-body tbody', this.element);
+    }
+
+    DailyReport.prototype.init = function () {
+        var report = this;
+        this.element.on('show.bs.modal', function (event) {
+            var modal = $(this);
+            var date = navigationBarDate.selectedDate();
+            modal.find('.modal-title span').text(navigationBarDate.displayDateString(date));
+            report.loadForDate(date, function (reportItems) {
+                report.clearItems();
+                var duration = 0,
+                    formatter = new DurationFormatter();
+                for (var cnItem = 0; cnItem < reportItems.length; cnItem++) {
+                    var item = reportItems[cnItem];
+                    report.body.append('<tr><td>' + item.title + '</td><td>' + item.durationtext + '</td></tr>');
+                    duration += item.duration;
+                }
+                $('td:last', report.footer).text(formatter.format(duration));
+            });
+        });
+    };
+
+    DailyReport.prototype.loadForDate = function (date, callback) {
+        var dailyReport = this,
+            errorHandler = new ErrorHandler($('#entry-list-info'));
+        $.get('/App/api/report', { 'date': navigationBarDate.selectedDate().toApiDateString() }).success(function (data) {
+            dailyReport.clearItems();
+            if (callback) {
+                callback(data.reportItems);
+            }
+        }).fail(function (data) {
+            if (data.responseText) {
+                errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
+            } else {
+                errorHandler.displayMessage('error', data.statusText);
+            }
+        });
+    };
+
+    DailyReport.prototype.clearItems = function () {
+        $('tr', this.body).remove();
+    };
+
     // #endregion
 
     // event handlers
     $(document).ready(function () {
         navigationBarDate.init();
         timeLogList.init();
+        dailyReport.init();
     });
 })(jQuery);
 

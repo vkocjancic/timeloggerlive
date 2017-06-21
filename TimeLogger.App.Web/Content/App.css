@@ -5,7 +5,10 @@ body,
   color: #4d3332;
   height: 100%;
 }
-div[contenteditable]:focus {
+[contenteditable='true']:before {
+  content: "\feff ";
+}
+[contenteditable='true']:focus {
   outline: 0px solid transparent;
 }
 .container-fluid {
@@ -79,27 +82,38 @@ div[contenteditable]:focus {
   font-size: 80%;
   font-weight: bold;
 }
-.app-date-nav {
+.app-date-nav,
+.app-action-nav {
   margin-bottom: 10px;
 }
-.app-date-nav ul {
+.app-date-nav ul,
+.app-action-nav ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.app-date-nav ul li {
+.app-date-nav ul li,
+.app-action-nav ul li {
   display: inline-block;
   padding: 0 3px;
 }
-.app-date-nav ul li a {
+.app-date-nav ul li a,
+.app-action-nav ul li a {
   color: #7eb914;
 }
-.app-date-nav ul li a:hover {
+.app-date-nav ul li a:hover,
+.app-action-nav ul li a:hover {
   color: #5c9700;
+}
+.app-date-nav ul li.info,
+.app-date-nav ul li.status {
+  margin-top: -1.7em;
 }
 .app-date-nav ul li.info {
   color: #c71f16;
   margin-left: 20px;
-  margin-top: -1.7em;
   font-weight: bold;
+}
+.app-action-nav ul li {
+  float: right;
 }

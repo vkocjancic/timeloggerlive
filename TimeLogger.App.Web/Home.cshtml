@@ -7,7 +7,14 @@
     var timeLogs = TimeLogService.GetAllFor(Site.ConnectionString, DateTime.Today, (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey);
 }
 
-@dateNavigationBarHelper.Display(DateTime.Today)
+<div class="row">
+    <div class="col-md-9">
+        @dateNavigationBarHelper.Display(DateTime.Today)
+    </div>
+    <div class="col-md-3">
+        @actionNavigationBarHelper.Display(Resources.Report.DailyReport)
+    </div>
+</div>
 
 <section>
     <p id="entry-list-info" style="display: none;"></p>
@@ -34,7 +41,7 @@
             }
             <tr class="entry-ph">
                 <td colspan="5">
-                    @Entry.ClickToAdd
+                    <i class="fa fa-plus"></i>&nbsp;&nbsp;@Entry.ClickToAdd
                 </td>
             </tr>
         </tbody>
@@ -46,6 +53,8 @@
         </tfoot>
     </table>
 </section>
+
+@reportModalView.Display()
 
 @section script {
     <script type="text/javascript">

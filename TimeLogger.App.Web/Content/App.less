@@ -6,7 +6,11 @@ html, body, .container-table {
     height: 100%;
 }
 
-div[contenteditable]:focus {
+[contenteditable='true']:before {
+    content: "\feff ";
+}
+
+[contenteditable='true']:focus {
     outline: 0px solid transparent;
 }
 
@@ -65,7 +69,11 @@ div[contenteditable]:focus {
     tbody {
         td {
             vertical-align: middle;
-            div { height: 100%; width: 100%; }
+
+            div {
+                height: 100%;
+                width: 100%;
+            }
         }
 
         .fa-plus-circle {
@@ -101,7 +109,7 @@ div[contenteditable]:focus {
     }
 }
 
-.app-date-nav {
+.app-date-nav, .app-action-nav {
     margin-bottom: 10px;
 
     ul {
@@ -121,12 +129,27 @@ div[contenteditable]:focus {
                 color: @color-accent - #222;
             }
         }
+    }
+}
+
+.app-date-nav {
+
+    ul {
+
+        li.info, li.status {
+            margin-top: -1.7em;
+        }
 
         li.info {
             color: @color-base;
             margin-left: 20px;
-            margin-top: -1.7em;
             font-weight: bold;
         }
+    }
+}
+
+.app-action-nav {
+    ul {
+        li { float: right; }
     }
 }

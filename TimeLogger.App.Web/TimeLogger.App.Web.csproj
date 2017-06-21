@@ -139,6 +139,8 @@
     <Content Include="Home.cshtml" />
     <Content Include="Content\Variables.less" />
     <Content Include="App_Code\dateNavigationBarHelper.cshtml" />
+    <Content Include="App_Code\actionNavigationBarHelper.cshtml" />
+    <Content Include="App_Code\reportModalView.cshtml" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -204,6 +206,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Entry.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\Report.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Report.resx</DependentUpon>
+    </Compile>
     <Compile Include="Code\Account\RegisterResponse.cs" />
     <Compile Include="Code\Account\RegisterResponseFactory.cs" />
     <Compile Include="Code\Account\RegisterService.cs" />
@@ -217,6 +224,9 @@
     <Compile Include="Code\Billing\BillingService.cs" />
     <Compile Include="Code\Common\ApiResponse.cs" />
     <Compile Include="Code\Common\Site.cs" />
+    <Compile Include="Code\Report\ReportCollectionResponse.cs" />
+    <Compile Include="Code\Report\ReportModel.cs" />
+    <Compile Include="Code\Report\ReportService.cs" />
     <Compile Include="Code\TimeLog\TimeLogCollectionResponse.cs" />
     <Compile Include="Code\TimeLog\TimeLogModel.cs" />
     <Compile Include="Code\TimeLog\TimeLogDurationPrinter.cs" />
@@ -225,6 +235,7 @@
     <Compile Include="Code\TimeLog\TimeLogService.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\TimeLogController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -257,6 +268,12 @@
     <Content Include="App_GlobalResources\Entry.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Entry.Designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Report.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Report.Designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>
