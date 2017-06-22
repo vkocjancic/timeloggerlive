@@ -147,13 +147,14 @@
     function DateNavigationBar(id) {
         this.element = $('#' + id);
         this.startDate = new Date();
+        //this.startDate.setTime(this.startDate.getTime() - this.startDate.getTimezoneOffset() * 60000);
         this.elementStatus = $('li.status i', this.element);
     }
 
     DateNavigationBar.prototype.dateOffset = 0;
 
     DateNavigationBar.prototype.selectedDate = function () {
-        return new Date(this.startDate).addDays(this.dateOffset);
+        return this.startDate.addDays(this.dateOffset);
     };
 
     DateNavigationBar.prototype.init = function () {
@@ -350,7 +351,7 @@
                     'from': fromValue,
                     'to': toValue,
                     'description': $(div.get(2)).textOnly(),
-                    'date': timeLogList.dateNavigationBar.selectedDate().toJSON()
+                    'date': timeLogList.dateNavigationBar.selectedDate().toApiDateString()
                 }
             })
             .done(function (data) {
@@ -379,7 +380,7 @@
                 from: fromValue,
                 to: toValue,
                 description: $(div.get(2)).textOnly(),
-                date: timeLogList.dateNavigationBar.selectedDate().toJSON()
+                date: timeLogList.dateNavigationBar.selectedDate().toApiDateString()
             })
             .success(function (data) {
                 currentTimeLogs.push({ 'id': data.timelog.id, 'duration': data.timelog.duration });
@@ -409,7 +410,7 @@
     TimeLogList.prototype.loadItemsForDate = function (date, callback) {
         var timeLogList = this,
             errorHandler = new ErrorHandler($('#entry-list-info'));
-        $.get('/App/api/timelog', { 'date': navigationBarDate.selectedDate().toJSON() })
+        $.get('/App/api/timelog', { 'date': navigationBarDate.selectedDate().toApiDateString() })
         .success(function (data) {
             timeLogList.clearData();
             timeLogList.createItems(data.timelogs);
@@ -427,7 +428,6 @@
             if (callback) {
                 callback();
             }
-            $(obj).show();
         });
     }
 
