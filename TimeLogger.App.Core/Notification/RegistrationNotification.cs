@@ -12,10 +12,9 @@ namespace TimeLogger.App.Core.Notification
         
         #region Constructors
 
-        public RegistrationNotification(string server, int port, string username, string password, string domain) 
-            : base(server, port, username, password, domain)
+        public RegistrationNotification(SmtpServerSettings settings) 
+            : base(settings)
         {
-            From = new MailAddress(username, username);
         }
 
         #endregion
@@ -43,7 +42,7 @@ Creator of TimeLoggerLive
 
         public override string GetSubject()
         {
-            return $"TimeLoggerLive: Account registration";
+            return "TimeLoggerLive: Account registration";
         }
 
         #endregion

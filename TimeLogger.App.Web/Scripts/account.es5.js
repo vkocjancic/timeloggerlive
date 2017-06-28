@@ -4,8 +4,10 @@
     var usernameField = $('#inUsername'),
         passwordField = $('#inPassword'),
         passwordConfirmField = $('#inPasswordConfirmation'),
+        passwordResetIdField = $('#inPasswordResetRequestId'),
         paymentPlanField = $('#inPaymentPlan'),
         btnRegister = $('#btnRegister'),
+        btnResetPassword = $('#btnResetPassword'),
         warningField = $('#app-warning'),
         init = function init() {
         passwordConfirmField[0].oninput = inputPasswordCheck;
@@ -24,6 +26,7 @@
         }
     },
         displayErrorMessage = function displayErrorMessage(message) {
+        warningField.html('');
         warningField.append('<p class="bg-danger"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;' + message + '</p>');
     };
 
@@ -47,6 +50,27 @@
                 displayErrorMessage(data.statusText);
             }
             btnRegister.removeClass('disabled');
+        });
+    });
+
+    $(btnResetPassword).click(function (e) {
+        e.preventDefault();
+        btnResetPassword.addClass('disabled');
+        $.post("/App/api/resetpassword", {
+            id: passwordResetIdField.val(),
+            password: passwordField.val()
+        }).success(function (data) {
+            if (global_login_link) {
+                window.location.href = global_login_link;
+            }
+            btnResetPassword.removeClass('disabled');
+        }).fail(function (data) {
+            if (data.responseText) {
+                displayErrorMessage($.parseJSON(data.responseText).errorDescription);
+            } else {
+                displayErrorMessage(data.statusText);
+            }
+            btnResetPassword.removeClass('disabled');
         });
     });
 

@@ -147,7 +147,6 @@
     function DateNavigationBar(id) {
         this.element = $('#' + id);
         this.startDate = new Date();
-        //this.startDate.setTime(this.startDate.getTime() - this.startDate.getTimezoneOffset() * 60000);
         this.elementStatus = $('li.status i', this.element);
     }
 
@@ -477,6 +476,8 @@
     DailyReport.prototype.loadForDate = function (date, callback) {
         var dailyReport = this,
             errorHandler = new ErrorHandler($('#entry-list-info'));
+        dailyReport.clearItems();
+        dailyReport.displayLoading();
         $.get('/App/api/report', { 'date': navigationBarDate.selectedDate().toApiDateString() })
         .success(function (data) {
             dailyReport.clearItems();
@@ -496,6 +497,10 @@
 
     DailyReport.prototype.clearItems = function () {
         $('tr', this.body).remove();
+    }
+
+    DailyReport.prototype.displayLoading = function () {
+        this.body.append('<tr class="table-loading"><td colspan="2"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></td></tr>');
     }
 
     // #endregion

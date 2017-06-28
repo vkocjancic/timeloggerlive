@@ -23,13 +23,14 @@ namespace TimeLogger.App.Core.Notification
 
         #region Constructors
 
-        public NotificationBase(string server, int port, string username, string password, string domain)
+        public NotificationBase(SmtpServerSettings settings)
         {
-            Domain = domain;
-            SmtpPassword = password;
-            SmtpPort = port;
-            SmtpServer = server;
-            SmtpUsername = username;
+            Domain = settings.Domain;
+            SmtpPassword = settings.Password;
+            SmtpPort = settings.Port;
+            SmtpServer = settings.Server;
+            SmtpUsername = settings.Username;
+            From = new MailAddress(SmtpUsername, SmtpUsername);
         }
 
         #endregion

@@ -121,7 +121,15 @@ namespace TimeLogger.App.Core.Authentication
 
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
-            throw new NotImplementedException();
+            var repo = new UserRepository(ConnectionString);
+            var user = repo.GetByEmail(username);
+            if (null == user)
+            {
+                return false;
+            }
+            user.Password = newPassword;
+            repo.ChangePassword(user);
+            return true;
         }
 
         public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
@@ -207,7 +215,9 @@ namespace TimeLogger.App.Core.Authentication
 
         public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
         {
-            throw new NotImplementedException();
+            var repo = new UserRepository(this.ConnectionString);
+            var user = repo.GetById((Guid)providerUserKey);
+            return (null == user) ? null : UserAdapter.ToMembershipUser(user);
         }
 
         public override string GetUserNameByEmail(string email)

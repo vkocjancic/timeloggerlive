@@ -20,6 +20,44 @@ namespace TimeLogger.App.Core.Repository
 
         #region Overrides
 
+        public override void ChangePassword(User user)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var password = PasswordFactory.CreateFromString(user.Password);
+                connection.Open();
+                connection.Execute(@"update [USER] 
+                    set [PASSWORD] = @Password
+                    where [USER_ID] = @Id",
+                    new
+                    {
+                        Id = user.Id,
+                        Password = password.ToString()
+                    });
+            }
+        }
+
+        public override User CreateUser(User user)
+        {
+            user.Id = Guid.NewGuid();
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var password = PasswordFactory.CreateFromString(user.Password);
+                connection.Open();
+                connection.Execute("insert into [USER] (USER_ID, EMAIL, PASSWORD, CREATED, ACTIVE_YN)" +
+                    " values (@Id, @Email, @Password, @DateCreated, @Active)",
+                    new
+                    {
+                        Id = user.Id,
+                        Email = user.Email,
+                        Password = password.ToString(),
+                        DateCreated = user.Created,
+                        Active = (user.IsApproved) ? 'Y' : 'N'
+                    });
+            }
+            return user;
+        }
+
         public override User GetByEmail(string email)
         {
             using (var connection = new SqlConnection(ConnectionString))
@@ -33,24 +71,17 @@ namespace TimeLogger.App.Core.Repository
             }
         }
 
-        public override User CreateUser(User user)
+        public override User GetById(Guid id)
         {
-            user.Id = Guid.NewGuid();
             using (var connection = new SqlConnection(ConnectionString))
             {
-                var password = PasswordFactory.CreateFromString(user.Password);
                 connection.Open();
-                connection.Execute("insert into [USER] (USER_ID, EMAIL, PASSWORD, CREATED, ACTIVE_YN)" +
-                    " values (@Id, @Email, @Password, @DateCreated, @Active)",
-                    new {
-                        Id = user.Id,
-                        Email = user.Email,
-                        Password = password.ToString(),
-                        DateCreated = user.Created,
-                        Active = (user.IsApproved) ? 'Y' : 'N'
-                    });
+                return connection.Query<User>(
+                    @"select USER_ID as Id, EMAIL as Email, PASSWORD as Password, CREATED as Created 
+                      from [USER]
+                      where [USER_ID] = @USERID",
+                        new { USERID = id }).FirstOrDefault();
             }
-            return user;
         }
 
         #endregion

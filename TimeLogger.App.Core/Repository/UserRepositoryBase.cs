@@ -18,9 +18,14 @@ namespace TimeLogger.App.Core.Repository
 
         #region Abstract mehtods
 
-        public abstract User GetByEmail(string email);
+        public abstract void ChangePassword(User user);
 
         public abstract User CreateUser(User user);
+
+        public abstract User GetByEmail(string email);
+
+        public abstract User GetById(Guid id);
+
                 
         #endregion
 

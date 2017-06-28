@@ -141,6 +141,8 @@
     <Content Include="App_Code\dateNavigationBarHelper.cshtml" />
     <Content Include="App_Code\actionNavigationBarHelper.cshtml" />
     <Content Include="App_Code\reportModalView.cshtml" />
+    <Content Include="PasswordResetRequest.cshtml" />
+    <Content Include="PasswordReset.cshtml" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -214,6 +216,9 @@
     <Compile Include="Code\Account\RegisterResponse.cs" />
     <Compile Include="Code\Account\RegisterResponseFactory.cs" />
     <Compile Include="Code\Account\RegisterService.cs" />
+    <Compile Include="Code\Account\ResetPasswordModel.cs" />
+    <Compile Include="Code\Account\ResetPasswordResponse.cs" />
+    <Compile Include="Code\Account\ResetPasswordService.cs" />
     <Compile Include="Code\Account\UserModel.cs" />
     <Compile Include="Code\Adapter\TimeLogAdapter.cs" />
     <Compile Include="Code\Api\WebApiConfig.cs" />
@@ -223,6 +228,8 @@
     <Compile Include="Code\Billing\AccountTypeFactory.cs" />
     <Compile Include="Code\Billing\BillingService.cs" />
     <Compile Include="Code\Common\ApiResponse.cs" />
+    <Compile Include="Code\ICanValidate.cs" />
+    <Compile Include="Code\Notification\NotificationService.cs" />
     <Compile Include="Code\Common\Site.cs" />
     <Compile Include="Code\Report\ReportCollectionResponse.cs" />
     <Compile Include="Code\Report\ReportModel.cs" />
@@ -236,6 +243,7 @@
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Controllers\TimeLogController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

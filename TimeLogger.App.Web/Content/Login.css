@@ -5,6 +5,14 @@ body,
   color: #4d3332;
   height: 100%;
 }
+a,
+a:visited,
+a:link {
+  color: #4d3332;
+}
+a:hover {
+  color: #7eb914;
+}
 .container-table {
   display: table;
 }

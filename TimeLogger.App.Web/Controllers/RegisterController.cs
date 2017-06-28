@@ -23,8 +23,7 @@ namespace TimeLogger.App.Web.Controllers
         public HttpResponseMessage Post([FromBody]UserModel model)
         {
             if ((null == model)
-                || (string.IsNullOrEmpty(model.Email))
-                || (string.IsNullOrEmpty(model.Password)))
+                || !model.IsValid())
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
@@ -43,13 +42,14 @@ namespace TimeLogger.App.Web.Controllers
                     });
                     Task.Factory.StartNew(() =>
                     {
-                        var notification = new RegistrationNotification(
-                            $"{ConfigurationManager.AppSettings["smtp.server"]}{domain}",
-                            int.Parse(ConfigurationManager.AppSettings["smtp.port"]),
-                            $"{ConfigurationManager.AppSettings["smtp.username"]}@{domain}",
-                            ConfigurationManager.AppSettings["smtp.password"],
-                            domain
+                        var smtpSettings = new SmtpServerSettings(
+                                ConfigurationManager.AppSettings["smtp.server"],
+                                ConfigurationManager.AppSettings["smtp.port"],
+                                ConfigurationManager.AppSettings["smtp.username"],
+                                ConfigurationManager.AppSettings["smtp.password"],
+                                domain
                             );
+                        var notification = new RegistrationNotification(smtpSettings);
                         notification.Send(model.Email);
                     });
                 }

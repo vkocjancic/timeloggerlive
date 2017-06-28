@@ -6,7 +6,7 @@ using System.Web;
 
 namespace TimeLogger.App.Web.Code.Account
 {
-    public class UserModel
+    public class UserModel : ICanValidate
     {
 
         #region Properties
@@ -19,6 +19,17 @@ namespace TimeLogger.App.Web.Code.Account
 
         [JsonProperty(PropertyName = "plan")]
         public string Plan { get; set; }
+
+        #endregion
+
+        #region ICanValidate implementation
+
+        public bool IsValid()
+        {
+            return !string.IsNullOrEmpty(Email)
+                && !string.IsNullOrEmpty(Password)
+                && !string.IsNullOrEmpty(Plan);
+        }
 
         #endregion
 

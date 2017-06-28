@@ -70,6 +70,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The email containing password reset information has been sent to your email address..
+        /// </summary>
+        internal static string EmailSent {
+            get {
+                return ResourceManager.GetString("EmailSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error occured while changing password.
+        /// </summary>
+        internal static string ErrorChangePassword {
+            get {
+                return ResourceManager.GetString("ErrorChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There already exists a user with this email address..
         /// </summary>
         internal static string ErrorDuplicateEmail {
@@ -115,11 +133,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Request id is invalid.
+        /// </summary>
+        internal static string ErrorInvalidRequest {
+            get {
+                return ResourceManager.GetString("ErrorInvalidRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There was an unknown error; the user account was NOT created..
         /// </summary>
         internal static string ErrorOther {
             get {
                 return ResourceManager.GetString("ErrorOther", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot your password?.
+        /// </summary>
+        internal static string ForgotPassword {
+            get {
+                return ResourceManager.GetString("ForgotPassword", resourceCulture);
             }
         }
         
@@ -156,6 +192,24 @@ namespace Resources {
         internal static string Register {
             get {
                 return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset password.
+        /// </summary>
+        internal static string ResetPassword {
+            get {
+                return ResourceManager.GetString("ResetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        internal static string Send {
+            get {
+                return ResourceManager.GetString("Send", resourceCulture);
             }
         }
         

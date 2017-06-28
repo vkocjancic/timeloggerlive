@@ -126,3 +126,7 @@ body,
   font-size: 80%;
   font-weight: bold;
 }
+.modal .table .table-loading td {
+  color: #081528;
+  text-align: center;
+}
