@@ -28,7 +28,9 @@ namespace TimeLogger.App.Web.Controllers
             try
             {
                 var userId = (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey;
-                response.ReportItems = ReportService.GetAllFor(this.ConnectionString, DateTime.Parse(date), userId).ToArray();
+                response.ReportItems = ReportService.GetAllFor(this.ConnectionString, DateTime.Parse(date), userId)
+                    .OrderBy(r => r.Title)
+                    .ToArray();
                 response.Code = HttpStatusCode.OK;
                 response.Success = true;
             }
