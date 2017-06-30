@@ -31,7 +31,7 @@ namespace TimeLogger.App.Core.Notification
 Hello!
 
 Someone has requested password reset for your account at TimeLoggerLive.
-If that someone was you, follow this link: https://timelogger." + Domain + @"/App/PasswordReset?id=" + RequestId.ToString() + @"
+If that someone was you, follow this link: https://" + Domain + @"/App/PasswordReset?id=" + RequestId.ToString() + @"
 
 If this request was not made by you, ignore this message. Password reset request will expire in 2 days.
 
