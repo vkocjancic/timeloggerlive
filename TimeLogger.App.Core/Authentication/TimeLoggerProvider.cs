@@ -244,7 +244,9 @@ namespace TimeLogger.App.Core.Authentication
         {
             var repo = new UserRepository(ConnectionString);
             var user = repo.GetByEmail(username);
-            return ((null != user) && (user.IsPasswordCorrect(password)));
+            return ((null != user) 
+                && (user.IsApproved) 
+                && (user.IsPasswordCorrect(password)));
         }
 
         #endregion
