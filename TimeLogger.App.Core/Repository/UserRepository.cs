@@ -64,7 +64,8 @@ namespace TimeLogger.App.Core.Repository
             {
                 connection.Open();
                 return connection.Query<User>(
-                    @"select USER_ID as Id, EMAIL as Email, PASSWORD as Password, CREATED as Created 
+                    @"select USER_ID as Id, EMAIL as Email, PASSWORD as Password, CREATED as Created,
+                        case when ACTIVE_YN = 'Y' then 1 else 0 end as IsApproved
                       from [USER]
                       where EMAIL = @EMAIL",
                         new { EMAIL = email }).FirstOrDefault();
@@ -77,7 +78,8 @@ namespace TimeLogger.App.Core.Repository
             {
                 connection.Open();
                 return connection.Query<User>(
-                    @"select USER_ID as Id, EMAIL as Email, PASSWORD as Password, CREATED as Created 
+                    @"select USER_ID as Id, EMAIL as Email, PASSWORD as Password, CREATED as Created,
+                        case when ACTIVE_YN = 'Y' then 1 else 0 end as IsApproved
                       from [USER]
                       where [USER_ID] = @USERID",
                         new { USERID = id }).FirstOrDefault();
