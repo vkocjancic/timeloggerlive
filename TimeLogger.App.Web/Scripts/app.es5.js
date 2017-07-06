@@ -1,70 +1,10 @@
-﻿'use strict';
+﻿/// <reference path="jquery-1.9.1.js" />
+'use strict';
 
 (function ($) {
     var navigationBarDate = new DateNavigationBar('date-nav');
     var timeLogList = new TimeLogList('entry-list');
     var dailyReport = new DailyReport('dailyReportModal');
-
-    // #region jQuery extensions
-
-    $.prototype.textOnly = function () {
-        return $(this).clone().children().remove().end().text();
-    };
-
-    // #endregion
-
-    // #region Array extensions
-
-    Array.prototype.removeValue = function (name, value) {
-        var array = $.map(this, function (v, i) {
-            return v[name] === value ? null : v;
-        });
-        this.length = 0;
-        this.push.apply(this, array);
-    };
-
-    // #endregion
-
-    // #region Date extensions
-
-    Date.prototype.locale = {
-        en: {
-            month_names: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        }
-    };
-
-    Date.prototype.addDays = function (days) {
-        var dat = new Date(this.valueOf());
-        dat.setDate(dat.getDate() + days);
-        return dat;
-    };
-
-    Date.prototype.getMonthName = function (lang) {
-        lang = lang && lang in this.locale ? lang : 'en';
-        return this.locale[lang].month_names[this.getMonth()];
-    };
-
-    Date.prototype.toApiDateString = function () {
-        return this.getFullYear() + '-' + ('0' + (this.getMonth() + 1)).slice(-2) + '-' + ('0' + this.getDate()).slice(-2);
-    };
-
-    // #endregion
-
-    // #region TemplateFormatter
-    function TemplateFormatter(replacements) {
-        this.replacements = replacements;
-    }
-
-    TemplateFormatter.prototype.format = function (template) {
-        var replacements = this.replacements;
-        var re = new RegExp(Object.keys(replacements).join("|"), "gi");
-        template = template.replace(re, function (matched) {
-            return replacements[matched];
-        });
-        return template;
-    };
-
-    // #endregion
 
     // #region TimeLogStatus
 
@@ -106,37 +46,6 @@
         var hours = Math.floor(totalInMinutes / 60),
             minutes = totalInMinutes % 60;
         return hours + "h " + minutes + "m";
-    };
-
-    // #endregion
-
-    // #region ErrorHandler
-
-    function ErrorHandler(obj) {
-        this.element = obj;
-        this.timeout = 5000;
-    }
-
-    ErrorHandler.prototype.displayMessage = function (type, message) {
-        var alert = { 'icon': '', 'bgcolor': '', 'message': message };
-        if ('success' === type) {
-            alert.icon = '<i class="fa fa-check-circle text-success"></i>';
-            alert.bgcolor = 'bg-success';
-        } else if ('error' === type) {
-            alert.icon = '<i class="fa fa-exclamation-circle text-danger"></i>';
-            alert.bgcolor = 'bg-danger';
-        }
-        this.displayAlert(alert);
-    };
-
-    ErrorHandler.prototype.displayAlert = function (alert) {
-        var obj = this.element;
-        obj.get(0).className = alert.bgcolor;
-        obj.html(alert.icon + '&nbsp;' + alert.message);
-        obj.show();
-        setTimeout(function () {
-            obj.hide();
-        }, this.timeout);
     };
 
     // #endregion
@@ -492,4 +401,5 @@
         dailyReport.init();
     });
 })(jQuery);
+/// <reference path="common.js" />
 
