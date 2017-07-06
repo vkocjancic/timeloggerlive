@@ -18,6 +18,8 @@ namespace TimeLogger.App.Core.Repository
 
         #region Abstract mehtods
 
+        public abstract void ActivateUser(Guid id);
+
         public abstract void ChangePassword(User user);
 
         public abstract User CreateUser(User user);

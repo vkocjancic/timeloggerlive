@@ -14,7 +14,7 @@
                 if ("admin" == username.ToLower())
                 {
                     FormsAuthentication.SetAuthCookie(username, false);
-                    Response.Redirect("~/Admin/Dashboard.aspx");
+                    Response.Redirect("~/Admin/Dashboard");
                 }
                 else
                 {
@@ -62,14 +62,14 @@
                         <label for="inPassword">@AppResources.Password:</label>
                         <input type="password" name="inPassword" id="inPassword" value="" class="form-control" />
                     </div>
-                    <div>
-                        <a href="/App/PasswordResetRequest">@AppResources.ForgotPassword</a>
-                    </div>
                     <div class="form-signin-btn">
                         <button type="submit" class="btn btn-lg btn-danger btn-block">
                             <i class="fa fa-sign-in"></i>
                             @AppResources.SignIn
                         </button>
+                    </div>
+                    <div>
+                        <a href="/App/PasswordResetRequest">@AppResources.ForgotPassword</a>
                     </div>
                 </fieldset>
                 @AntiForgery.GetHtml()

@@ -117,76 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmPassword" xml:space="preserve">
-    <value>Confirm password</value>
+  <data name="Accounts" xml:space="preserve">
+    <value>Accounts</value>
   </data>
-  <data name="ErrorDuplicateEmail" xml:space="preserve">
-    <value>There already exists a user with this email address.</value>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
   </data>
-  <data name="ErrorDuplicateUsername" xml:space="preserve">
-    <value>There already exists a user with this username.</value>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
   </data>
-  <data name="ErrorInvalidAnswer" xml:space="preserve">
-    <value>There security answer was invalid.</value>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
   </data>
-  <data name="ErrorInvalidEmail" xml:space="preserve">
-    <value>There email address you provided in invalid.</value>
+  <data name="BillingOption" xml:space="preserve">
+    <value>Plan</value>
   </data>
-  <data name="ErrorInvalidPassword" xml:space="preserve">
-    <value>The password you provided does not match the criteria. It must be at least 16 letters long.</value>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
   </data>
-  <data name="ErrorOther" xml:space="preserve">
-    <value>There was an unknown error; the user account was NOT created.</value>
+  <data name="Inactive" xml:space="preserve">
+    <value>Inactive</value>
   </data>
-  <data name="LoginAlreadySignedIn" xml:space="preserve">
-    <value>You are already signed in.</value>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
   </data>
-  <data name="LoginError" xml:space="preserve">
-    <value>Invalid username or password</value>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Register" xml:space="preserve">
-    <value>Register</value>
-  </data>
-  <data name="SignedInAs" xml:space="preserve">
-    <value>Signed in as:</value>
-  </data>
-  <data name="SignIn" xml:space="preserve">
-    <value>Sign in</value>
-  </data>
-  <data name="SignInText" xml:space="preserve">
-    <value>Please, sign in.</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Username / E-mail</value>
-  </data>
-  <data name="SignOut" xml:space="preserve">
-    <value>Sign out</value>
-  </data>
-  <data name="EmailSent" xml:space="preserve">
-    <value>The email containing password reset information has been sent to your email address.</value>
-  </data>
-  <data name="ForgotPassword" xml:space="preserve">
-    <value>Forgot your password?</value>
-  </data>
-  <data name="Send" xml:space="preserve">
-    <value>Send</value>
-  </data>
-  <data name="ResetPassword" xml:space="preserve">
-    <value>Reset password</value>
-  </data>
-  <data name="ErrorChangePassword" xml:space="preserve">
-    <value>Error occured while changing password</value>
-  </data>
-  <data name="ErrorInvalidRequest" xml:space="preserve">
-    <value>Request id is invalid</value>
-  </data>
-  <data name="ManageAccounts" xml:space="preserve">
-    <value>Manage accounts</value>
-  </data>
-  <data name="Dashboard" xml:space="preserve">
-    <value>Dashboard</value>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
   </data>
 </root>

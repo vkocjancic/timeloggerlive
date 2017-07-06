@@ -1,0 +1,25 @@
+﻿@using Resources;
+@using TimeLogger.App.Web.Code.Common;
+@{ 
+    Layout = "~/Admin/_Layout.cshtml";
+    Page.Title = "Accounts | TimeLoggerLive";
+}
+<section class="container">
+    <div class="row">
+        <p id="account-list-info" class="error-handler" style="display: none;"></p>
+        <table id="accountList" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@AppResources.Username</th>
+                    <th>@AdminResources.Created</th>
+                    <th>@AdminResources.BillingOption</th>
+                    <th>@AdminResources.Price</th>
+                    <th>@AdminResources.Status</th>
+                    <th>@AdminResources.Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</section>

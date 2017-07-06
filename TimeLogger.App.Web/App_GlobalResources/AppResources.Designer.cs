@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        internal static string Dashboard {
+            get {
+                return ResourceManager.GetString("Dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The email containing password reset information has been sent to your email address..
         /// </summary>
         internal static string EmailSent {
@@ -174,6 +183,15 @@ namespace Resources {
         internal static string LoginError {
             get {
                 return ResourceManager.GetString("LoginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage accounts.
+        /// </summary>
+        internal static string ManageAccounts {
+            get {
+                return ResourceManager.GetString("ManageAccounts", resourceCulture);
             }
         }
         

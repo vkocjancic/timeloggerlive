@@ -19,5 +19,13 @@ namespace TimeLogger.App.Core.Business
 
         #endregion
 
+        #region Extended properties
+
+        public string Email { get; set; }
+        public string BillingOption { get; set; }
+        public decimal Price { get; set; }
+
+        #endregion
+
     }
 }

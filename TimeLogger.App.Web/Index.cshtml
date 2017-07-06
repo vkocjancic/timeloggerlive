@@ -2,7 +2,14 @@
 @{
     var dateLastModified = DateTime.MinValue;
     Page.Title = $"TimeLoggerLive";
-    @RenderPage($"~/Home.cshtml")
+    if ((User.Identity.IsAuthenticated) && (User.IsInRole("Admin")))
+    {
+        @RenderPage($"~/Admin/Dashboard.cshtml")
+    }
+    else
+    {
+        @RenderPage($"~/Home.cshtml")
+    }
     @AntiForgery.GetHtml()
     if (!Request.IsLocal && !User.Identity.IsAuthenticated)
     {

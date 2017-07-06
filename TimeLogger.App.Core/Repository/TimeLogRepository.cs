@@ -64,8 +64,8 @@ namespace TimeLogger.App.Core.Repository
                     @"select TIME_LOG_ID as Id, [FROM] as [From], [TO] as [To], [DESCRIPTION] as [Description], 
                       CREATED as Created, ASSIGNMENT_ID as AssignmentId, USER_ID as UserId
                       from [TIME_LOG] t
-                      where t.[FROM] between @CreatedStart and @CreatedEnd
-                        and t.[USER_ID] = @AccountId
+                      where t.[USER_ID] = @AccountId
+                        and t.[FROM] between @CreatedStart and @CreatedEnd
                       order by t.[FROM]",
                     new
                     {

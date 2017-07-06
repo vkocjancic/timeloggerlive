@@ -52,8 +52,10 @@
     <Compile Include="Authentication\TimeLoggerProvider.cs" />
     <Compile Include="Authentication\TimeLoggerRoleProvider.cs" />
     <Compile Include="Business\Account.cs" />
+    <Compile Include="Business\AccountUser.cs" />
     <Compile Include="Business\Billing.cs" />
     <Compile Include="Business\BillingOption.cs" />
+    <Compile Include="Business\Dashboard.cs" />
     <Compile Include="Business\PasswordResetRequest.cs" />
     <Compile Include="Business\TimeLog.cs" />
     <Compile Include="Business\User.cs" />
@@ -65,8 +67,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AccountRepository.cs" />
     <Compile Include="Repository\AccountRepositoryBase.cs" />
+    <Compile Include="Repository\AccountUserRepository.cs" />
+    <Compile Include="Repository\AccountUserRepositoryBase.cs" />
     <Compile Include="Repository\BillingRepository.cs" />
     <Compile Include="Repository\BillingRepositoryBase.cs" />
+    <Compile Include="Repository\DashboardRepository.cs" />
+    <Compile Include="Repository\DashboardRepositoryBase.cs" />
     <Compile Include="Repository\PasswordResetRepository.cs" />
     <Compile Include="Repository\PasswordResetRepositoryBase.cs" />
     <Compile Include="Repository\RepositoryBase.cs" />

@@ -20,6 +20,18 @@ namespace TimeLogger.App.Core.Repository
 
         #region Overrides
 
+        public override void ActivateUser(Guid id)
+        {
+            using(var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                connection.Execute(@"update [USER]
+                    set [ACTIVE_YN]='Y'
+                    where [USER_ID]=@Id",
+                    new { Id = id });
+            }
+        }
+
         public override void ChangePassword(User user)
         {
             using (var connection = new SqlConnection(ConnectionString))

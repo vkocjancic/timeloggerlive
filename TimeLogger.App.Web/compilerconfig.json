@@ -14,5 +14,17 @@
   {
     "outputFile": "Scripts/app.es5.js",
     "inputFile": "Scripts/app.js"
+  },
+  {
+    "outputFile": "Content/Admin.css",
+    "inputFile": "Content/Admin.less"
+  },
+  {
+    "outputFile": "Scripts/admin.es5.js",
+    "inputFile": "Scripts/admin.js"
+  },
+  {
+    "outputFile": "Scripts/common.es5.js",
+    "inputFile": "Scripts/common.js"
   }
 ]

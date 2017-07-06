@@ -28,8 +28,13 @@ html, body, .container-table {
     background-color: @color-dark;
     padding: 5px 0;
 
-    .btn-link, .btn-link:hover {
+    .btn-link, a {
         color: @color-light-grey;
+    }
+
+    .btn-link:hover, a:hover, a:focus {
+        background-color: transparent !important;
+        color: @color-light-grey - #333;
     }
 
     .navbar-toggle {
@@ -49,7 +54,7 @@ html, body, .container-table {
     width: 201px;
 }
 
-#entry-list-info {
+.error-handler {
     padding: 10px 7px;
 }
 

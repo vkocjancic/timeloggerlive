@@ -47,6 +47,56 @@ namespace TimeLogger.App.Core.Repository
             return account;
         }
 
+
+
+        public override IEnumerable<Account> GetAllInactive()
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                return connection.Query<Account>(@"
+                    select a.[ACCOUNT_ID] as Id, case when a.[ACTIVE_YN] = 'Y' then 1 else 0 end as IsActive, a.[CREATED] as Created, a.[DESCRIPTION] as Description, a.[OWNER_USER_ID] as OwnerUserId,
+	                    u.[EMAIL] as Email, 
+	                    bo.[DESCRIPTION] as BillingOption, bo.[PRICE] as Price
+                    from [ACCOUNT] a
+                    join [USER] u on a.OWNER_USER_ID = u.USER_ID
+                    join [BILLING] b on a.ACCOUNT_ID = b.ACCOUNT_ID
+                    join [CD_BILLING_OPTION] bo on b.BILLING_OPTION_ID = bo.BILLING_OPTION_ID
+                    where a.ACTIVE_YN = 'N';");
+            }
+        }
+
+        public override Account GetById(Guid accountId)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                return connection.Query<Account>(@"
+                    select a.[ACCOUNT_ID] as Id, case when a.[ACTIVE_YN] = 'Y' then 1 else 0 end as IsActive, a.[CREATED] as Created, a.[DESCRIPTION] as Description, a.[OWNER_USER_ID] as OwnerUserId
+                    from [ACCOUNT] a
+                    where a.[ACCOUNT_ID]=@Id",
+                    new { Id = accountId }).FirstOrDefault();
+            }
+        }
+
+        public override Account UpdateAccount(Account account)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                connection.Execute(
+                    @"update [ACCOUNT]
+                      set [ACTIVE_YN]=@Active
+                      where ACCOUNT_ID=@Id",
+                    new
+                    {
+                        Id = account.Id,
+                        Active = account.IsActive ? 'Y' : 'N'
+                    });
+            }
+            return account;
+        }
+
         #endregion
 
     }

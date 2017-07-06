@@ -1,0 +1,24 @@
+﻿@helper DisplayAccountStats(TimeLogger.App.Web.Code.Admin.DashboardModel model)
+{
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <a href="/App/Admin/AccountList">@Resources.AdminResources.Accounts <span class="badge pull-right">@model.GetActiveAccountsPercentage()%</span></a>
+        </div>
+        <table class="table site-stats">
+            <tbody>
+                <tr>
+                    <td>@Resources.AdminResources.All</td>
+                    <td>@model.AccountsAll</td>
+                </tr>
+                <tr class="text-success">
+                    <td>@Resources.AdminResources.Active</td>
+                    <td>@model.AccountsActive</td>
+                </tr>
+                <tr class="text-danger">
+                    <td>@Resources.AdminResources.Inactive</td>
+                    <td>@(model.AccountsAll - model.AccountsActive)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}

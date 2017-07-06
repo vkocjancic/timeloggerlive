@@ -109,6 +109,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Admin.css">
+      <DependentUpon>Admin.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Admin.min.css">
+      <DependentUpon>Admin.css</DependentUpon>
+    </Content>
     <Content Include="Content\App.css">
       <DependentUpon>App.less</DependentUpon>
     </Content>
@@ -124,6 +130,13 @@
       <DependentUpon>account.es5.js</DependentUpon>
     </Content>
     <Content Include="Scripts\account.js" />
+    <Content Include="Scripts\admin.es5.js">
+      <DependentUpon>admin.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\admin.es5.min.js">
+      <DependentUpon>admin.es5.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\app.es5.js">
       <DependentUpon>app.js</DependentUpon>
     </Content>
@@ -131,6 +144,13 @@
       <DependentUpon>app.es5.js</DependentUpon>
     </Content>
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\common.es5.js">
+      <DependentUpon>common.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\common.es5.min.js">
+      <DependentUpon>common.es5.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\common.js" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Admin\web.config" />
     <Content Include="Register.cshtml" />
@@ -143,6 +163,11 @@
     <Content Include="App_Code\reportModalView.cshtml" />
     <Content Include="PasswordResetRequest.cshtml" />
     <Content Include="PasswordReset.cshtml" />
+    <Content Include="Admin\_Layout.cshtml" />
+    <Content Include="Content\Admin.less" />
+    <Content Include="Admin\Dashboard.cshtml" />
+    <Content Include="App_Code\dashboardHelper.cshtml" />
+    <Content Include="Admin\AccountList.cshtml" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -198,6 +223,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\AdminResources.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdminResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -213,6 +243,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Report.resx</DependentUpon>
     </Compile>
+    <Compile Include="Code\Account\AccountUserFactory.cs" />
+    <Compile Include="Code\Account\AccountUserService.cs" />
+    <Compile Include="Code\Account\UserService.cs" />
+    <Compile Include="Code\Billing\AccountListCollectionResponse.cs" />
+    <Compile Include="Code\Billing\AccountListResponse.cs" />
+    <Compile Include="Code\Billing\AccountService.cs" />
     <Compile Include="Code\Account\RegisterResponse.cs" />
     <Compile Include="Code\Account\RegisterResponseFactory.cs" />
     <Compile Include="Code\Account\RegisterService.cs" />
@@ -221,6 +257,9 @@
     <Compile Include="Code\Account\ResetPasswordService.cs" />
     <Compile Include="Code\Account\UserModel.cs" />
     <Compile Include="Code\Adapter\TimeLogAdapter.cs" />
+    <Compile Include="Code\Admin\DashboardModel.cs" />
+    <Compile Include="Code\Admin\DashboardModelFactory.cs" />
+    <Compile Include="Code\Admin\DashboardService.cs" />
     <Compile Include="Code\Api\WebApiConfig.cs" />
     <Compile Include="Code\Billing\AccountModel.cs" />
     <Compile Include="Code\Billing\AccountModelFactory.cs" />
@@ -240,6 +279,7 @@
     <Compile Include="Code\TimeLog\TimeLogResponse.cs" />
     <Compile Include="Code\TimeLog\TimeLogResponseFactory.cs" />
     <Compile Include="Code\TimeLog\TimeLogService.cs" />
+    <Compile Include="Controllers\AccountListController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -282,6 +322,12 @@
     <Content Include="App_GlobalResources\Report.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Report.Designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\AdminResources.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>AdminResources.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>

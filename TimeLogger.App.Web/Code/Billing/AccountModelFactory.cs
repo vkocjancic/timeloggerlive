@@ -15,7 +15,24 @@ namespace TimeLogger.App.Web.Code.Billing
         {
             return new AccountModel()
             {
-                Id = account.Id
+                Id = account.Id,
+                BillingOption = account.BillingOption,
+                Created = account.Created,
+                Description = account.Description,
+                Email = account.Email,
+                IsActive = account.IsActive,
+                Price = account.Price
+            };
+        }
+
+        internal static Core.Business.Account ToBusinessObject(AccountModel account)
+        {
+            return new Core.Business.Account()
+            {
+                Id = account.Id,
+                Created = account.Created,
+                Description = account.Description,
+                IsActive = account.IsActive,
             };
         }
 

@@ -1,0 +1,16 @@
+﻿@using Resources;
+@using TimeLogger.App.Web.Code.Admin;
+@using TimeLogger.App.Web.Code.Common;
+@{
+    Layout = "~/Admin/_Layout.cshtml";
+    Page.Title = "Dashboard | TimeLoggerLive";
+    var model = DashboardService.GetData(Site.ConnectionString);
+}
+
+<section class="container container-table">
+    <div class="row">
+        <div class="col-md-3">
+            @dashboardHelper.DisplayAccountStats(model)
+        </div>
+    </div>
+</section>

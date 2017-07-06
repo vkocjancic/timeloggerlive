@@ -136,3 +136,19 @@ body,
   color: #081528;
   text-align: center;
 }
+.site-navbar form {
+  margin: 0;
+  padding: 0;
+}
+.site-navbar .navbar-header {
+  padding-top: 5px;
+}
+.panel .panel-heading a,
+.panel .panel-heading a:visited,
+.panel .panel-heading a:link,
+.panel .panel-heading a:hover {
+  color: #fbf8f8;
+}
+.panel .site-stats tbody > tr > td:nth-child(2) {
+  text-align: right;
+}

@@ -21,6 +21,12 @@ namespace TimeLogger.App.Core.Repository
 
         public abstract Account CreateAccount(Guid userId, bool isActive);
 
+        public abstract IEnumerable<Account> GetAllInactive();
+
+        public abstract Account GetById(Guid accountId);
+
+        public abstract Account UpdateAccount(Account account);
+
         #endregion
 
     }
