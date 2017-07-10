@@ -15,6 +15,7 @@ namespace TimeLogger.App.Web.Code.Adapter
         {
             return new Core.Business.TimeLog()
             {
+                AssignmentId = model.AssignmentId,
                 Id = model.Id.Value,
                 Created = DateTime.Now,
                 Description = model.Description,
@@ -29,6 +30,7 @@ namespace TimeLogger.App.Web.Code.Adapter
             return new TimeLogModel()
             {
                 AccountId = log.UserId.Value,
+                AssignmentId = log.AssignmentId,
                 Date = log.Created.ToString("d"),
                 Description = log.Description,
                 Duration = (null == log.To) ? 0 : (int)(log.To.Value - log.From).TotalMinutes,

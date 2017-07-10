@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Security;
+using TimeLogger.App.Web.Code.Assignment;
 using TimeLogger.App.Web.Code.TimeLog;
 
 namespace TimeLogger.App.Web.Controllers
@@ -51,6 +52,8 @@ namespace TimeLogger.App.Web.Controllers
             try
             {
                 model.AccountId = (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey;
+                var assignment = AssignmentService.GetOrCreateAssignment(this.ConnectionString, model.Description, model.AccountId);
+                model.AssignmentId = assignment.Id;
                 response = TimeLogService.CreateTimeLog(this.ConnectionString, model);
             }
             catch (Exception ex)
@@ -72,6 +75,8 @@ namespace TimeLogger.App.Web.Controllers
             try
             {
                 model.AccountId = (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey;
+                var assignment = AssignmentService.GetOrCreateAssignment(this.ConnectionString, model.Description, model.AccountId);
+                model.AssignmentId = assignment.Id;
                 response = TimeLogService.UpdateTimeLog(this.ConnectionString, model);
             }
             catch (Exception ex)

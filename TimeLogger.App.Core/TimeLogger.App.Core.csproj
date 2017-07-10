@@ -58,6 +58,7 @@
     <Compile Include="Business\Dashboard.cs" />
     <Compile Include="Business\PasswordResetRequest.cs" />
     <Compile Include="Business\TimeLog.cs" />
+    <Compile Include="Business\Assignment.cs" />
     <Compile Include="Business\User.cs" />
     <Compile Include="Common\Email.cs" />
     <Compile Include="Notification\NotificationBase.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Repository\AccountRepositoryBase.cs" />
     <Compile Include="Repository\AccountUserRepository.cs" />
     <Compile Include="Repository\AccountUserRepositoryBase.cs" />
+    <Compile Include="Repository\AssignmentRepository.cs" />
     <Compile Include="Repository\BillingRepository.cs" />
     <Compile Include="Repository\BillingRepositoryBase.cs" />
     <Compile Include="Repository\DashboardRepository.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Repository\RepositoryBase.cs" />
     <Compile Include="Repository\TimeLogRepository.cs" />
     <Compile Include="Repository\TimeLogRepositoryBase.cs" />
+    <Compile Include="Repository\AssignmentRepositoryBase.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Repository\UserRepositoryBase.cs" />
   </ItemGroup>

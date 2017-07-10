@@ -83,14 +83,15 @@ namespace TimeLogger.App.Core.Repository
                 connection.Open();
                 connection.Execute(
                     @"update [TIME_LOG]
-                      set [FROM] = @From, [TO] = @To, [DESCRIPTION] = @Description
+                      set [FROM] = @From, [TO] = @To, [DESCRIPTION] = @Description, [ASSIGNMENT_ID] = @AssignmentId
                       where TIME_LOG_ID=@Id" ,
                     new
                     {
                         Id = timeLog.Id,
                         From = timeLog.From,
                         To = timeLog.To,
-                        Description = timeLog.Description
+                        Description = timeLog.Description,
+                        AssignmentId = timeLog.AssignmentId
                     });
             }
             return timeLog;

@@ -110,7 +110,7 @@
         this.regexTimeFormat = /(\d{1,2})[:.](\d{2})\s{0,1}(am|AM|pm|PM)?/;
         this.element = $('.' + className);
         this.placeholderNewItem = $('.entry-ph', this.element);
-        this.placeholderLog = '<tr data-id="{data-id}"><td class="time"><div contenteditable="true">{from}</div></td><td class="time"><div contenteditable="true">{to}</div></td><td><div contenteditable="true">{description}</div></td><td>{action}</td><td>{status}</td></tr>';
+        this.placeholderLog = '<tr data-id="{data-id}"><td class="time"><div contenteditable="true">{from}</div></td><td class="time"><div contenteditable="true">{to}</div></td><td class="description"><div contenteditable="true">{description}</div></td><td>{action}</td><td>{status}</td></tr>';
         this.placeholderTotal = $('.entry-total', this.element);
         this.dateNavigationBar = navigationBarDate;
     }
@@ -137,6 +137,21 @@
             }
         });
         timeLogList.loadItemsForDate(this.dateNavigationBar.selectedDate());
+    };
+
+    TimeLogList.prototype.initTypeahead = function (row) {
+        $('td.description div', row).typeahead('destroy');
+        $('td.description div', row).typeahead({
+            minLength: 1,
+            items: 10,
+            showHintOnFocus: true,
+            source: function source(query, process) {
+                if (1 > query.length) return;
+                return $.get('/App/api/assignmentsearch/', { query: query }, function (data) {
+                    return process(data.assignments);
+                });
+            }
+        });
     };
 
     TimeLogList.prototype.clearData = function () {
@@ -178,6 +193,7 @@
                 $('<button class="action-save"><i class="fa fa-floppy-o"></i></button>').insertBefore($('td:eq(3) .action-clear', obj));
             }
         }
+        this.initTypeahead(obj);
     };
 
     TimeLogList.prototype.newItem = function () {
@@ -191,7 +207,9 @@
         },
             formatter = new TemplateFormatter(options);
         this.placeholderNewItem.before(formatter.format(this.placeholderLog));
-        this.placeholderNewItem.prev().find('td:first-child div').focus();
+        var row = this.placeholderNewItem.prev();
+        row.find('td:first-child div').focus();
+        this.initTypeahead(row);
     };
 
     TimeLogList.prototype.removeItem = function (obj) {

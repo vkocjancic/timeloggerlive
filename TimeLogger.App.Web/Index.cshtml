@@ -1,4 +1,6 @@
 ﻿@using System.Web.Caching;
+@using TimeLogger.App.Web.Code.Assignment;
+@using TimeLogger.App.Web.Code.Common;
 @{
     var dateLastModified = DateTime.MinValue;
     Page.Title = $"TimeLoggerLive";
@@ -9,6 +11,20 @@
     else
     {
         @RenderPage($"~/Home.cshtml")
+    }
+    //perform clean up
+    if ((User.Identity.IsAuthenticated) && (!User.IsInRole("Admin")))
+    {
+        var userId = (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey;
+        var cacheKey = $"{userId.ToString()}_cleanup";
+        if (null == HttpContext.Current.Cache[cacheKey])
+        {
+            AssignmentService.ClearUnusedAssignmentsFor(
+                Site.ConnectionString,
+                userId
+            );
+            HttpContext.Current.Cache.Insert(cacheKey, true, null, DateTime.Now.AddHours(1), System.Web.Caching.Cache.NoSlidingExpiration);
+        }
     }
     @AntiForgery.GetHtml()
     if (!Request.IsLocal && !User.Identity.IsAuthenticated)

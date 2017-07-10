@@ -42,6 +42,8 @@ namespace TimeLogger.App.Web.Code.TimeLog
         [JsonProperty(PropertyName = "duration")]
         public int Duration { get; set; }
 
+        public Guid? AssignmentId { get; set; }
+
         #endregion
 
         #region Public methods

@@ -144,6 +144,7 @@
       <DependentUpon>app.es5.js</DependentUpon>
     </Content>
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\bootstrap3-typeahead.min.js" />
     <Content Include="Scripts\common.es5.js">
       <DependentUpon>common.js</DependentUpon>
     </Content>
@@ -246,6 +247,7 @@
     <Compile Include="Code\Account\AccountUserFactory.cs" />
     <Compile Include="Code\Account\AccountUserService.cs" />
     <Compile Include="Code\Account\UserService.cs" />
+    <Compile Include="Code\Assignment\AssignmentModelFactory.cs" />
     <Compile Include="Code\Billing\AccountListCollectionResponse.cs" />
     <Compile Include="Code\Billing\AccountListResponse.cs" />
     <Compile Include="Code\Billing\AccountService.cs" />
@@ -273,6 +275,9 @@
     <Compile Include="Code\Report\ReportCollectionResponse.cs" />
     <Compile Include="Code\Report\ReportModel.cs" />
     <Compile Include="Code\Report\ReportService.cs" />
+    <Compile Include="Code\Assignment\AssignmentCollectionResponse.cs" />
+    <Compile Include="Code\Assignment\AssignmentModel.cs" />
+    <Compile Include="Code\Assignment\AssignmentService.cs" />
     <Compile Include="Code\TimeLog\TimeLogCollectionResponse.cs" />
     <Compile Include="Code\TimeLog\TimeLogModel.cs" />
     <Compile Include="Code\TimeLog\TimeLogDurationPrinter.cs" />
@@ -284,6 +289,7 @@
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
+    <Compile Include="Controllers\AssignmentSearchController.cs" />
     <Compile Include="Controllers\TimeLogController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
