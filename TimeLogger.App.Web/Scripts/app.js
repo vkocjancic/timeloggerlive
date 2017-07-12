@@ -158,6 +158,10 @@
         });
     }
 
+    TimeLogList.prototype.destroyTypeahead = function (row) {
+        $('td.description div', row).typeahead('destroy');
+    }
+
     TimeLogList.prototype.clearData = function () {
         $('tbody tr:not(.entry-ph)', this.element).remove();
         currentTimeLogs = [];
@@ -229,6 +233,7 @@
                 method: 'DELETE'
             })
             .done(function (data) {
+                timeLogList.destroyTypeahead(tr);
                 tr.remove();
                 currentTimeLogs.removeValue('id', id);
                 timeLogList.updateTotal();
@@ -246,6 +251,7 @@
             });
         }
         else {
+            timeLogList.destroyTypeahead(tr);
             tr.remove();
             currentTimeLogs.removeValue('id', id);
             timeLogList.updateTotal();
@@ -282,6 +288,7 @@
                 }
             })
             .done(function (data) {
+                timeLogList.destroyTypeahead(tr);
                 status.displaySuccess();
                 currentTimeLogs.removeValue('id', logId);
                 currentTimeLogs.push({ 'id': logId, 'duration': data.timelog.duration });
@@ -310,6 +317,7 @@
                 date: timeLogList.dateNavigationBar.selectedDate().toApiDateString()
             })
             .success(function (data) {
+                timeLogList.destroyTypeahead(tr);
                 currentTimeLogs.push({ 'id': data.timelog.id, 'duration': data.timelog.duration });
                 timeLogList.updateTotal();
                 status.displaySuccess();

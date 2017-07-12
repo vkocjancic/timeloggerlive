@@ -154,6 +154,10 @@
         });
     };
 
+    TimeLogList.prototype.destroyTypeahead = function (row) {
+        $('td.description div', row).typeahead('destroy');
+    };
+
     TimeLogList.prototype.clearData = function () {
         $('tbody tr:not(.entry-ph)', this.element).remove();
         currentTimeLogs = [];
@@ -224,6 +228,7 @@
                 url: '/App/api/timelog/' + id,
                 method: 'DELETE'
             }).done(function (data) {
+                timeLogList.destroyTypeahead(tr);
                 tr.remove();
                 currentTimeLogs.removeValue('id', id);
                 timeLogList.updateTotal();
@@ -238,6 +243,7 @@
                 $(obj).show();
             });
         } else {
+            timeLogList.destroyTypeahead(tr);
             tr.remove();
             currentTimeLogs.removeValue('id', id);
             timeLogList.updateTotal();
@@ -273,6 +279,7 @@
                     'date': timeLogList.dateNavigationBar.selectedDate().toApiDateString()
                 }
             }).done(function (data) {
+                timeLogList.destroyTypeahead(tr);
                 status.displaySuccess();
                 currentTimeLogs.removeValue('id', logId);
                 currentTimeLogs.push({ 'id': logId, 'duration': data.timelog.duration });
@@ -297,6 +304,7 @@
                 description: $(div.get(2)).textOnly(),
                 date: timeLogList.dateNavigationBar.selectedDate().toApiDateString()
             }).success(function (data) {
+                timeLogList.destroyTypeahead(tr);
                 currentTimeLogs.push({ 'id': data.timelog.id, 'duration': data.timelog.duration });
                 timeLogList.updateTotal();
                 status.displaySuccess();
