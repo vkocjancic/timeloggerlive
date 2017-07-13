@@ -144,7 +144,7 @@
     };
 
     TimeLogList.prototype.initTypeahead = function (row) {
-        $('td.description div', row).typeahead('destroy');
+        //this.destroyTypeahead(row);
         $('td.description div', row).typeahead({
             minLength: 1,
             items: 10,
@@ -189,19 +189,27 @@
     }
 
     TimeLogList.prototype.editItem = function (obj, cell) {
+        if (cell.tagName !== 'DIV' && cell.tagName !== 'TD') {
+            return;
+        }
         var id = $(obj).attr('data-id');
         if (id && id.length > 0) {
             $('td:lt(3) div', obj).each(function () {
                 if ('false' === $(this).prop('contenteditable')) {
                     $(this).prop('contenteditable', 'true');
-                    $('div', cell).focus();
+                    if (cell.tagName === 'TD') {
+                        $('div', cell).focus();
+                    }
+                    else {
+                        $(cell).focus();
+                    }
                 }
             });
             if (!$('.action-save', obj).get(0)) {
                 $('<button class="action-save"><i class="fa fa-floppy-o"></i></button>').insertBefore($('td:eq(3) .action-clear', obj));
             }
+            this.initTypeahead(obj);
         }
-        this.initTypeahead(obj);
     };
 
     TimeLogList.prototype.newItem = function () {
@@ -288,7 +296,7 @@
                 }
             })
             .done(function (data) {
-                timeLogList.destroyTypeahead(tr);
+                timeLogList.destroyTypeahead(tr.get(0));
                 status.displaySuccess();
                 currentTimeLogs.removeValue('id', logId);
                 currentTimeLogs.push({ 'id': logId, 'duration': data.timelog.duration });
@@ -317,7 +325,7 @@
                 date: timeLogList.dateNavigationBar.selectedDate().toApiDateString()
             })
             .success(function (data) {
-                timeLogList.destroyTypeahead(tr);
+                timeLogList.destroyTypeahead(tr.get(0));
                 currentTimeLogs.push({ 'id': data.timelog.id, 'duration': data.timelog.duration });
                 timeLogList.updateTotal();
                 status.displaySuccess();

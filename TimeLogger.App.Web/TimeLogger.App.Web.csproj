@@ -144,6 +144,7 @@
       <DependentUpon>app.es5.js</DependentUpon>
     </Content>
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\bootstrap3-typeahead.js" />
     <Content Include="Scripts\bootstrap3-typeahead.min.js" />
     <Content Include="Scripts\common.es5.js">
       <DependentUpon>common.js</DependentUpon>
