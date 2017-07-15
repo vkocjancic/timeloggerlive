@@ -1,10 +1,14 @@
 ﻿@using Newtonsoft.Json;
+@using NLog;
 @using Resources;
 @using TimeLogger.App.Web.Code.Common;
 @using TimeLogger.App.Web.Code.TimeLog;
 @{
+    var log = LogManager.GetLogger("Home");
     Layout = $"~/_Layout.cshtml";
+    log.Debug($"({User.Identity.Name}) Loading time logs");
     var timeLogs = TimeLogService.GetAllFor(Site.ConnectionString, DateTime.Today, (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey);
+    log.Debug($"({User.Identity.Name}) {timeLogs.Count()} time log(s) found");
 }
 
 <div class="row">
@@ -29,12 +33,12 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var log in timeLogs)
+            @foreach (var timeLog in timeLogs)
             {
-                <tr data-id="@log.Id">
-                    <td contenteditable="false" class="time">@log.From</td>
-                    <td contenteditable="false" class="time">@log.To</td>
-                    <td contenteditable="false" class="description">@log.Description</td>
+                <tr data-id="@timeLog.Id">
+                    <td contenteditable="false" class="time">@timeLog.From</td>
+                    <td contenteditable="false" class="time">@timeLog.To</td>
+                    <td contenteditable="false" class="description">@timeLog.Description</td>
                     <td><button class="action-clear"><i class="fa fa-times"></i></button>
                     <td><i class="fa fa-check-circle"></i></td>
                 </tr>

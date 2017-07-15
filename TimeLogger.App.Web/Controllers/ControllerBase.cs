@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace TimeLogger.App.Web.Controllers
     {
 
         #region Properties
+
+        protected Logger Log { get; set; }
 
         public string Domain
         {
@@ -31,9 +34,10 @@ namespace TimeLogger.App.Web.Controllers
 
         #region Constructors
 
-        public ControllerBase()
+        public ControllerBase(Type classType)
         {
             ConnectionString = ConfigurationManager.ConnectionStrings["mainDB"].ConnectionString;
+            Log = LogManager.GetLogger(classType.FullName);
         }
 
         #endregion

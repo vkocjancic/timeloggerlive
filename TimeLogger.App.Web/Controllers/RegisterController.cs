@@ -17,28 +17,41 @@ namespace TimeLogger.App.Web.Controllers
     public class RegisterController : ControllerBase
     {
 
+        #region Constructors
+
+        public RegisterController() : base(typeof(RegisterController)) { }
+
+        #endregion
+
         #region API commands
 
         // POST api/<controller>
         public HttpResponseMessage Post([FromBody]UserModel model)
         {
+            Log.Debug("Post command issued");
             if ((null == model)
                 || !model.IsValid())
             {
+                Log.Warn("Invalid user model");
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
             var response = new RegisterResponse() { Code = HttpStatusCode.InternalServerError, Success = false };
             try
             {
+                Log.Info($"({model.Email}) Creating user with plan '{model.Plan}'");
                 response = RegisterService.CreateUser(model);
                 if (response.Success)
                 {
+                    Log.Info($"({model.Email}) User created");
                     var domain = Domain;
                     var connectionString = ConnectionString;
                     Task.Factory.StartNew(() =>
                     {
+                        Log.Debug($"({model.Email}) Creating account");
                         var account = RegisterService.CreateAccount(connectionString, model);
+                        Log.Debug($"({model.Email}) Creating billing");
                         BillingService.CreateBilling(connectionString, account, model.Plan);
+                        Log.Info($"({model.Email}) Account and billing created");
                     });
                     Task.Factory.StartNew(() =>
                     {
@@ -51,11 +64,17 @@ namespace TimeLogger.App.Web.Controllers
                             );
                         var notification = new RegistrationNotification(smtpSettings);
                         notification.Send(model.Email);
+                        Log.Info($"({model.Email}) Registration notification sent");
                     });
+                }
+                else
+                {
+                    Log.Warn($"({model.Email}) Creating user failed. Reason: {response.ErrorDescription}");
                 }
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
                 response.ErrorDescription = ex.Message;
             }
             return Request.CreateResponse(response.Code, response);

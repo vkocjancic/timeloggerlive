@@ -1,5 +1,7 @@
 ﻿@using Resources;
+@using NLog;
 @{
+    var log = LogManager.GetLogger("Login");
     Layout = "~/Account/_Layout.cshtml";
     Page.Title = $"{AppResources.SignIn} | TimeLoggerLive";
     if (Request.HttpMethod == "POST")
@@ -9,8 +11,10 @@
         if ((!string.IsNullOrEmpty(username)) && (!string.IsNullOrEmpty(password)))
         {
             AntiForgery.Validate();
+            log.Debug($"({username}) Logging in");
             if (Membership.ValidateUser(HttpUtility.HtmlEncode(username), password))
             {
+                log.Info($"({username}) Logged in");
                 if ("admin" == username.ToLower())
                 {
                     FormsAuthentication.SetAuthCookie(username, false);
@@ -21,15 +25,22 @@
                     FormsAuthentication.RedirectFromLoginPage(username, false);
                 }
             }
+            else
+            {
+                log.Info($"({username}) failed login attempt");
+            }
         }
         else if (!string.IsNullOrEmpty(Request["signout"]))
         {
+            log.Debug($"({User.Identity.Name}): signing out");
             FormsAuthentication.SignOut();
+            log.Info($"({User.Identity.Name}): signed out");
             Response.Redirect(Request["ReturnUrl"], true);
         }
     }
     else if (User.Identity.IsAuthenticated)
     {
+        log.Info($"({User.Identity.Name}) already signed in");
         if (User.IsInRole("Admin"))
         {
             Response.Redirect("~/Admin/Dashboard");

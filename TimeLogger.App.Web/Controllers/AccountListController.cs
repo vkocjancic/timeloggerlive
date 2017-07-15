@@ -11,6 +11,12 @@ namespace TimeLogger.App.Web.Controllers
     public class AccountListController : ControllerBase
     {
 
+        #region Constructors
+
+        public AccountListController() : base(typeof(AccountListController)) { }
+
+        #endregion
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         // GET api/<controller>/accounttype

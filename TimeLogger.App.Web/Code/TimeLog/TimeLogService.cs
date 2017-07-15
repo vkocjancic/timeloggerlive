@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,7 @@ namespace TimeLogger.App.Web.Code.TimeLog
         #region Fields
 
         private static string m__rosTimeFormat = "H:mm";
+        private static Logger m_log = LogManager.GetLogger(typeof(TimeLogService).FullName);
 
         #endregion
 
@@ -46,14 +48,18 @@ namespace TimeLogger.App.Web.Code.TimeLog
 
         public static IEnumerable<TimeLogModel> GetAllFor(string connectionString, DateTime date, Guid accountId)
         {
+            m_log.Info($"'{accountId}' GetAllFor method invoked for date '{date}'");
             var repo = new TimeLogRepository(connectionString);
+            m_log.Debug($"'{accountId}' Obtaining time logs");
             var timeLogs = repo.GetAllFor(date, accountId);
+            m_log.Info($"'{accountId}' {timeLogs.Count()} time log(s) found");
             var timeLogModels = new List<TimeLogModel>();
             var adapter = new TimeLogAdapter();
             foreach(var log in timeLogs)
             {
                 timeLogModels.Add(adapter.ToDomainObject(log, m__rosTimeFormat));
             }
+            m_log.Info($"'{accountId}' Time logs converted to domain object array");
             return timeLogModels.AsEnumerable();
         }
 
