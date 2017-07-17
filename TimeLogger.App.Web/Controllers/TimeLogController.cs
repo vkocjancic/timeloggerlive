@@ -127,7 +127,7 @@ namespace TimeLogger.App.Web.Controllers
             var response = new TimeLogResponse() { Code = HttpStatusCode.InternalServerError, Success = false };
             try
             {
-                Log.Debug($"({User.Identity.Name}) Deleting timeLog '{response.TimeLog.Id}'");
+                Log.Debug($"({User.Identity.Name}) Deleting timeLog '{id}'");
                 response = TimeLogService.DeleteTimeLog(this.ConnectionString, id.Value);
                 Log.Info($"({User.Identity.Name}) TimeLog '{response.TimeLog.Id}' deleted.");
             }
