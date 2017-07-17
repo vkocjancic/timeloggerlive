@@ -56,7 +56,8 @@
     <div class="row vertical-center-row">
         @if (!User.Identity.IsAuthenticated)
         {
-            <form name="login" action="@Request.RawUrl" method="post" accept-charset="utf-8" class="form-signin text-center col-md-4 col-md-offset-4">
+            <form name="login" action="@Request.RawUrl" method="post" accept-charset="utf-8" class="form-signin text-center col-md-4 col-md-offset-4"
+                  novalidate="novalidate">
                 <fieldset>
                     @if (Request.HttpMethod == "POST")
                     {

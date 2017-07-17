@@ -51,15 +51,30 @@
                                     <i class="hidden-xs hidden-sm fa fa-users fa-2x"></i>
                                 </a>
                             </li>
-                            <li>
-                                <form action="@FormsAuthentication.LoginUrl" method="post">
-                                    <input type="hidden" name="signout" value="true" />
-                                    <input type="hidden" name="returnUrl" value="@HttpUtility.HtmlEncode(Request.RawUrl)" />
-                                    <button type="submit" title="@AppResources.SignedInAs @User.Identity.Name" class="btn btn-link">
-                                        <span class="visible-xs visible-sm">@AppResources.SignOut</span>
-                                        <i class="hidden-xs hidden-sm fa fa-sign-out fa-2x"></i>
-                                    </button>
-                                </form>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                                   title="@AppResources.Profile">
+                                    <span class="visible-xs visible-sm">@AppResources.Profile</span>
+                                    <i class="hidden-xs hidden-sm fa fa-user fa-2x"></i>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a>@User.Identity.Name</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="/App/PasswordReset">@AppResources.ResetPassword</a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <form action="@FormsAuthentication.LoginUrl" method="post">
+                                            <input type="hidden" name="signout" value="true" />
+                                            <input type="hidden" name="returnUrl" value="@HttpUtility.HtmlEncode(Request.RawUrl)" />
+                                            <button type="submit" title="@AppResources.SignOut" class="btn btn-link">
+                                                @AppResources.SignOut
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>

@@ -41,6 +41,30 @@ namespace TimeLogger.App.Web.Code.Account
             return new ResetPasswordResponse() { Code = System.Net.HttpStatusCode.Created, Success = true };
         }
 
+        public static ResetPasswordResponse ResetPasswordForAuthenticatedUser(string connectionString, ResetPasswordModel model, Guid userId)
+        {
+            var user = Membership.GetUser(userId);
+            if (null == user)
+            {
+                return new ResetPasswordResponse()
+                {
+                    Code = System.Net.HttpStatusCode.NotFound,
+                    Success = false,
+                    ErrorDescription = AppResources.ErrorInvalidRequest
+                };
+            }
+            if (!user.ChangePassword("oldPassword", model.Password))
+            {
+                return new ResetPasswordResponse()
+                {
+                    Code = System.Net.HttpStatusCode.NotFound,
+                    Success = false,
+                    ErrorDescription = AppResources.ErrorChangePassword
+                };
+            }
+            return new ResetPasswordResponse() { Code = System.Net.HttpStatusCode.Created, Success = true };
+        }
+
         #endregion
 
     }

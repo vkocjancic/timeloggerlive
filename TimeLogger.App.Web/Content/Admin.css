@@ -143,6 +143,31 @@ body,
 .site-navbar .navbar-header {
   padding-top: 5px;
 }
+.site-navbar .nav .open > a,
+.site-navbar .nav .open > a:focus,
+.site-navbar .nav .open > a:hover,
+.site-navbar .nav .open > a:active,
+.site-navbar .nav .open > a:visited,
+.site-navbar .nav .open > a:link {
+  background-color: none;
+}
+.site-navbar .dropdown-menu .btn-link {
+  padding: 3px 20px;
+  text-align: left;
+  width: 100%;
+}
+.site-navbar .dropdown-menu .btn-link,
+.site-navbar .dropdown-menu a {
+  color: #4d3332;
+}
+.site-navbar .dropdown-menu .btn-link:hover,
+.site-navbar .dropdown-menu li > a:hover,
+.site-navbar .dropdown-menu li > a:focus {
+  background-image: none;
+  background-color: #c8c5c5 !important;
+  display: block;
+  text-decoration: none;
+}
 .panel .panel-heading a,
 .panel .panel-heading a:visited,
 .panel .panel-heading a:link,
