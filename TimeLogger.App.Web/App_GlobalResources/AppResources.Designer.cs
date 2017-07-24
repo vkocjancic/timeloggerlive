@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Daily logs.
+        /// </summary>
+        internal static string DailyLogs {
+            get {
+                return ResourceManager.GetString("DailyLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         internal static string Dashboard {
@@ -165,6 +174,15 @@ namespace Resources {
         internal static string ForgotPassword {
             get {
                 return ResourceManager.GetString("ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insights.
+        /// </summary>
+        internal static string Insights {
+            get {
+                return ResourceManager.GetString("Insights", resourceCulture);
             }
         }
         

@@ -40,13 +40,41 @@
                     <div id="navbar" class="navbar-collapse collapse navbar-right">
                         <ul class="nav navbar-nav">
                             <li>
-                                <form action="@FormsAuthentication.LoginUrl" method="post">
-                                    <input type="hidden" name="signout" value="true" />
-                                    <input type="hidden" name="returnUrl" value="@HttpUtility.HtmlEncode(Request.RawUrl)" />
-                                    <button type="submit" title="@AppResources.SignedInAs @User.Identity.Name" class="btn btn-link pull-right">
-                                        @AppResources.SignOut &nbsp;<span class="glyphicon glyphicon-log-out"></span>
-                                    </button>
-                                </form>
+                                <a href="/App/" title="@AppResources.DailyLogs">
+                                    <span class="visible-xs visible-sm">@AppResources.DailyLogs</span>
+                                    <i class="hidden-xs hidden-sm fa fa-list fa-2x"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/App/Insights" title="@AppResources.Insights">
+                                    <span class="visible-xs visible-sm">@AppResources.Insights</span>
+                                    <i class="hidden-xs hidden-sm fa fa-bar-chart fa-2x"></i>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                                   title="@AppResources.Profile">
+                                    <span class="visible-xs visible-sm">@AppResources.Profile</span>
+                                    <i class="hidden-xs hidden-sm fa fa-user fa-2x"></i>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a>@User.Identity.Name</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="/App/PasswordReset">@AppResources.ResetPassword</a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <form action="@FormsAuthentication.LoginUrl" method="post">
+                                            <input type="hidden" name="signout" value="true" />
+                                            <input type="hidden" name="returnUrl" value="@HttpUtility.HtmlEncode(Request.RawUrl)" />
+                                            <button type="submit" title="@AppResources.SignOut" class="btn btn-link">
+                                                @AppResources.SignOut
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -61,7 +89,8 @@
     <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/bootstrap.min.js")"></script>
     <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/bootstrap3-typeahead.min.js")"></script>
     <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/common.es5.min.js")"></script>
-    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/app.es5.min.js")"></script>
+    @RenderSection("scriptDefinitions", false)
+    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/app.es5.js")"></script>
     @RenderSection("script", false)
 </body>
 </html>

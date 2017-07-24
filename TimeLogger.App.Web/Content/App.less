@@ -28,6 +28,11 @@ html, body, .container-table {
     background-color: @color-dark;
     padding: 5px 0;
 
+    form {
+        margin: 0;
+        padding: 0;
+    }
+
     .btn-link, a {
         color: @color-light-grey;
     }
@@ -37,12 +42,40 @@ html, body, .container-table {
         color: @color-light-grey - #333;
     }
 
+    .navbar-header {
+        padding-top: 5px;
+    }
+
     .navbar-toggle {
         background-color: transparent;
         border-color: @color-light-grey;
 
         .icon-bar {
             background-color: @color-light-grey;
+        }
+    }
+
+    .nav .open > a, .nav .open > a:focus, .nav .open > a:hover, .nav .open > a:active, .nav .open > a:visited, .nav .open > a:link {
+        background-color: none;
+    }
+
+    .dropdown-menu {
+
+        .btn-link {
+            padding: 3px 20px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .btn-link, a {
+            color: @color-dark-grey;
+        }
+
+        .btn-link:hover, li > a:hover, li > a:focus {
+            background-image: none;
+            background-color: @color-light-grey - #333 !important;
+            display: block;
+            text-decoration: none;
         }
     }
 }

@@ -1,0 +1,29 @@
+﻿@using Resources;
+@{ 
+    Layout = $"~/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-6">
+        @dateNavigationBarHelper.DisplayRange(DateTime.Today)
+    </div>
+    <div id="date-range-selector" class="col-md-6 text-right">
+        <button class="btn">@InsightsResources.Week</button>
+        <button class="btn btn-default">@InsightsResources.Month</button>
+        <button class="btn btn-default">@InsightsResources.Year</button>
+    </div>
+</div>
+
+<div class="row">
+    <p id="insights-list-info" class="error-handler" style="display: none;"></p>
+    <div style="position: relative;">
+        <canvas id="insightsGraph"></canvas>
+    </div>
+</div>
+
+<div class="row">
+    List of tasks!
+</div>
+
+@section scriptDefinitions {
+    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/Chart.bundle.min.js")"></script>
+}

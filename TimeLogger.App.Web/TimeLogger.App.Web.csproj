@@ -150,6 +150,7 @@
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap3-typeahead.js" />
     <Content Include="Scripts\bootstrap3-typeahead.min.js" />
+    <Content Include="Scripts\Chart.bundle.min.js" />
     <Content Include="Scripts\common.es5.js">
       <DependentUpon>common.js</DependentUpon>
     </Content>
@@ -177,6 +178,7 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Insights.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -250,6 +252,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Entry.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\InsightsResources.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InsightsResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\Report.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -281,6 +288,13 @@
     <Compile Include="Code\Billing\BillingService.cs" />
     <Compile Include="Code\Common\ApiResponse.cs" />
     <Compile Include="Code\ICanValidate.cs" />
+    <Compile Include="Code\Insights\InsightsChartData.cs" />
+    <Compile Include="Code\Insights\InsightsChartDataFactory.cs" />
+    <Compile Include="Code\Insights\InsightsChartDataSet.cs" />
+    <Compile Include="Code\Insights\InsightsChartModel.cs" />
+    <Compile Include="Code\Insights\InsightsChartModelFactory.cs" />
+    <Compile Include="Code\Insights\InsightsChartResponse.cs" />
+    <Compile Include="Code\Insights\InsightsChartService.cs" />
     <Compile Include="Code\Notification\NotificationService.cs" />
     <Compile Include="Code\Common\Site.cs" />
     <Compile Include="Code\Report\ReportCollectionResponse.cs" />
@@ -297,6 +311,7 @@
     <Compile Include="Code\TimeLog\TimeLogService.cs" />
     <Compile Include="Controllers\AccountListController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\InsightsChartController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
@@ -345,6 +360,12 @@
     <Content Include="App_GlobalResources\AdminResources.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>AdminResources.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\InsightsResources.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>InsightsResources.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>

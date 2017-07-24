@@ -1,10 +1,14 @@
 ﻿/// <reference path="jquery-1.9.1.js" />
+/// <reference path="common.js" />
 'use strict';
 
 (function ($) {
-    var navigationBarDate = new DateNavigationBar('date-nav');
-    var timeLogList = new TimeLogList('entry-list');
-    var dailyReport = new DailyReport('dailyReportModal');
+    var navigationBarDate,
+        selector,
+        timeLogList = new TimeLogList('entry-list'),
+        dailyReport = new DailyReport('dailyReportModal'),
+        insightsChart = new InsightsChart('insightsGraph'),
+        insightsReport = new InsightsReport('insightsReport');
 
     // #region TimeLogStatus
 
@@ -60,21 +64,30 @@
 
     DateNavigationBar.prototype.dateOffset = 0;
 
-    DateNavigationBar.prototype.selectedDate = function () {
-        return this.startDate.addDays(this.dateOffset);
-    };
+    DateNavigationBar.prototype.selectedDate = function () {};
 
     DateNavigationBar.prototype.init = function () {
         var obj = this;
+        this.displayDate();
+        this.executeAction();
         $('li:eq(0) a', this.element).click(function (e) {
             e.preventDefault();
-            obj.addDays(-1);
+            obj.step(-1);
         });
         $('li:eq(1) a', this.element).click(function (e) {
             e.preventDefault();
-            obj.addDays(1);
+            obj.step(1);
         });
     };
+
+    DateNavigationBar.prototype.step = function (stepIncrement) {
+        this.dateOffset += stepIncrement;
+        this.displayDate();
+        this.toggleStatus(true);
+        this.executeAction();
+    };
+
+    DateNavigationBar.prototype.executeAction = function () {};
 
     DateNavigationBar.prototype.addDays = function (days) {
         this.dateOffset += days;
@@ -90,9 +103,7 @@
         $('li.info', this.element).text(this.displayDateString(this.selectedDate()));
     };
 
-    DateNavigationBar.prototype.displayDateString = function (dat) {
-        return dat.getMonthName() + ' ' + dat.getDate() + ', ' + dat.getFullYear();
-    };
+    DateNavigationBar.prototype.displayDateString = function (dat) {};
 
     DateNavigationBar.prototype.toggleStatus = function (visible) {
         var status = new TimeLogStatus(this.elementStatus);
@@ -105,6 +116,132 @@
 
     // #endregion
 
+    // #region DailyDateNavigationBar
+
+    function DailyDateNavigationBar(id) {
+        DateNavigationBar.call(this, id);
+    }
+
+    DailyDateNavigationBar.prototype = Object.create(DateNavigationBar.prototype);
+    DailyDateNavigationBar.prototype.constructor = DailyDateNavigationBar;
+
+    DailyDateNavigationBar.prototype.selectedDate = function () {
+        return this.startDate.addDays(this.dateOffset);
+    };
+
+    DailyDateNavigationBar.prototype.executeAction = function () {
+        var obj = this;
+        timeLogList.loadItemsForDate(this.selectedDate(), function () {
+            obj.toggleStatus(false);
+        });
+    };
+
+    DailyDateNavigationBar.prototype.displayDateString = function (dat) {
+        return dat.getMonthName() + ' ' + dat.getDate() + ', ' + dat.getFullYear();
+    };
+
+    // #endregion
+
+    // #region RangeDateNavigationBar
+
+    function RangeDateNavigationBar(id) {
+        DateNavigationBar.call(this, id);
+        this.id = id;
+    }
+
+    RangeDateNavigationBar.prototype = Object.create(DateNavigationBar.prototype);
+    RangeDateNavigationBar.prototype.constructor = RangeDateNavigationBar;
+
+    RangeDateNavigationBar.prototype.executeRangeAction = function (startDate, endDate) {
+        insightsChart.load(startDate, endDate);
+        insightsReport.load(startDate, endDate);
+        this.toggleStatus(false);
+    };
+
+    RangeDateNavigationBar.prototype.displayDateRangeString = function (dateStart, dateEnd) {
+        return dateStart.getMonthName() + ' ' + dateStart.getDate() + ', ' + dateStart.getFullYear() + ' - ' + dateEnd.getMonthName() + ' ' + dateEnd.getDate() + ', ' + dateEnd.getFullYear();
+    };
+
+    // #endregion
+
+    // #region WeeklyDateNavigationBar
+
+    function WeeklyDateNavigationBar(id) {
+        RangeDateNavigationBar.call(this, id);
+    }
+
+    WeeklyDateNavigationBar.prototype = Object.create(RangeDateNavigationBar.prototype);
+    WeeklyDateNavigationBar.prototype.constructor = WeeklyDateNavigationBar;
+
+    WeeklyDateNavigationBar.prototype.executeAction = function () {
+        var endDate = this.selectedDate();
+        var startDate = this.selectedDate().addDays(-6);
+        this.executeRangeAction(startDate, endDate);
+    };
+
+    WeeklyDateNavigationBar.prototype.selectedDate = function () {
+        return this.startDate.addDays(this.dateOffset * 7);
+    };
+
+    WeeklyDateNavigationBar.prototype.displayDateString = function (dat) {
+        var datStart = dat.addDays(-6);
+        return this.displayDateRangeString(datStart, dat);
+    };
+
+    // #endregion
+
+    // #region MonthlyDateNavigationBar
+
+    function MonthlyDateNavigationBar(id) {
+        RangeDateNavigationBar.call(this, id);
+    }
+
+    MonthlyDateNavigationBar.prototype = Object.create(RangeDateNavigationBar.prototype);
+    MonthlyDateNavigationBar.prototype.constructor = MonthlyDateNavigationBar;
+
+    MonthlyDateNavigationBar.prototype.executeAction = function () {
+        var endDate = this.selectedDate();
+        var startDate = this.selectedDate().addMonths(-1).addDays(1);
+        this.executeRangeAction(startDate, endDate);
+    };
+
+    MonthlyDateNavigationBar.prototype.selectedDate = function () {
+        return this.startDate.addMonths(this.dateOffset);
+    };
+
+    MonthlyDateNavigationBar.prototype.displayDateString = function (dat) {
+        var datStart = dat.addMonths(-1).addDays(1);
+        return this.displayDateRangeString(datStart, dat);
+    };
+
+    // #endregion
+
+    // #region YearlyDateNavigationBar
+
+    function YearlyDateNavigationBar(id) {
+        RangeDateNavigationBar.call(this, id);
+    }
+
+    YearlyDateNavigationBar.prototype = Object.create(RangeDateNavigationBar.prototype);
+    YearlyDateNavigationBar.prototype.constructor = YearlyDateNavigationBar;
+
+    YearlyDateNavigationBar.prototype.executeAction = function () {
+        var endDate = this.selectedDate();
+        var startDate = this.selectedDate().addYears(-1).addDays(1);
+        this.executeRangeAction(startDate, endDate);
+    };
+
+    YearlyDateNavigationBar.prototype.selectedDate = function () {
+        return this.startDate.addYears(this.dateOffset);
+    };
+
+    YearlyDateNavigationBar.prototype.displayDateString = function (dat) {
+        var datStart = dat.addYears(-1).addDays(1);
+        return this.displayDateRangeString(datStart, dat);
+    };
+
+    // #endregion
+
     // #region TimeLogList
     function TimeLogList(className) {
         this.regexTimeFormat = /(\d{1,2})[:.](\d{2})\s{0,1}(am|AM|pm|PM)?/;
@@ -112,10 +249,11 @@
         this.placeholderNewItem = $('.entry-ph', this.element);
         this.placeholderLog = '<tr data-id="{data-id}"><td class="time"><div contenteditable="true">{from}</div></td><td class="time"><div contenteditable="true">{to}</div></td><td class="description"><div contenteditable="true">{description}</div></td><td>{action}</td><td>{status}</td></tr>';
         this.placeholderTotal = $('.entry-total', this.element);
-        this.dateNavigationBar = navigationBarDate;
+        this.dateNavigationBar = null;
     }
 
-    TimeLogList.prototype.init = function () {
+    TimeLogList.prototype.init = function (navBarDate) {
+        this.dateNavigationBar = navBarDate;
         var obj = this;
         this.placeholderNewItem.click(function () {
             obj.newItem();
@@ -140,7 +278,6 @@
     };
 
     TimeLogList.prototype.initTypeahead = function (row) {
-        //this.destroyTypeahead(row);
         $('td.description div', row).typeahead({
             minLength: 1,
             items: 10,
@@ -356,7 +493,7 @@
     };
 
     TimeLogList.prototype.isValidTime = function (time) {
-        return null == time || 0 === time.length || this.regexTimeFormat.test(time);
+        return null === time || 0 === time.length || this.regexTimeFormat.test(time);
     };
 
     TimeLogList.prototype.updateTotal = function () {
@@ -381,8 +518,8 @@
     DailyReport.prototype.init = function () {
         var report = this;
         this.element.on('show.bs.modal', function (event) {
-            var modal = $(this);
-            var date = navigationBarDate.selectedDate();
+            var modal = $(this),
+                date = navigationBarDate.selectedDate();
             modal.find('.modal-title span').text(navigationBarDate.displayDateString(date));
             report.loadForDate(date, function (reportItems) {
                 report.clearItems();
@@ -427,12 +564,180 @@
 
     // #endregion
 
+    // #region DateRangeSelector
+
+    function DateRangeSelector(id) {
+        this.element = $('#' + id);
+        this.buttons = $('.btn', this.element);
+        this.defaultClass = 'btn-default';
+        this.navigationBar = null;
+    }
+
+    DateRangeSelector.prototype.init = function (navDateBar) {
+        var selector = this;
+        this.navigationBar = navDateBar;
+        selector.buttons.on('click', function () {
+            selector.selectionChanged(this);
+        });
+    };
+
+    DateRangeSelector.prototype.selectionChanged = function (button) {
+        if (!$(button).hasClass(this.defaultClass)) {
+            return;
+        }
+        $(this.buttons).addClass(this.defaultClass);
+        $(button).removeClass(this.defaultClass);
+        this.resetNavigationBar();
+    };
+
+    DateRangeSelector.prototype.resetNavigationBar = function () {
+        if (this.isYearSelected()) {
+            this.navigationBar = new YearlyDateNavigationBar(this.navigationBar.id);
+        } else if (this.isMonthSelected()) {
+            this.navigationBar = new MonthlyDateNavigationBar(this.navigationBar.id);
+        } else {
+            this.navigationBar = new WeeklyDateNavigationBar(this.navigationBar.id);
+        }
+        this.navigationBar.init();
+    };
+
+    DateRangeSelector.prototype.isWeekSelected = function () {
+        return this.buttons.get(0).className.indexOf(this.defaultClass) === -1;
+    };
+
+    DateRangeSelector.prototype.isMonthSelected = function () {
+        return this.buttons.get(1).className.indexOf(this.defaultClass) === -1;
+    };
+
+    DateRangeSelector.prototype.isYearSelected = function () {
+        return this.buttons.get(2).className.indexOf(this.defaultClass) === -1;
+    };
+
+    // #endregion
+
+    // #region InsightsChart
+
+    function InsightsChart(id) {
+        this.id = id;
+        this.element = $('#' + id);
+    }
+
+    InsightsChart.prototype.init = function () {
+        this.element.attr('height', '100');
+    };
+
+    InsightsChart.prototype.load = function (startDate, endDate) {
+        var chart = this,
+            errorHandler = new ErrorHandler($('#insights-list-info'));
+        $.post('/App/api/insightschart', {
+            'startDate': startDate.toApiDateString(),
+            'endDate': endDate.toApiDateString()
+        }).success(function (data) {
+            chart.draw(data);
+        }).fail(function (data) {
+            if (data.responseText) {
+                errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
+            } else {
+                errorHandler.displayMessage('error', data.statusText);
+            }
+        });
+    };
+
+    InsightsChart.prototype.draw = function (data) {
+        this.clear();
+        var chart = new Chart(this.element, {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    label: data.datasets[0].label,
+                    data: data.datasets[0].data,
+                    backgroundColor: 'rgba(126, 185, 20, 0.3)',
+                    borderColor: 'rgba(126, 185, 20, 0.7)',
+                    borderWidth: 2
+                }, {
+                    type: 'line',
+                    label: data.datasets[1].label,
+                    data: data.datasets[1].data,
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    borderColor: 'rgba(199, 31, 22, 1)'
+                }],
+                labels: data.labels
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    };
+
+    InsightsChart.prototype.clear = function () {
+        var parent = this.element.parent('div');
+        this.element.remove();
+        parent.append('<canvas id="insightsGraph"></canvas>');
+        this.element = $('#' + this.id);
+        this.init();
+    };
+
+    // #endregion
+
+    // #region InsightsReport
+
+    function InsightsReport(id) {}
+
+    InsightsReport.prototype.init = function () {};
+
+    InsightsReport.prototype.load = function (startDate, endDate) {};
+
+    // #endregion
+
+    // #region Site
+
+    var siteEnum = {
+        APP: {
+            value: 0,
+            init: function init() {
+                navigationBarDate = new DailyDateNavigationBar('date-nav');
+                navigationBarDate.init();
+                timeLogList.init(navigationBarDate);
+                dailyReport.init();
+            } },
+        INSIGHTS: {
+            value: 1,
+            init: function init() {
+                insightsChart.init();
+                insightsReport.init();
+                navigationBarDate = new WeeklyDateNavigationBar('date-range-nav');
+                navigationBarDate.init();
+                selector = new DateRangeSelector('date-range-selector');
+                selector.init(navigationBarDate);
+            }
+        }
+    };
+
+    function Site() {
+        this.type = siteEnum.APP;
+        if (document.location.href.indexOf('/Insights') !== -1) {
+            this.type = siteEnum.INSIGHTS;
+        }
+    }
+
+    Site.prototype.init = function () {
+        this.type.init();
+    };
+
+    // #endregion
+
     // event handlers
     $(document).ready(function () {
-        navigationBarDate.init();
-        timeLogList.init();
-        dailyReport.init();
+        var site = new Site();
+        site.init();
     });
 })(jQuery);
-/// <reference path="common.js" />
+/// <reference path="Chart.bundle.min.js" />
 

@@ -36,6 +36,18 @@
         return dat;
     }
 
+    Date.prototype.addMonths = function (months) {
+        var dat = new Date(this.valueOf());
+        dat.setMonth(dat.getMonth() + months);
+        return dat;
+    }
+
+    Date.prototype.addYears = function (years) {
+        var dat = new Date(this.valueOf());
+        dat.setFullYear(dat.getFullYear() + years);
+        return dat;
+    }
+
     Date.prototype.getMonthName = function (lang) {
         lang = lang && (lang in this.locale) ? lang : 'en';
         return this.locale[lang].month_names[this.getMonth()];

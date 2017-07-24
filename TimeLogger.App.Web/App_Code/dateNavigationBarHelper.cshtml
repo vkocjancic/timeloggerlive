@@ -8,3 +8,15 @@
         </ul>
     </nav>
 }
+
+@helper DisplayRange(DateTime date)
+{
+    <nav id="date-range-nav" class="app-date-nav">
+        <ul>
+            <li><a href="#"><i class="fa fa-2x fa-chevron-circle-left"></i></a></li>
+            <li><a href="#"><i class="fa fa-2x fa-chevron-circle-right"></i></a></li>
+            <li class="info">@date.AddDays(-6).ToString("MMMM dd, yyyy") - @date.ToString("MMMM dd, yyyy")</li>
+            <li class="status"><i></i></li>
+        </ul>
+    </nav>
+}
