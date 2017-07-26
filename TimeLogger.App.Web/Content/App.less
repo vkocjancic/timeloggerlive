@@ -1,5 +1,9 @@
 ﻿@import "variables.less";
 
+html {
+    overflow-y:scroll;
+}
+
 html, body, .container-table {
     background-color: @color-light-grey;
     color: @color-dark-grey;
@@ -194,7 +198,7 @@ html, body, .container-table {
     }
 }
 
-.modal .table {
+#reportData.table {
     th:last-child, td:last-child {
         text-align: right;
         width: 80px;

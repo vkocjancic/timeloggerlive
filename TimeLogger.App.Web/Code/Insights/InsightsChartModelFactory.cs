@@ -17,7 +17,7 @@ namespace TimeLogger.App.Web.Code.Insights
                 UserId = model.AccountId,
                 StartDate = model.Start,
                 EndDate = model.End,
-                Interval = model.Interval
+                Interval = model.IntervalType
             };
         }
 

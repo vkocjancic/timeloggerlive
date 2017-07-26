@@ -295,6 +295,8 @@
     <Compile Include="Code\Insights\InsightsChartModelFactory.cs" />
     <Compile Include="Code\Insights\InsightsChartResponse.cs" />
     <Compile Include="Code\Insights\InsightsChartService.cs" />
+    <Compile Include="Code\Insights\InsightsModelBase.cs" />
+    <Compile Include="Code\Insights\InsightsReportModel.cs" />
     <Compile Include="Code\Notification\NotificationService.cs" />
     <Compile Include="Code\Common\Site.cs" />
     <Compile Include="Code\Report\ReportCollectionResponse.cs" />
@@ -312,6 +314,7 @@
     <Compile Include="Controllers\AccountListController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\InsightsChartController.cs" />
+    <Compile Include="Controllers\InsightsReportController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />

@@ -1,4 +1,7 @@
-﻿html,
+﻿html {
+  overflow-y: scroll;
+}
+html,
 body,
 .container-table {
   background-color: #fbf8f8;
@@ -155,16 +158,16 @@ body,
 .app-action-nav ul li {
   float: right;
 }
-.modal .table th:last-child,
-.modal .table td:last-child {
+#reportData.table th:last-child,
+#reportData.table td:last-child {
   text-align: right;
   width: 80px;
 }
-.modal .table tfoot td {
+#reportData.table tfoot td {
   font-size: 80%;
   font-weight: bold;
 }
-.modal .table .table-loading td {
+#reportData.table .table-loading td {
   color: #081528;
   text-align: center;
 }

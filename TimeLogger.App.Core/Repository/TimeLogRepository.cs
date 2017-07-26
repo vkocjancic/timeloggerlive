@@ -57,6 +57,11 @@ namespace TimeLogger.App.Core.Repository
 
         public override IEnumerable<TimeLog> GetAllFor(DateTime date, Guid accountId)
         {
+            return GetAllFor(date.Date, date.Date, accountId);
+        }
+
+        public override IEnumerable<TimeLog> GetAllFor(DateTime startDate, DateTime endDate, Guid accountId)
+        {
             using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
@@ -70,8 +75,8 @@ namespace TimeLogger.App.Core.Repository
                     new
                     {
                         AccountId = accountId,
-                        CreatedStart = date.Date,
-                        CreatedEnd = date.Date.AddDays(1)
+                        CreatedStart = startDate.Date,
+                        CreatedEnd = endDate.Date.AddDays(1)
                     });
             }
         }

@@ -6,9 +6,9 @@
     var navigationBarDate,
         selector,
         timeLogList = new TimeLogList('entry-list'),
-        dailyReport = new DailyReport('dailyReportModal'),
+        dailyReport,
         insightsChart = new InsightsChart('insightsGraph'),
-        insightsReport = new InsightsReport('insightsReport');
+        insightsReport;
 
     // #region TimeLogStatus
 
@@ -67,6 +67,11 @@
     DateNavigationBar.prototype.dateOffset = 0;
 
     DateNavigationBar.prototype.selectedDate = function () { };
+
+    DateNavigationBar.prototype.destroy = function () {
+        $('li:eq(0) a', this.element).off('click');
+        $('li:eq(1) a', this.element).off('click');
+    };
 
     DateNavigationBar.prototype.init = function () {
         var obj = this;
@@ -150,13 +155,14 @@
     function RangeDateNavigationBar(id) {
         DateNavigationBar.call(this, id);
         this.id = id;
+        this.interval = 'W';
     }
 
     RangeDateNavigationBar.prototype = Object.create(DateNavigationBar.prototype);
     RangeDateNavigationBar.prototype.constructor = RangeDateNavigationBar;
 
     RangeDateNavigationBar.prototype.executeRangeAction = function (startDate, endDate) {
-        insightsChart.load(startDate, endDate);
+        insightsChart.load(startDate, endDate, this.interval);
         insightsReport.load(startDate, endDate);
         this.toggleStatus(false);
     };
@@ -172,6 +178,7 @@
 
     function WeeklyDateNavigationBar(id) {
         RangeDateNavigationBar.call(this, id);
+        this.interval = 'W';
     }
 
     WeeklyDateNavigationBar.prototype = Object.create(RangeDateNavigationBar.prototype);
@@ -179,7 +186,7 @@
 
     WeeklyDateNavigationBar.prototype.executeAction = function () {
         var endDate = this.selectedDate();
-        var startDate = this.selectedDate().addDays(-6);
+        var startDate = endDate.addDays(-6);
         this.executeRangeAction(startDate, endDate);
     };
 
@@ -198,6 +205,7 @@
 
     function MonthlyDateNavigationBar(id) {
         RangeDateNavigationBar.call(this, id);
+        this.interval = 'M';
     }
 
     MonthlyDateNavigationBar.prototype = Object.create(RangeDateNavigationBar.prototype);
@@ -205,7 +213,7 @@
 
     MonthlyDateNavigationBar.prototype.executeAction = function () {
         var endDate = this.selectedDate();
-        var startDate = this.selectedDate().addMonths(-1).addDays(1);
+        var startDate = endDate.addMonths(-1).addDays(1);
         this.executeRangeAction(startDate, endDate);
     };
 
@@ -224,6 +232,7 @@
 
     function YearlyDateNavigationBar(id) {
         RangeDateNavigationBar.call(this, id);
+        this.interval = 'Y';
     }
 
     YearlyDateNavigationBar.prototype = Object.create(RangeDateNavigationBar.prototype);
@@ -231,7 +240,7 @@
 
     YearlyDateNavigationBar.prototype.executeAction = function () {
         var endDate = this.selectedDate();
-        var startDate = this.selectedDate().addYears(-1).addDays(1);
+        var startDate = endDate.addYears(-1).addDays(1);
         this.executeRangeAction(startDate, endDate);
     };
 
@@ -530,32 +539,59 @@
     };
     // #endregion
 
+    // #region Report
+
+    function Report(id) {
+        this.element = $('#' + id);
+        this.body = $('#reportData tbody', this.element);
+        this.footer = $('#reportData tfoot', this.element);
+    }
+
+    Report.prototype.init = function (isModal) {
+        var report = this;
+        if (isModal) {
+            this.element.on('show.bs.modal', function (event) {
+                var modal = $(this),
+                    date = navigationBarDate.selectedDate();
+
+                modal.find('.modal-title span').text(navigationBarDate.displayDateString(date));
+                report.loadForDate(date, report.createItems);
+            });
+        }
+    };
+
+    Report.prototype.loadForDate = function (date, callback) { };
+
+    Report.prototype.clearItems = function () {
+        $('tr', this.body).remove();
+    };
+
+    Report.prototype.createItems = function (report, reportItems) {
+        report.clearItems();
+        var duration = 0,
+            formatter = new DurationFormatter();
+        for (var cnItem = 0; cnItem < reportItems.length; cnItem++) {
+            var item = reportItems[cnItem];
+            report.body.append('<tr><td>' + item.title + '</td><td>' + item.durationtext + '</td></tr>');
+            duration += item.duration;
+        }
+        $('td:last', report.footer).text(formatter.format(duration));
+    };
+
+    Report.prototype.displayLoading = function () {
+        this.body.append('<tr class="table-loading"><td colspan="2"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></td></tr>');
+    };
+
+    // #endregion
+
     // #region DailyReport
 
     function DailyReport(id) {
-        this.element = $('#' + id);
-        this.body = $('.modal-body tbody', this.element);
+        Report.call(this, id);
     }
 
-    DailyReport.prototype.init = function () {
-        var report = this;
-        this.element.on('show.bs.modal', function (event) {
-            var modal = $(this),
-                date = navigationBarDate.selectedDate();
-            modal.find('.modal-title span').text(navigationBarDate.displayDateString(date));
-            report.loadForDate(date, function (reportItems) {
-                report.clearItems();
-                var duration = 0,
-                    formatter = new DurationFormatter();
-                for (var cnItem = 0; cnItem < reportItems.length; cnItem++) {
-                    var item = reportItems[cnItem];
-                    report.body.append('<tr><td>' + item.title + '</td><td>' + item.durationtext + '</td></tr>');
-                    duration += item.duration;
-                }
-                $('td:last', report.footer).text(formatter.format(duration));
-            });
-        });
-    };
+    DailyReport.prototype = Object.create(Report.prototype);
+    DailyReport.prototype.constructor = DailyReport;
 
     DailyReport.prototype.loadForDate = function (date, callback) {
         var dailyReport = this,
@@ -566,7 +602,7 @@
         .success(function (data) {
             dailyReport.clearItems();
             if (callback) {
-                callback(data.reportItems);
+                callback(dailyReport, data.reportItems);
             }
         })
         .fail(function (data) {
@@ -579,12 +615,46 @@
         });
     };
 
-    DailyReport.prototype.clearItems = function () {
-        $('tr', this.body).remove();
-    };
+    // #endregion
 
-    DailyReport.prototype.displayLoading = function () {
-        this.body.append('<tr class="table-loading"><td colspan="2"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></td></tr>');
+    // #region InsightsReport
+
+    function InsightsReport(id) {
+        Report.call(this, id);
+        this.startDate = null;
+    }
+
+    InsightsReport.prototype = Object.create(Report.prototype);
+    InsightsReport.prototype.constructor = InsightsReport;
+
+    InsightsReport.prototype.load = function (startDate, endDate) {
+        this.startDate = startDate;
+        this.loadForDate(endDate, this.createItems);
+    };
+    
+    InsightsReport.prototype.loadForDate = function (date, callback) {
+        var report = this,
+            errorHandler = new ErrorHandler($('#insights-list-info'));
+        report.clearItems();
+        report.displayLoading();
+        $.post('/App/api/insightsreport', {
+            'startDate': report.startDate.toApiDateString(),
+            'endDate': date.toApiDateString()
+        })
+        .success(function (data) {
+            report.clearItems();
+            if (callback) {
+                callback(report, data.reportItems);
+            }
+        })
+        .fail(function (data) {
+            if (data.responseText) {
+                errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
+            }
+            else {
+                errorHandler.displayMessage('error', data.statusText);
+            }
+        });
     };
 
     // #endregion
@@ -616,6 +686,7 @@
     };
 
     DateRangeSelector.prototype.resetNavigationBar = function () {
+        this.navigationBar.destroy();
         if (this.isYearSelected()) {
             this.navigationBar = new YearlyDateNavigationBar(this.navigationBar.id);
         }
@@ -653,12 +724,13 @@
         this.element.attr('height', '100');
     };
 
-    InsightsChart.prototype.load = function (startDate, endDate) {
+    InsightsChart.prototype.load = function (startDate, endDate, interval) {
         var chart = this,
             errorHandler = new ErrorHandler($('#insights-list-info'));
         $.post('/App/api/insightschart', {
             'startDate': startDate.toApiDateString(),
-            'endDate' : endDate.toApiDateString()
+            'endDate': endDate.toApiDateString(),
+            'interval': interval
         })
         .success(function (data) {
             chart.draw(data);
@@ -717,22 +789,6 @@
 
     // #endregion
 
-    // #region InsightsReport
-
-    function InsightsReport(id) {
-
-    }
-
-    InsightsReport.prototype.init = function () {
-
-    };
-
-    InsightsReport.prototype.load = function (startDate, endDate) {
-
-    };
-
-    // #endregion
-
     // #region Site
 
     var siteEnum = {
@@ -742,13 +798,15 @@
                 navigationBarDate = new DailyDateNavigationBar('date-nav');
                 navigationBarDate.init();
                 timeLogList.init(navigationBarDate);
-                dailyReport.init();
+                dailyReport = new DailyReport('dailyReportModal');
+                dailyReport.init(true);
             }},
         INSIGHTS: {
             value: 1,
             init: function () {
                 insightsChart.init();
-                insightsReport.init();
+                insightsReport = new InsightsReport('insightsReport');
+                insightsReport.init(false);
                 navigationBarDate = new WeeklyDateNavigationBar('date-range-nav');
                 navigationBarDate.init();
                 selector = new DateRangeSelector('date-range-selector');

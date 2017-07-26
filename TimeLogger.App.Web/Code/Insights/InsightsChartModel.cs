@@ -7,64 +7,28 @@ using TimeLogger.App.Core.Insights;
 
 namespace TimeLogger.App.Web.Code.Insights
 {
-    public class InsightsChartModel
+    public class InsightsChartModel : InsightsModelBase
     {
 
-        #region Properties
+        #region Properties       
 
-        [JsonProperty(PropertyName = "startdate")]
-        public string StartDate { get; set; }
-
-        [JsonProperty(PropertyName = "enddate")]
-        public string EndDate { get; set; }
+        [JsonProperty(PropertyName = "interval")]
+        public string Interval { get; set; }
 
         [JsonIgnore()]
-        public Guid AccountId { get; set; }
-
-        [JsonIgnore()]
-        public DateTime Start {
-            get
-            {
-                DateTime start;
-                if ((!DateTime.TryParse(StartDate, out start))
-                    || (DateTime.MinValue == start))
-                {
-                    start = DateTime.Today;
-                }
-                return start.Date;
-            }
-        }
-
-        [JsonIgnore()]
-        public DateTime End
+        public InsightsInterval IntervalType
         {
             get
             {
-                DateTime end;
-                if ((!DateTime.TryParse(EndDate, out end))
-                    || (DateTime.MinValue == end))
+                switch(Interval)
                 {
-                    end = DateTime.Today;
+                    case "M":
+                        return InsightsInterval.Month;
+                    case "Y":
+                        return InsightsInterval.Year;
+                    default:
+                        return InsightsInterval.Week;
                 }
-                return end.Date;
-            }
-        }
-
-        [JsonIgnore()]
-        public InsightsInterval Interval
-        {
-            get
-            {
-                var tsInterval = End - Start;
-                if (6 == tsInterval.TotalDays)
-                {
-                    return InsightsInterval.Week;
-                }
-                if (31 >= tsInterval.TotalDays)
-                {
-                    return InsightsInterval.Month;
-                }
-                return InsightsInterval.Year;
             }
         }
 

@@ -16,7 +16,7 @@ namespace TimeLogger.App.Web.Code.Insights
             var dataHours = new List<decimal>();
             var dataTasks = new List<decimal>();
             var labels = new List<string>();
-            if (Core.Insights.InsightsInterval.Year == model.Interval)
+            if (Core.Insights.InsightsInterval.Year == model.IntervalType)
             {
                 for (var dateTemp = model.Start; dateTemp <= model.End.AddDays(1); dateTemp = dateTemp.AddMonths(1))
                 {

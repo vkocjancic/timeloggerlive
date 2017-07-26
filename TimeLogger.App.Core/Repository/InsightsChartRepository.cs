@@ -36,7 +36,7 @@ namespace TimeLogger.App.Core.Repository
                             from (
 	                            select DATEADD(MONTH, DATEDIFF(MONTH, 0, [FROM]), 0) as Label, [DESCRIPTION], SUM(DATEDIFF(mi, [FROM], [TO])) / 60.0 as Hours
                                 from TIME_LOG
-                                where [USER_ID] = @UserId and [FROM] >= @StartDate and [TO] is not null and [TO] <= @EndDate
+                                where [USER_ID] = @UserId and [FROM] >= @StartDate and [TO] is not null and [TO] <= DATEADD(d, 1, @EndDate)
                                 group by DATEADD(MONTH, DATEDIFF(MONTH, 0, [FROM]), 0), [DESCRIPTION]
                             ) as foo
                             group by Label",
@@ -49,7 +49,7 @@ namespace TimeLogger.App.Core.Repository
                             from (
 	                            select cast([FROM] as date) as Label, [DESCRIPTION], SUM(DATEDIFF(mi, [FROM], [TO])) / 60.0 as Hours
 	                            from TIME_LOG
-                                where [USER_ID] = @UserId and [FROM] >= @StartDate and [TO] is not null and [TO] <= @EndDate
+                                where [USER_ID] = @UserId and [FROM] >= @StartDate and [TO] is not null and [TO] <= DATEADD(d, 1, @EndDate)
                                 group by cast([FROM] as date), [DESCRIPTION]
                             ) as logs
                             group by Label",

@@ -8,21 +8,7 @@
                     <h4 class="modal-title">@Resources.Report.DailyReport - <span></span></h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>@Resources.Report.Task</th>
-                                <th>@Resources.Report.Duration</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                        <tfoot>
-                            <tr>
-                                <td>@Resources.Report.Total</td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    @DisplayReportTable()
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -30,4 +16,22 @@
             </div>
         </div>
     </div>
+}
+
+@helper DisplayReportTable() {
+    <table id="reportData" class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Resources.Report.Task</th>
+                <th>@Resources.Report.Duration</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr>
+                <td>@Resources.Report.Total</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
 }
