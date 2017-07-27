@@ -40,6 +40,9 @@ body,
   background-color: transparent !important;
   color: #c8c5c5;
 }
+.site-navbar .active a {
+  color: #7eb914;
+}
 .site-navbar .navbar-header {
   padding-top: 5px;
 }

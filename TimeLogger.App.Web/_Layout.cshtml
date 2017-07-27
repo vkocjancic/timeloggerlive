@@ -12,6 +12,11 @@
         Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/Content")));
         TimeLogger.Web.Core.Site.SetConditionalGetHeaders(dateLastModified.ToLocalTime(), Context);
     }
+    var activePage = "Home";
+    if (Request.RawUrl.ToLower().Contains("insights"))
+    {
+        activePage = "Insights";
+    }
 }
 <html lang="en-us">
 <head>
@@ -39,23 +44,23 @@
                     </div>
                     <div id="navbar" class="navbar-collapse collapse navbar-right">
                         <ul class="nav navbar-nav">
-                            <li>
-                                <a href="/App/" title="@AppResources.DailyLogs">
-                                    <span class="visible-xs visible-sm">@AppResources.DailyLogs</span>
-                                    <i class="hidden-xs hidden-sm fa fa-list fa-2x"></i>
+                            <li class='@(activePage == "Home" ? "active" : "")'>
+                                <a href="/App/" title="@AppResources.DailyLogs" >
+                                    <span class="visible-xs">@AppResources.DailyLogs</span>
+                                    <i class="hidden-xs fa fa-list fa-2x"></i>
                                 </a>
                             </li>
-                            <li>
+                            <li class='@(activePage == "Insights" ? "active" : "")'>
                                 <a href="/App/Insights" title="@AppResources.Insights">
-                                    <span class="visible-xs visible-sm">@AppResources.Insights</span>
-                                    <i class="hidden-xs hidden-sm fa fa-bar-chart fa-2x"></i>
+                                    <span class="visible-xs">@AppResources.Insights</span>
+                                    <i class="hidden-xs fa fa-bar-chart fa-2x"></i>
                                 </a>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
                                    title="@AppResources.Profile">
-                                    <span class="visible-xs visible-sm">@AppResources.Profile</span>
-                                    <i class="hidden-xs hidden-sm fa fa-user fa-2x"></i>
+                                    <span class="visible-xs">@AppResources.Profile</span>
+                                    <i class="hidden-xs fa fa-user fa-2x"></i>
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
