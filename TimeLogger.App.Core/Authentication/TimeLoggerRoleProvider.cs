@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Security;
+using TimeLogger.App.Core.Repository;
 
 namespace TimeLogger.App.Core.Authentication
 {
@@ -13,9 +16,17 @@ namespace TimeLogger.App.Core.Authentication
 
         public override string ApplicationName { get; set; }
 
+        public string ConnectionString { get; protected set; }
+
         #endregion
 
         #region Methods
+
+        public override void Initialize(string name, NameValueCollection config)
+        {
+            ConnectionString = ConfigurationManager.ConnectionStrings[config["connectionStringName"]].ConnectionString;
+            base.Initialize(name, config);
+        }
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
@@ -39,7 +50,7 @@ namespace TimeLogger.App.Core.Authentication
 
         public override string[] GetAllRoles()
         {
-            return new string[] { "Admin", "User" };
+            return new string[] { "Admin", "User", "Inactive" };
         }
 
         public override string[] GetRolesForUser(string username)
@@ -48,7 +59,20 @@ namespace TimeLogger.App.Core.Authentication
             {
                 return GetAllRoles().Where(r => r == "Admin").ToArray();
             }
-            return GetAllRoles().Where(r => r == "User").ToArray();
+            var repo = new UserRepository(this.ConnectionString);
+            var user = repo.GetByEmail(username);
+            if (null == user)
+            {
+                return new string[] { };
+            }
+            if (user.IsApproved)
+            {
+                return GetAllRoles().Where(r => r == "User").ToArray();
+            }
+            else
+            {
+                return GetAllRoles().Where(r => r == "Inactive").ToArray();
+            }
         }
 
         public override string[] GetUsersInRole(string roleName)

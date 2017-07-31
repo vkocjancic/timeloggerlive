@@ -16,7 +16,10 @@
         @dateNavigationBarHelper.Display(DateTime.Today)
     </div>
     <div class="col-md-3">
-        @actionNavigationBarHelper.Display(Resources.Report.DailyReport)
+        @if (!User.IsInRole("Inactive"))
+        {
+            @actionNavigationBarHelper.Display(Resources.Report.DailyReport)
+        }
     </div>
 </div>
 

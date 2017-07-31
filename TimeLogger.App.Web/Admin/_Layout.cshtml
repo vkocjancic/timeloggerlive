@@ -12,6 +12,10 @@
         Response.AddCacheDependency(new CacheDependency(Server.MapPath("~/Content")));
         TimeLogger.Web.Core.Site.SetConditionalGetHeaders(dateLastModified.ToLocalTime(), Context);
     }
+    if (!User.IsInRole("Admin"))
+    {
+        Response.Redirect("~/Login");
+    }
 }
 <html lang="en-us">
 <head>

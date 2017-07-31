@@ -137,3 +137,7 @@ footer a:hover {
   background-color: #eecc00;
   color: #4d3332;
 }
+.app-status-in-public-beta {
+  background-color: #7eb914;
+  color: #fbf8f8;
+}

@@ -53,7 +53,7 @@ namespace TimeLogger.App.Web.Controllers
         }
 
         // POST api/<controller>
-        [Authorize]
+        [Authorize(Roles = "User")]
         public HttpResponseMessage Post([FromBody]TimeLogModel model)
         {
             Log.Debug($"({User.Identity.Name}) Post method issued.");
@@ -84,7 +84,7 @@ namespace TimeLogger.App.Web.Controllers
         }
 
         // PUT api/<controller>
-        [Authorize] 
+        [Authorize(Roles = "User")] 
         public HttpResponseMessage Put([FromBody]TimeLogModel model)
         {
             Log.Debug($"({User.Identity.Name}) Put method issued.");
@@ -115,7 +115,7 @@ namespace TimeLogger.App.Web.Controllers
         }
 
         // DELETE api/<controller>/id
-        [Authorize]
+        [Authorize(Roles = "User")]
         public HttpResponseMessage Delete(Guid? id)
         {
             Log.Debug($"({User.Identity.Name}) Delete method issued.");

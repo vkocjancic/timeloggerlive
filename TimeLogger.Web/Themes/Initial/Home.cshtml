@@ -19,13 +19,16 @@
         <h3 id="about">@SiteResource.About</h3>
         <section itemprop="articleSection">
             <p>
-                @Site.Title will be task time logging application for individuals, freelancers and small companies
+                @Site.Title is a task time logging application for individuals, freelancers and small companies
                 with no need for complex project management solutions.
                 With emphasis on simplicity, transparency and great support (whenever needed), I am hoping to make
                 this tedious task as pleasant as possible.
             </p>
             <p>
-                @Site.Title is currently <span class="site-app-status app-status-@Site.StatusSlug">@Site.Status</span> and is expected to be in
+                @Site.Title Personal is currently <span class="site-app-status app-status-@Site.StatusPersonalSlug">@Site.StatusPersonal</span>. 
+            </p>
+            <p>
+                @Site.Title Business is currently <span class="site-app-status app-status-@Site.StatusSlug">@Site.Status</span> and is expected to be in
                 beta by <span class="site-app-release-date">@Site.ReleaseDate.ToString("D")</span>.
             </p>
             <p>
@@ -127,7 +130,7 @@
                         <p class="footnote">yearly</p>
                         <p class="full-price" itemprop="price">(regular price € 500)</p>
                         <p class="site-purchase">
-                            <a href="/app/register/business" class="btn">@SiteResource.Purchase</a>
+                            <a href="/app/register/business" class="btn">@SiteResource.Preorder</a>
                         </p>
                     </td>
                 </tr>

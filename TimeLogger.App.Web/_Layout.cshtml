@@ -1,4 +1,5 @@
-﻿@using System.Web.Caching;
+﻿@using Newtonsoft.Json;
+@using System.Web.Caching;
 @using Resources;
 @{
     if (!Request.IsLocal)
@@ -90,6 +91,9 @@
     <div class="container">
         @RenderBody()
     </div>
+    <script type="text/javascript">
+        var glb_userRoles = @Html.Raw(JsonConvert.SerializeObject(Roles.GetRolesForUser(User.Identity.Name)));
+    </script>
     <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/jquery-1.9.1.min.js")"></script>
     <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/bootstrap.min.js")"></script>
     <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/bootstrap3-typeahead.min.js")"></script>

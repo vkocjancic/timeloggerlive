@@ -109,6 +109,10 @@
         }, this.timeout);
     };
 
+    ErrorHandler.prototype.redirectToLogin = function () {
+        location.href = '/App/Login';
+    };
+
     window.ErrorHandler = ErrorHandler;
 
     // #endregion

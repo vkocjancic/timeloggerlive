@@ -26,6 +26,7 @@ namespace TimeLogger.Web.Code.Common
         public static string UseGoogleAnalytics { get; private set; }
         public static string GoogleAnalyticsTrackerId { get; private set; }
         public static string Status { get; private set; }
+        public static string StatusPersonal { get; private set; }
         public static DateTime ReleaseDate { get; private set; }
 
         public static bool AreCookiesEnabled
@@ -57,6 +58,14 @@ namespace TimeLogger.Web.Code.Common
             }
         }
 
+        public static string StatusPersonalSlug
+        {
+            get
+            {
+                return StatusPersonal?.Replace(" ", "-").ToLower();
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -74,6 +83,7 @@ namespace TimeLogger.Web.Code.Common
             UseGoogleAnalytics = ConfigurationManager.AppSettings.Get("site:useGA");
             GoogleAnalyticsTrackerId = ConfigurationManager.AppSettings.Get("site:GATrackerId");
             Status = GetStatusString(ConfigurationManager.AppSettings.Get("app:status"));
+            StatusPersonal = GetStatusString(ConfigurationManager.AppSettings.Get("app:statusPersonal"));
             ReleaseDate = GetReleaseDate(ConfigurationManager.AppSettings.Get("app:releaseDate"));
         }
 
@@ -106,6 +116,8 @@ namespace TimeLogger.Web.Code.Common
             {
                 case "DEVELOPMENT":
                     return SiteResource.StatusInDevelopment;
+                case "PUBLIC_BETA":
+                    return SiteResource.StatusInPublicBeta;
                 default:
                     return "";
             }

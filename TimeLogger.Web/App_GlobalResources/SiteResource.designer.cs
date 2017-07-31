@@ -115,6 +115,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log in.
+        /// </summary>
+        internal static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TimeLogger is a timelogging application that will help you be master of your time again..
         /// </summary>
         internal static string MetaSiteDescription {
@@ -151,6 +160,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preorder now!.
+        /// </summary>
+        internal static string Preorder {
+            get {
+                return ResourceManager.GetString("Preorder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pricing.
         /// </summary>
         internal static string Pricing {
@@ -169,7 +187,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Preorder now!.
+        ///   Looks up a localized string similar to Get started.
         /// </summary>
         internal static string Purchase {
             get {
@@ -192,6 +210,15 @@ namespace Resources {
         internal static string StatusInDevelopment {
             get {
                 return ResourceManager.GetString("StatusInDevelopment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to in public beta.
+        /// </summary>
+        internal static string StatusInPublicBeta {
+            get {
+                return ResourceManager.GetString("StatusInPublicBeta", resourceCulture);
             }
         }
         

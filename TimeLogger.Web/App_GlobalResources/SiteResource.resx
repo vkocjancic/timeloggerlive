@@ -135,6 +135,9 @@
   <data name="Features" xml:space="preserve">
     <value>Features</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Log in</value>
+  </data>
   <data name="MetaSiteDescription" xml:space="preserve">
     <value>TimeLogger is a timelogging application that will help you be master of your time again.</value>
   </data>
@@ -147,6 +150,9 @@
   <data name="MoreButton" xml:space="preserve">
     <value>Read more</value>
   </data>
+  <data name="Preorder" xml:space="preserve">
+    <value>Preorder now!</value>
+  </data>
   <data name="Pricing" xml:space="preserve">
     <value>Pricing</value>
   </data>
@@ -154,13 +160,16 @@
     <value>Privacy policy</value>
   </data>
   <data name="Purchase" xml:space="preserve">
-    <value>Preorder now!</value>
+    <value>Get started</value>
   </data>
   <data name="SiteDescription" xml:space="preserve">
     <value>Be master of your time</value>
   </data>
   <data name="StatusInDevelopment" xml:space="preserve">
     <value>in development</value>
+  </data>
+  <data name="StatusInPublicBeta" xml:space="preserve">
+    <value>in public beta</value>
   </data>
   <data name="Transparent" xml:space="preserve">
     <value>Transparent</value>

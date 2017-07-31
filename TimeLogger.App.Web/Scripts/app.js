@@ -263,31 +263,35 @@
         this.placeholderLog = '<tr data-id="{data-id}"><td class="time"><div contenteditable="true">{from}</div></td><td class="time"><div contenteditable="true">{to}</div></td><td class="description"><div contenteditable="true">{description}</div></td><td>{action}</td><td>{status}</td></tr>';
         this.placeholderTotal = $('.entry-total', this.element);
         this.dateNavigationBar = null;
+        this.isUserActivated = glb_userRoles.indexOf("User") !== -1;
     }
 
     TimeLogList.prototype.init = function (navBarDate) {
         this.dateNavigationBar = navBarDate;
         var obj = this;
-        this.placeholderNewItem.click(function () {
-            obj.newItem();
-        });
-        $('tbody', this.element).on('click', 'tr:not(.entry-ph)', function (e) {
-            obj.editItem(this, $(e.target).get(0));
-        });
-        $('tbody', this.element).on('click', 'tr .action-save', function () {
-            obj.saveItem(this);
-        });
-        $('tbody', this.element).on('click', 'tr .action-clear', function () {
-            obj.removeItem(this);
-        });
-        $('tbody', this.element).on('keyup paste input', 'tr td.time div', function () {
-            if (obj.isValidTime($(this).textOnly())) {
-                $(this).parent().removeClass('danger');
-            }
-            else {
-                $(this).parent().addClass('danger');
-            }
-        });
+        if (obj.isUserActivated) {
+            this.placeholderNewItem.click(function () {
+                obj.newItem();
+            });
+            $('tbody', this.element).on('click', 'tr:not(.entry-ph)', function (e) {
+                obj.editItem(this, $(e.target).get(0));
+            });
+            $('tbody', this.element).on('click', 'tr .action-save', function () {
+                obj.saveItem(this);
+            });
+            $('tbody', this.element).on('click', 'tr .action-clear', function () {
+                obj.removeItem(this);
+            });
+            $('tbody', this.element).on('keyup paste input', 'tr td.time div', function () {
+                if (obj.isValidTime($(this).textOnly())) {
+                    $(this).parent().removeClass('danger');
+                }
+                else {
+                    $(this).parent().addClass('danger');
+                }
+            });
+        }
+        else { this.placeholderNewItem.hide(); }
         timeLogList.loadItemsForDate(this.dateNavigationBar.selectedDate());
     };
 
@@ -322,7 +326,7 @@
                 '{from}': this.from,
                 '{to}': this.to ? this.to : '',
                 '{description}': this.description,
-                '{action}': '<button class="action-clear"><i class="fa fa-times"></i></button>',
+                '{action}': (obj.isUserActivated) ? '<button class="action-clear"><i class="fa fa-times"></i></button>' : '',
                 '{status}': '<i class="fa fa-check-circle"></i>'
             },
             formatter = new TemplateFormatter(options);
@@ -385,7 +389,12 @@
             status.displayLoading();
             $.ajax({
                 url: '/App/api/timelog/' + id,
-                method: 'DELETE'
+                method: 'DELETE',
+                statusCode: {
+                    403: function () {
+                        errorHandler.redirectToLogin();
+                    }
+                }
             })
             .done(function (data) {
                 timeLogList.destroyTypeahead(tr);
@@ -440,6 +449,11 @@
                     'to': toValue,
                     'description': $(div.get(2)).textOnly(),
                     'date': timeLogList.dateNavigationBar.selectedDate().toApiDateString()
+                },
+                statusCode: {
+                    403: function () {
+                        errorHandler.redirectToLogin();
+                    }
                 }
             })
             .done(function (data) {
@@ -485,6 +499,9 @@
                 errorHandler.displayMessage('success', 'Time log saved successfully');
             })
             .fail(function (data) {
+                if (data.status === 403) {
+                    errorHandler.redirectToLogin();
+                }
                 status.displayError();
                 if (data.responseText) {
                     errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
@@ -509,6 +526,9 @@
             }
         })
         .fail(function (data) {
+            if (data.status === 403) {
+                errorHandler.redirectToLogin();
+            }
             if (data.responseText) {
                 errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
             }
@@ -606,6 +626,9 @@
             }
         })
         .fail(function (data) {
+            if (data.status === 403) {
+                errorHandler.redirectToLogin();
+            }
             if (data.responseText) {
                 errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
             }
@@ -648,6 +671,9 @@
             }
         })
         .fail(function (data) {
+            if (data.status === 403) {
+                errorHandler.redirectToLogin();
+            }
             if (data.responseText) {
                 errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
             }
@@ -736,6 +762,9 @@
             chart.draw(data);
         })
         .fail(function (data) {
+            if (data.status === 403) {
+                errorHandler.redirectToLogin();
+            }
             if (data.responseText) {
                 errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
             }
