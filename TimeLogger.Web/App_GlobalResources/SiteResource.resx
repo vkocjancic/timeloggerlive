@@ -130,7 +130,7 @@
     <value>Easy to use</value>
   </data>
   <data name="EasyToUseShortDescription" xml:space="preserve">
-    <value>Logging your task now takes 10 seconds. Just enter start and end time and task description and you are done.</value>
+    <value>Logging your task now takes 10 seconds. Just enter start and end time and task description and you are done. Time can be logged in 24 hour (HH:mm) or 12 hour format (HH:mm am/pm).</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>Features</value>
@@ -175,7 +175,7 @@
     <value>Transparent</value>
   </data>
   <data name="TransperentShortDescription" xml:space="preserve">
-    <value>Remembering what you did last week and generating a report in a matter of seconds.</value>
+    <value>Remembering what you did last week/month/year in a matter of seconds. Just in case, you need to see what you did at the end of the day, there is Daily report button exactly where you need it. Right above your tasks.</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>Current version</value>

@@ -64,6 +64,9 @@ article {
   background-color: #ffffff;
   color: #7eb914;
 }
+.site-section-main video {
+  width: 100%;
+}
 .site-purchase .btn:hover {
   color: #ffffff;
   border-color: #c71f16;

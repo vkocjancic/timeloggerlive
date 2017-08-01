@@ -97,7 +97,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logging your task now takes 10 seconds. Just enter start and end time and task description and you are done..
+        ///   Looks up a localized string similar to Logging your task now takes 10 seconds. Just enter start and end time and task description and you are done. Time can be logged in 24 hour (HH:mm) or 12 hour format (HH:mm am/pm)..
         /// </summary>
         internal static string EasyToUseShortDescription {
             get {
@@ -232,7 +232,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remembering what you did last week and generating a report in a matter of seconds..
+        ///   Looks up a localized string similar to Remembering what you did last week/month/year in a matter of seconds. Just in case, you need to see what you did at the end of the day, there is Daily report button exactly where you need it. Right above your tasks..
         /// </summary>
         internal static string TransperentShortDescription {
             get {

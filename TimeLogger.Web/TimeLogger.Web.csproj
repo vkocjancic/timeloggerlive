@@ -102,6 +102,8 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\author.jpg" />
     <Content Include="Content\images\TimeLogger-logo-alt.png" />
+    <Content Include="Content\videos\time_log_entry.mp4" />
+    <Content Include="Content\videos\insights_demo.mp4" />
     <Content Include="favicon.ico" />
     <Content Include="Themes\Initial\logo_header.png" />
     <Content Include="Themes\Initial\site.css">

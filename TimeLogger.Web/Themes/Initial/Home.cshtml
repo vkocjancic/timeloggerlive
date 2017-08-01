@@ -25,7 +25,7 @@
                 this tedious task as pleasant as possible.
             </p>
             <p>
-                @Site.Title Personal is currently <span class="site-app-status app-status-@Site.StatusPersonalSlug">@Site.StatusPersonal</span>. 
+                @Site.Title Personal is currently <span class="site-app-status app-status-@Site.StatusPersonalSlug">@Site.StatusPersonal</span>.
             </p>
             <p>
                 @Site.Title Business is currently <span class="site-app-status app-status-@Site.StatusSlug">@Site.Status</span> and is expected to be in
@@ -43,20 +43,36 @@
 <article class="row" itemprop="articleBody">
     <div class="container">
         <h3 id="features">@SiteResource.Features</h3>
-        <section itemprop="articleSection" class="site-section-main col-sm-4">
+        <section itemprop="articleSection" class="site-section-main col-sm-6">
             <h4 class="site-simple"><span>@SiteResource.EasyToUse</span></h4>
             <p>
                 @SiteResource.EasyToUseShortDescription
             </p>
         </section>
-        <section itemprop="articleSection" class="site-section-main col-sm-4">
-            <h4 class="site-transparent"><span>@SiteResource.Transparent</span></h4>
+        <video controls="controls" class="col-sm-6 right">
+            <source src="~/Content/videos/time_log_entry.mp4" type="video/mp4">
+        </video>
+    </div>
+</article>
+
+<article class="row" itemprop="articleBody">
+    <div class="container">
+        <video controls="controls" class="col-sm-6 left">
+            <source src="~/Content/videos/insights_demo.mp4" type="video/mp4">
+        </video>
+        <section itemprop="articleSection" class="site-section-main col-sm-6">
+            <h4 class="site-simple"><span>@SiteResource.Transparent</span></h4>
             <p>
                 @SiteResource.TransperentShortDescription
             </p>
         </section>
-        <section itemprop="articleSection" class="site-section-main col-sm-4">
-            <h4 class="site-moneyback"><span>@SiteResource.MoneyBackGuarantee</span></h4>
+    </div>
+</article>
+
+<article class="row" itemprop="articleBody">
+    <div class="container">
+        <section itemprop="articleSection" class="site-section-main col-sm-12">
+            <h4 class="site-simple"><span>@SiteResource.MoneyBackGuarantee</span></h4>
             <p>
                 @SiteResource.MoneyBackGuaranteeShortDescription
             </p>
@@ -116,7 +132,7 @@
                 <tr>
                     <td></td>
                     <td>
-                        
+
                         <p class="price" itemprop="price">€ 10</p>
                         <p class="footnote">yearly</p>
                         <p class="full-price" itemprop="price">(regular price € 50)</p>
@@ -125,7 +141,7 @@
                         </p>
                     </td>
                     <td>
-                        
+
                         <p class="price" itemprop="price">€ 100</p>
                         <p class="footnote">yearly</p>
                         <p class="full-price" itemprop="price">(regular price € 500)</p>
