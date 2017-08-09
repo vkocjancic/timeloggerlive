@@ -27,7 +27,7 @@ namespace TimeLogger.App.Core.Notification
 Hello!
 
 Thank you for early-bird registration to TimeLoggerLive. 
-The application is currently still in development and is expected to be production ready by November 1st, 2017. 
+The application is currently in public-beta and is expected to be production ready by November 1st, 2017. 
 Your early-bird registration guarantess: 
  * lower subscription price for first and following 3 years, 
  * access to all non-production releases,
