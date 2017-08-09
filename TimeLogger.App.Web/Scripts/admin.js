@@ -98,7 +98,7 @@
             },
             formatter = new TemplateFormatter(replacements);
             $("tbody", list.element).append(formatter.format(list.itemTemplate));
-            var status = new AccountStatus(list.element.find('td:eq(4) i'))
+            var status = new AccountStatus(list.element.find('tr[data-id=' + this.id + '] td:eq(4) i'))
             status.displayNew();
         });
     };

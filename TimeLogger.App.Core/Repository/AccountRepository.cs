@@ -59,10 +59,10 @@ namespace TimeLogger.App.Core.Repository
 	                    u.[EMAIL] as Email, 
 	                    bo.[DESCRIPTION] as BillingOption, bo.[PRICE] as Price
                     from [ACCOUNT] a
-                    join [USER] u on a.OWNER_USER_ID = u.USER_ID
-                    join [BILLING] b on a.ACCOUNT_ID = b.ACCOUNT_ID
-                    join [CD_BILLING_OPTION] bo on b.BILLING_OPTION_ID = bo.BILLING_OPTION_ID
-                    where a.ACTIVE_YN = 'N';");
+                    join [USER] u on a.[OWNER_USER_ID] = u.[USER_ID]
+                    join [BILLING] b on a.[ACCOUNT_ID] = b.[ACCOUNT_ID]
+                    join [CD_BILLING_OPTION] bo on b.[BILLING_OPTION_ID] = bo.[BILLING_OPTION_ID]
+                    where a.[ACTIVE_YN] = 'N'");
             }
         }
 
