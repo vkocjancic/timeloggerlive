@@ -62,6 +62,9 @@
         this.element = $('#' + id);
         this.startDate = new Date();
         this.elementStatus = $('li.status i', this.element);
+        this.ixForward = 2;
+        this.ixToday = 1;
+        this.ixPrevious = 0;
     }
 
     DateNavigationBar.prototype.dateOffset = 0;
@@ -69,21 +72,26 @@
     DateNavigationBar.prototype.selectedDate = function () { };
 
     DateNavigationBar.prototype.destroy = function () {
-        $('li:eq(0) a', this.element).off('click');
-        $('li:eq(1) a', this.element).off('click');
+        $('li a', this.element).off('click');
+        //$('li:eq(1) a', this.element).off('click');
+        //$('li:eq(2) a', this.element).off('click');
     };
 
     DateNavigationBar.prototype.init = function () {
         var obj = this;
         this.displayDate();
         this.executeAction();
-        $('li:eq(0) a', this.element).click(function (e) {
+        $('li:eq(' + this.ixPrevious + ') a', this.element).click(function (e) {
             e.preventDefault();
             obj.step(-1);
         });
-        $('li:eq(1) a', this.element).click(function (e) {
+        $('li:eq(' + this.ixForward + ') a', this.element).click(function (e) {
             e.preventDefault();
             obj.step(1);
+        });
+        $('li:eq(' + this.ixToday + ') a', this.element).click(function (e) {
+            e.preventDefault();
+            obj.step((-1) * obj.dateOffset);
         });
     };
 
