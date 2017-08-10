@@ -207,4 +207,7 @@
   <data name="Today" xml:space="preserve">
     <value>Today</value>
   </data>
+  <data name="PasswordMinLength" xml:space="preserve">
+    <value>Minimum 16 characters</value>
+  </data>
 </root>

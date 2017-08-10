@@ -17,15 +17,16 @@
                     </div>
                     <div>
                         <label for="inUsername" class="text-left">@AppResources.Username:</label>
-                        <input type="text" name="inUsername" id="inUsername" value="" class="form-control" autofocus />
+                        <input type="text" name="inUsername" id="inUsername" value="" class="form-control" autofocus required />
                     </div>
                     <div>
                         <label for="inPassword">@AppResources.Password:</label>
-                        <input type="password" name="inPassword" id="inPassword" value="" class="form-control" />
+                        <input type="password" name="inPassword" id="inPassword" value="" class="form-control" pattern=".{16,}" required
+                               placeholder="@AppResources.PasswordMinLength" />
                     </div>
                     <div>
                         <label for="inPasswordConfirmation">@AppResources.ConfirmPassword:</label>
-                        <input type="password" name="inPasswordConfirmation" id="inPasswordConfirmation" value="" class="form-control" />
+                        <input type="password" name="inPasswordConfirmation" id="inPasswordConfirmation" value="" class="form-control" required />
                     </div>
                     <div class="form-signin-btn">
                         <button type="submit" id="btnRegister" class="btn btn-lg btn-danger btn-block">
