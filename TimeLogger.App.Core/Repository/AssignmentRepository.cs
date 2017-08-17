@@ -56,6 +56,25 @@ namespace TimeLogger.App.Core.Repository
             }
         }
 
+        public override IEnumerable<Assignment> GetAllFor(Guid userId)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                return connection.Query<Assignment>(
+                    @"select a.[ASSIGNMENT_ID] as Id, a.[DESCRIPTION] as Description, a.[CREATED] as Created, a.[PROJECT_ID] as ProjectId, a.[USER_ID] as UserId, case when tlc.ASSIGNMENT_ID is null then 0 else tlc.[TIME_LOG_COUNT] end as [TIME_LOG_COUNT]
+                        from [ASSIGNMENT] a
+                        left join (
+	                        select count([TIME_LOG_ID]) as [TIME_LOG_COUNT], [ASSIGNMENT_ID]
+	                        from [TIME_LOG]
+	                        where [ASSIGNMENT_ID] is not null
+	                        group by [ASSIGNMENT_ID]
+                        ) tlc on a.[ASSIGNMENT_ID] = tlc.[ASSIGNMENT_ID]
+	                    where a.USER_ID=@UserId",
+                    new { UserId = userId });
+            }
+        }
+
         public override Assignment GetByDescription(string description, Guid userId)
         {
             using (var connection = new SqlConnection(ConnectionString))

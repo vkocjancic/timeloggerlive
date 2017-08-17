@@ -826,6 +826,106 @@
 
     // #endregion
 
+    // #region TaskStatus
+
+    function TaskStatus(obj) {
+        this.element = obj;
+    }
+
+    TaskStatus.prototype.displayNone = function () {
+        this.resetClass(this.element.get(0), '');
+    };
+
+    TaskStatus.prototype.displayError = function () {
+        this.resetClass(this.element.get(0), 'fa fa-exclamation-circle');
+    };
+
+    TaskStatus.prototype.displayLoading = function () {
+        this.resetClass(this.element.get(0), 'fa fa-spinner fa-pulse fa-fw');
+    };
+
+    TaskStatus.prototype.displaySuccess = function () {
+        this.resetClass(this.element.get(0), 'fa fa-check-circle');
+    };
+
+    TaskStatus.prototype.resetClass = function (obj, classes) {
+        obj.className = classes;
+    };
+
+    // #endregion
+
+    // #region TaskList
+
+    function TaskList(id) {
+        this.element = $('#' + id);
+        this.placeholderTask = '<tr data-id="{data-id}"><td></td><input type="checkbox" name="cbMarked" value="{data-id}" /><td>{description}</td><td>{created}</td><td>{action}</td><td>{status}</td></tr>';
+        this.isUserActivated = glb_userRoles.indexOf("User") !== -1;
+    }
+
+    TaskList.prototype.clearData = function () {
+        $('tbody tr', this.element).remove();
+    };
+
+    TaskList.prototype.createItems = function (tasks) {
+        var taskList = this;
+        $(tasks).each(function () {
+            var options = {
+                '{data-id}': this.id,
+                '{description}': this.description,
+                '{created}': this.created,
+                '{action}': (obj.isUserActivated) ? '<button class="action-edit"><i class="fa fa-pencil-square-o"></i></button><button class="action-clear"><i class="fa fa-times"></i></button>' : '',
+                '{status}': '<i class="fa fa-check-circle"></i>'
+            },
+            formatter = new TemplateFormatter(options);
+            obj.placeholderNewItem.before(formatter.format(obj.placeholderLog));
+            currentTimeLogs.push({ id: this.id, duration: this.duration });
+        });
+    };
+
+    TaskList.prototype.editItem = function (item) {
+
+    };
+
+    TaskList.prototype.init = function () {
+        var taskList = this;
+        if (taskList.isUserActivated) {
+            $('tbody', this.element).on('click', 'tr .action-edit', function () {
+                taskList.editItem(this);
+            });
+            $('tbody', this.element).on('click', 'tr .action-clear', function () {
+                taskList.removeItem(this);
+            });
+        }
+        taskList.load();
+    };
+
+    TaskList.prototype.load = function () {
+        var taskList = this,
+           errorHandler = new ErrorHandler($('#tasks-list-info'));
+        $.get('/App/api/assignment')
+        .success(function (data) {
+            taskList.clearData();
+            taskList.createItems(data.tasks);
+        })
+        .fail(function (data) {
+            if (data.status === 403) {
+                errorHandler.redirectToLogin();
+            }
+            if (data.responseText) {
+                errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
+            }
+            else {
+                errorHandler.displayMessage('error', data.statusText);
+            }
+        });
+    };
+
+    TaskList.prototype.removeItem = function (item) {
+
+    };
+
+    // #endregion
+
     // #region Site
 
     var siteEnum = {
@@ -848,14 +948,22 @@
                 navigationBarDate.init();
                 selector = new DateRangeSelector('date-range-selector');
                 selector.init(navigationBarDate);
-            }
-        }
+            }},
+        TASKS: {
+            value: 2,
+            init: function () {
+                taskList = new TaskList('taskList');
+                taskList.init();
+            }}
     };
     
     function Site() {
         this.type = siteEnum.APP;
         if (document.location.href.indexOf('/Insights') !== -1) {
             this.type = siteEnum.INSIGHTS;
+        }
+        else if (document.location.href.indexOf('/Tasks') !== -1) {
+            this.type = siteEnum.TASKS;
         }
     }
 
@@ -864,7 +972,6 @@
     };
 
     // #endregion
-
 
     // event handlers
     $(document).ready(function () {

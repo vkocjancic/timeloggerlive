@@ -1,0 +1,28 @@
+﻿@using Resources;
+@{
+    Layout = $"~/_Layout.cshtml";
+}
+<div class="row">
+    TODO: typeahead-enabled search
+</div>
+
+<div class="row" id="taskList">
+    <p id="task-list-info" class="error-handler" style="display: none;"></p>
+    <table id="taskList" class="table table-striped">
+        <thead>
+            <tr>
+                <th><input type="checkbox" name="cbMarkAll" />@Resources.AssignmentResources.All</th>
+                <th>@Resources.AssignmentResources.Description</th>
+                <th>@Resources.AssignmentResources.Created</th>
+                <th>@Resources.AssignmentResources.Actions</th>
+                <th>@Resources.AssignmentResources.Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5"></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

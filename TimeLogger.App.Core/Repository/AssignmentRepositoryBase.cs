@@ -24,6 +24,8 @@ namespace TimeLogger.App.Core.Repository
 
         public abstract void CreateAssignment(Assignment assignment);
 
+        public abstract IEnumerable<Assignment> GetAllFor(Guid userId);
+
         public abstract Assignment GetByDescription(string description, Guid userId);
 
         public abstract IEnumerable<Assignment> SearchAllFor(string query, Guid userId);

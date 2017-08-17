@@ -17,6 +17,18 @@ namespace TimeLogger.App.Web.Code.Assignment
             repo.ClearUnusedAssignments(userId);
         }
 
+        public static IEnumerable<AssignmentModel> GetAllFor(string connectionString, Guid userId)
+        {
+            var repo = new AssignmentRepository(connectionString);
+            var assignments = repo.GetAllFor(userId);
+            var assignmentModels = new List<AssignmentModel>();
+            foreach (var assignment in assignments)
+            {
+                assignmentModels.Add(AssignmentModelFactory.CreateFromBusinessModel(assignment));
+            }
+            return assignmentModels;
+        }
+
         public static AssignmentModel GetOrCreateAssignment(string connectionString, string description, Guid userId)
         {
             var repo = new AssignmentRepository(connectionString);

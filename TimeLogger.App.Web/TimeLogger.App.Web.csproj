@@ -183,6 +183,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
+    <Content Include="Tasks.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -262,6 +263,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Report.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\AssignmentResources.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssignmentResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Code\Account\AccountUserFactory.cs" />
     <Compile Include="Code\Account\AccountUserService.cs" />
     <Compile Include="Code\Account\UserService.cs" />
@@ -319,6 +325,7 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Controllers\AssignmentSearchController.cs" />
+    <Compile Include="Controllers\AssignmentController.cs" />
     <Compile Include="Controllers\TimeLogController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -369,6 +376,12 @@
     <Content Include="App_GlobalResources\InsightsResources.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>InsightsResources.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\AssignmentResources.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>AssignmentResources.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>
