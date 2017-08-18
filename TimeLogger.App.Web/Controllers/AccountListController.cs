@@ -22,19 +22,24 @@ namespace TimeLogger.App.Web.Controllers
         // GET api/<controller>/accounttype
         public HttpResponseMessage Get(string accountType)
         {
+            Log.Debug($"({User.Identity.Name}) Get method issued. accountType = '{accountType}'");
             if (null == accountType)
             {
+                Log.Warn($"({User.Identity.Name}) Account type parameter not set");
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
             var response = new AccountListCollectionResponse() { Code = HttpStatusCode.InternalServerError, Success = false };
             try
             {
+                Log.Debug($"({User.Identity.Name}) Obtaining accounts");
                 response.Accounts = AccountService.GetAllFor(this.ConnectionString, accountType).ToArray();
                 response.Code = HttpStatusCode.OK;
                 response.Success = true;
+                Log.Info($"({User.Identity.Name}) {response.Accounts.Length} account(s) found for '{accountType}'");
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
                 response.ErrorDescription = ex.Message;
             }
             return Request.CreateResponse(response.Code, response);
@@ -44,17 +49,22 @@ namespace TimeLogger.App.Web.Controllers
         [Authorize(Roles = "Admin")]
         public HttpResponseMessage Put([FromBody]AccountModel model)
         {
+            Log.Debug($"({User.Identity.Name}) Put method issued.");
             if (null == model)
             {
+                Log.Warn($"({User.Identity.Name}) AccountModel not set");
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
             var response = new AccountListResponse() { Code = HttpStatusCode.InternalServerError, Success = false };
             try
             {
+                Log.Debug($"({User.Identity.Name}) Activating account for '{model.Id}'");
                 response = AccountService.ActivateAccount(this.ConnectionString, model);
+                Log.Info($"({User.Identity.Name}) Account '{response.Account.Id}' updated");
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
                 response.ErrorDescription = ex.Message;
             }
             return Request.CreateResponse(response.Code, response);
