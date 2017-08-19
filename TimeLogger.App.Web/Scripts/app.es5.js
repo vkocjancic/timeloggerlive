@@ -394,7 +394,7 @@
                 url: '/App/api/timelog/' + id,
                 method: 'DELETE',
                 statusCode: {
-                    403: function _() {
+                    401: function _() {
                         errorHandler.redirectToLogin();
                     }
                 }
@@ -450,7 +450,7 @@
                     'date': timeLogList.dateNavigationBar.selectedDate().toApiDateString()
                 },
                 statusCode: {
-                    403: function _() {
+                    401: function _() {
                         errorHandler.redirectToLogin();
                     }
                 }
@@ -492,7 +492,7 @@
                 $(obj).remove();
                 errorHandler.displayMessage('success', 'Time log saved successfully');
             }).fail(function (data) {
-                if (data.status === 403) {
+                if (data.status === 401) {
                     errorHandler.redirectToLogin();
                 }
                 status.displayError();
@@ -516,7 +516,7 @@
                 callback();
             }
         }).fail(function (data) {
-            if (data.status === 403) {
+            if (data.status === 401) {
                 errorHandler.redirectToLogin();
             }
             if (data.responseText) {
@@ -611,7 +611,7 @@
                 callback(dailyReport, data.reportItems);
             }
         }).fail(function (data) {
-            if (data.status === 403) {
+            if (data.status === 401) {
                 errorHandler.redirectToLogin();
             }
             if (data.responseText) {
@@ -653,7 +653,7 @@
                 callback(report, data.reportItems);
             }
         }).fail(function (data) {
-            if (data.status === 403) {
+            if (data.status === 401) {
                 errorHandler.redirectToLogin();
             }
             if (data.responseText) {
@@ -739,7 +739,7 @@
         }).success(function (data) {
             chart.draw(data);
         }).fail(function (data) {
-            if (data.status === 403) {
+            if (data.status === 401) {
                 errorHandler.redirectToLogin();
             }
             if (data.responseText) {

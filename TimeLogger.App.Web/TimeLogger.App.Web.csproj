@@ -184,6 +184,7 @@
     </None>
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Tasks.cshtml" />
+    <Content Include="Scripts\jquery.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

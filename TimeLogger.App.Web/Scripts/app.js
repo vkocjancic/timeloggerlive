@@ -399,7 +399,7 @@
                 url: '/App/api/timelog/' + id,
                 method: 'DELETE',
                 statusCode: {
-                    403: function () {
+                    401: function () {
                         errorHandler.redirectToLogin();
                     }
                 }
@@ -459,7 +459,7 @@
                     'date': timeLogList.dateNavigationBar.selectedDate().toApiDateString()
                 },
                 statusCode: {
-                    403: function () {
+                    401: function () {
                         errorHandler.redirectToLogin();
                     }
                 }
@@ -507,7 +507,7 @@
                 errorHandler.displayMessage('success', 'Time log saved successfully');
             })
             .fail(function (data) {
-                if (data.status === 403) {
+                if (data.status === 401) {
                     errorHandler.redirectToLogin();
                 }
                 status.displayError();
@@ -534,7 +534,7 @@
             }
         })
         .fail(function (data) {
-            if (data.status === 403) {
+            if (data.status === 401) {
                 errorHandler.redirectToLogin();
             }
             if (data.responseText) {
@@ -634,7 +634,7 @@
             }
         })
         .fail(function (data) {
-            if (data.status === 403) {
+            if (data.status === 401) {
                 errorHandler.redirectToLogin();
             }
             if (data.responseText) {
@@ -679,7 +679,7 @@
             }
         })
         .fail(function (data) {
-            if (data.status === 403) {
+            if (data.status === 401) {
                 errorHandler.redirectToLogin();
             }
             if (data.responseText) {
@@ -770,7 +770,7 @@
             chart.draw(data);
         })
         .fail(function (data) {
-            if (data.status === 403) {
+            if (data.status === 401) {
                 errorHandler.redirectToLogin();
             }
             if (data.responseText) {
