@@ -126,6 +126,17 @@ body,
   font-size: 80%;
   font-weight: bold;
 }
+.task-list tbody .fa-plus-circle,
+.task-list tbody .fa-star,
+.task-list tbody .fa-star-o {
+  color: #eecc00;
+}
+.task-list tbody .fa-exclamation-circle {
+  color: #c71f16;
+}
+.task-list tbody .fa-check-circle {
+  color: #7eb914;
+}
 .app-date-nav,
 .app-action-nav {
   margin-bottom: 10px;

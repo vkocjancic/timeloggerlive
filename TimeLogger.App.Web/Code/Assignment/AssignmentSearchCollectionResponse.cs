@@ -7,17 +7,15 @@ using TimeLogger.App.Web.Code.Common;
 
 namespace TimeLogger.App.Web.Code.Assignment
 {
-
-    public class AssignmentCollectionResponse : ApiResponse
+    public class AssignmentSearchCollectionResponse : ApiResponse
     {
 
         #region Properties
 
         [JsonProperty(PropertyName = "assignments")]
-        public AssignmentModel[] Assignments { get; set; }
+        public string[] Assignments { get; set; }
 
         #endregion
 
     }
-
 }

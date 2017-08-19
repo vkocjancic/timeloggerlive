@@ -18,6 +18,10 @@
     {
         activePage = "Insights";
     }
+    else if (Request.RawUrl.ToLower().Contains("tasks"))
+    {
+        activePage = "Tasks";
+    }
 }
 <html lang="en-us">
 <head>
@@ -103,9 +107,9 @@
     <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/jquery-1.9.1.min.js")"></script>
     <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/bootstrap.min.js")"></script>
     <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/bootstrap3-typeahead.min.js")"></script>
-    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/common.es5.min.js")"></script>
+    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/common.es5.js")"></script>
     @RenderSection("scriptDefinitions", false)
-    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/app.es5.min.js")"></script>
+    <script type="text/javascript" src="@TimeLogger.Web.Core.Site.FingerPrint("/Scripts/app.es5.js")"></script>
     @RenderSection("script", false)
 </body>
 </html>

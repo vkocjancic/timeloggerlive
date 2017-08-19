@@ -29,13 +29,13 @@ namespace TimeLogger.App.Web.Controllers
         public HttpResponseMessage Get()
         {
             Log.Debug($"({User.Identity.Name}) Get method issued.");
-            var response = new AssingmentCollectionResponse() { Code = HttpStatusCode.InternalServerError, Success = false };
+            var response = new AssignmentCollectionResponse() { Code = HttpStatusCode.InternalServerError, Success = false };
             try
             {
                 Log.Debug($"({User.Identity.Name}) Obtaining user id");
                 var userId = (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey;
                 Log.Debug($"({User.Identity.Name}) Obtaining assignments for '{userId}'");
-                response.Assignments = AssignmentService.GetAllFor(this.ConnectionString, userId).ToArray();
+                response.Assignments = AssignmentService.GetAllFor(this.ConnectionString, userId).OrderBy(a => a.Description).ToArray();
                 response.Code = HttpStatusCode.OK;
                 response.Success = true;
                 Log.Info($"({User.Identity.Name}) {response.Assignments.Length} assignment(s) found");

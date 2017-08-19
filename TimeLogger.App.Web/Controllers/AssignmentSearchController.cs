@@ -25,7 +25,7 @@ namespace TimeLogger.App.Web.Controllers
         public HttpResponseMessage Get(string query)
         {
             Log.Debug($"({User.Identity.Name}) Get method issued. query = '{query}'");
-            var response = new AssingmentCollectionResponse() { Code = HttpStatusCode.OK, Success = false, Assignments = new string[] { } };
+            var response = new AssignmentSearchCollectionResponse() { Code = HttpStatusCode.OK, Success = false, Assignments = new string[] { } };
             if (!string.IsNullOrEmpty(query)) {
                 try
                 {

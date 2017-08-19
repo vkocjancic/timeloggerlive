@@ -825,7 +825,8 @@
 
     function TaskList(id) {
         this.element = $('#' + id);
-        this.placeholderTask = '<tr data-id="{data-id}"><td></td><input type="checkbox" name="cbMarked" value="{data-id}" /><td>{description}</td><td>{created}</td><td>{action}</td><td>{status}</td></tr>';
+        this.body = $('tbody', this.element);
+        this.placeholderTask = '<tr data-id="{data-id}"><td><a href="#" class="action-favourite"><i class="fa fa-star-o"></i></a></td><td>{description}</td><td>{action}</td><td>{status}</td></tr>';
         this.isUserActivated = glb_userRoles.indexOf("User") !== -1;
     }
 
@@ -839,13 +840,11 @@
             var options = {
                 '{data-id}': this.id,
                 '{description}': this.description,
-                '{created}': this.created,
-                '{action}': obj.isUserActivated ? '<button class="action-edit"><i class="fa fa-pencil-square-o"></i></button><button class="action-clear"><i class="fa fa-times"></i></button>' : '',
+                '{action}': taskList.isUserActivated ? '<button class="action-edit"><i class="fa fa-pencil-square-o"></i></button><button class="action-complete"><i class="fa fa-check"></i></button>' : '',
                 '{status}': '<i class="fa fa-check-circle"></i>'
             },
                 formatter = new TemplateFormatter(options);
-            obj.placeholderNewItem.before(formatter.format(obj.placeholderLog));
-            currentTimeLogs.push({ id: this.id, duration: this.duration });
+            taskList.body.append(formatter.format(taskList.placeholderTask));
         });
     };
 
@@ -854,11 +853,15 @@
     TaskList.prototype.init = function () {
         var taskList = this;
         if (taskList.isUserActivated) {
+            $('tbody', this.element).on('click', 'tr .action-favourite', function (e) {
+                e.preventDefault();
+                taskList.markItemAsFavourite(this);
+            });
             $('tbody', this.element).on('click', 'tr .action-edit', function () {
                 taskList.editItem(this);
             });
-            $('tbody', this.element).on('click', 'tr .action-clear', function () {
-                taskList.removeItem(this);
+            $('tbody', this.element).on('click', 'tr .action-complete', function () {
+                taskList.markItemAsCompleted(this);
             });
         }
         taskList.load();
@@ -869,9 +872,9 @@
             errorHandler = new ErrorHandler($('#tasks-list-info'));
         $.get('/App/api/assignment').success(function (data) {
             taskList.clearData();
-            taskList.createItems(data.tasks);
+            taskList.createItems(data.assignments);
         }).fail(function (data) {
-            if (data.status === 403) {
+            if (data.status === 401) {
                 errorHandler.redirectToLogin();
             }
             if (data.responseText) {
@@ -882,7 +885,18 @@
         });
     };
 
-    TaskList.prototype.removeItem = function (item) {};
+    TaskList.prototype.markItemAsCompleted = function (item) {};
+
+    TaskList.prototype.markItemAsFavourite = function (item) {
+        var icon = $('i', item);
+        if (icon.hasClass('fa-star-o')) {
+            icon.removeClass('fa-star-o');
+            icon.addClass('fa-star');
+        } else {
+            icon.removeClass('fa-star');
+            icon.addClass('fa-star-o');
+        }
+    };
 
     // #endregion
 

@@ -17,6 +17,7 @@ namespace TimeLogger.App.Web.Code.Assignment
         [JsonProperty(PropertyName = "description")]
         public string Description { get; set; }
 
+        [JsonIgnore]
         public Guid? UserId { get; set; }
 
         #endregion
