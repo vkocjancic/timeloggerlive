@@ -8,7 +8,9 @@
         timeLogList = new TimeLogList('entry-list'),
         dailyReport,
         insightsChart = new InsightsChart('insightsGraph'),
-        insightsReport;
+        insightsReport,
+            taskList,
+            taskListSearch;
 
     // #region TimeLogStatus
 
@@ -662,7 +664,7 @@
         this.startDate = startDate;
         this.loadForDate(endDate, this.createItems);
     };
-    
+
     InsightsReport.prototype.loadForDate = function (date, callback) {
         var report = this,
             errorHandler = new ErrorHandler($('#insights-list-info'));
@@ -791,7 +793,7 @@
                     label: data.datasets[0].label,
                     data: data.datasets[0].data,
                     backgroundColor: 'rgba(126, 185, 20, 0.3)',
-                    borderColor: 'rgba(126, 185, 20, 0.7)', 
+                    borderColor: 'rgba(126, 185, 20, 0.7)',
                     borderWidth: 2
                 },
                 {
@@ -799,7 +801,7 @@
                     label: data.datasets[1].label,
                     data: data.datasets[1].data,
                     backgroundColor: 'rgba(0, 0, 0, 0)',
-                    borderColor: 'rgba(199, 31, 22, 1)' 
+                    borderColor: 'rgba(199, 31, 22, 1)'
                 }],
                 labels: data.labels
             },
@@ -885,6 +887,14 @@
 
     };
 
+    TaskList.prototype.getAllRows = function () {
+        return $('tbody tr', this.element);
+    };
+
+    TaskList.prototype.getDescriptionInRow = function (row) {
+        return $('td:eq(1)', row).text();
+    };
+
     TaskList.prototype.init = function () {
         var taskList = this;
         if (taskList.isUserActivated) {
@@ -941,6 +951,36 @@
 
     // #endregion
 
+    // #region ListSearch
+
+    function ListSearch(id, taskList) {
+        this.element = $('#' + id);
+        this.queryElement = $('input', this.element);
+        this.taskList = taskList;
+    }
+
+    ListSearch.prototype.init = function () {
+        var search = this;
+        search.queryElement.on('keyup', function () {
+            search.filterList();
+        });
+    };
+
+    ListSearch.prototype.filterList = function () {
+        var filter = this.queryElement.val().toUpperCase();
+        var taskList = this.taskList;
+        taskList.getAllRows().each(function (index, row) {
+            if (taskList.getDescriptionInRow(row).toUpperCase().indexOf(filter) === -1) {
+                $(row).hide();
+            }
+            else {
+                $(row).show();
+            }
+        });
+    };
+
+    // #endregion
+
     // #region Site
 
     var siteEnum = {
@@ -952,7 +992,8 @@
                 timeLogList.init(navigationBarDate);
                 dailyReport = new DailyReport('dailyReportModal');
                 dailyReport.init(true);
-            }},
+            }
+        },
         INSIGHTS: {
             value: 1,
             init: function () {
@@ -963,15 +1004,19 @@
                 navigationBarDate.init();
                 selector = new DateRangeSelector('date-range-selector');
                 selector.init(navigationBarDate);
-            }},
+            }
+        },
         TASKS: {
             value: 2,
             init: function () {
                 taskList = new TaskList('taskList');
                 taskList.init();
-            }}
+                taskListSearch = new ListSearch('task-list-search', taskList);
+                taskListSearch.init();
+            }
+        }
     };
-    
+
     function Site() {
         this.type = siteEnum.APP;
         if (document.location.href.indexOf('/Insights') !== -1) {

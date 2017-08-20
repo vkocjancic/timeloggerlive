@@ -8,7 +8,9 @@
         timeLogList = new TimeLogList('entry-list'),
         dailyReport,
         insightsChart = new InsightsChart('insightsGraph'),
-        insightsReport;
+        insightsReport,
+        taskList,
+        taskListSearch;
 
     // #region TimeLogStatus
 
@@ -850,6 +852,14 @@
 
     TaskList.prototype.editItem = function (item) {};
 
+    TaskList.prototype.getAllRows = function () {
+        return $('tbody tr', this.element);
+    };
+
+    TaskList.prototype.getDescriptionInRow = function (row) {
+        return $('td:eq(1)', row).text();
+    };
+
     TaskList.prototype.init = function () {
         var taskList = this;
         if (taskList.isUserActivated) {
@@ -900,6 +910,35 @@
 
     // #endregion
 
+    // #region ListSearch
+
+    function ListSearch(id, taskList) {
+        this.element = $('#' + id);
+        this.queryElement = $('input', this.element);
+        this.taskList = taskList;
+    }
+
+    ListSearch.prototype.init = function () {
+        var search = this;
+        search.queryElement.on('keyup', function () {
+            search.filterList();
+        });
+    };
+
+    ListSearch.prototype.filterList = function () {
+        var filter = this.queryElement.val().toUpperCase();
+        var taskList = this.taskList;
+        taskList.getAllRows().each(function (index, row) {
+            if (taskList.getDescriptionInRow(row).toUpperCase().indexOf(filter) === -1) {
+                $(row).hide();
+            } else {
+                $(row).show();
+            }
+        });
+    };
+
+    // #endregion
+
     // #region Site
 
     var siteEnum = {
@@ -911,7 +950,8 @@
                 timeLogList.init(navigationBarDate);
                 dailyReport = new DailyReport('dailyReportModal');
                 dailyReport.init(true);
-            } },
+            }
+        },
         INSIGHTS: {
             value: 1,
             init: function init() {
@@ -922,13 +962,17 @@
                 navigationBarDate.init();
                 selector = new DateRangeSelector('date-range-selector');
                 selector.init(navigationBarDate);
-            } },
+            }
+        },
         TASKS: {
             value: 2,
             init: function init() {
                 taskList = new TaskList('taskList');
                 taskList.init();
-            } }
+                taskListSearch = new ListSearch('task-list-search', taskList);
+                taskListSearch.init();
+            }
+        }
     };
 
     function Site() {
