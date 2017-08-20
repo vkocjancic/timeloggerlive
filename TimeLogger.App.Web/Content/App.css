@@ -126,6 +126,9 @@ body,
   font-size: 80%;
   font-weight: bold;
 }
+.list-search {
+  margin-bottom: 1em;
+}
 .task-list tbody .fa-plus-circle,
 .task-list tbody .fa-star,
 .task-list tbody .fa-star-o {
