@@ -20,7 +20,9 @@ namespace TimeLogger.App.Web.Code.Assignment
             return new AssignmentModel()
             {
                 Description = assignment.Description,
-                Id = assignment.Id
+                Id = assignment.Id,
+                IsFavourite = assignment.IsFavourite,
+                Status = assignment.Status
             };
         }
 
@@ -31,7 +33,9 @@ namespace TimeLogger.App.Web.Code.Assignment
                 Created = DateTime.Now,
                 Description = assignment.Description,
                 Id = assignment.Id,
-                UserId = assignment.UserId
+                IsFavourite = assignment.IsFavourite,
+                UserId = assignment.UserId,
+                Status = assignment.Status
             };
         }
 

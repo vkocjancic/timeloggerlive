@@ -56,13 +56,26 @@ namespace TimeLogger.App.Core.Repository
             }
         }
 
+        public override void Delete(Guid id, Guid userId)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                connection.Execute(
+                    @"delete from ASSIGNMENT where USER_ID = @UserId and ASSIGNMENT_ID = @Id",
+                    new { UserId = userId, Id = id });
+            }
+        }
+
         public override IEnumerable<Assignment> GetAllFor(Guid userId)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 return connection.Query<Assignment>(
-                    @"select a.[ASSIGNMENT_ID] as Id, a.[DESCRIPTION] as Description, a.[CREATED] as Created, a.[PROJECT_ID] as ProjectId, a.[USER_ID] as UserId, case when tlc.ASSIGNMENT_ID is null then 0 else tlc.[TIME_LOG_COUNT] end as [TIME_LOG_COUNT]
+                    @"select a.[ASSIGNMENT_ID] as Id, a.[DESCRIPTION] as Description, a.[CREATED] as Created, a.[PROJECT_ID] as ProjectId, 
+                            a.[USER_ID] as UserId, a.[STATUS] as Status, case when a.[FAVOURITE_YN] = 'Y' then 1 else 0 end as IsFavourite, 
+                            case when tlc.ASSIGNMENT_ID is null then 0 else tlc.[TIME_LOG_COUNT] end as [TIME_LOG_COUNT]
                         from [ASSIGNMENT] a
                         left join (
 	                        select count([TIME_LOG_ID]) as [TIME_LOG_COUNT], [ASSIGNMENT_ID]
@@ -70,8 +83,8 @@ namespace TimeLogger.App.Core.Repository
 	                        where [ASSIGNMENT_ID] is not null
 	                        group by [ASSIGNMENT_ID]
                         ) tlc on a.[ASSIGNMENT_ID] = tlc.[ASSIGNMENT_ID]
-	                    where a.USER_ID=@UserId",
-                    new { UserId = userId });
+	                    where a.[USER_ID]=@UserId and (a.[STATUS] = 'P' or a.[CREATED] >= @CreatedInLast12Months)",
+                    new { UserId = userId, CreatedInLast12Months = DateTime.Today.AddYears(-1).AddDays(1) });
             }
         }
 
@@ -81,7 +94,8 @@ namespace TimeLogger.App.Core.Repository
             {
                 connection.Open();
                 return connection.Query<Assignment>(
-                    @"select [ASSIGNMENT_ID] as Id, [DESCRIPTION] as Description, [CREATED] as Created, [PROJECT_ID] as ProjectId, [USER_ID] as UserId
+                    @"select [ASSIGNMENT_ID] as Id, [DESCRIPTION] as Description, [CREATED] as Created, [PROJECT_ID] as ProjectId, [USER_ID] as UserId,
+                            [STATUS] as Status, case when [FAVOURITE_YN] = 'Y' then 1 else 0 end as IsFavourite
                         from ASSIGNMENT
 	                    where USER_ID=@UserId and [DESCRIPTION]=@Description",
                     new { Description = description, UserId = userId }).FirstOrDefault();
@@ -94,7 +108,8 @@ namespace TimeLogger.App.Core.Repository
             {
                 connection.Open();
                 return connection.Query<Assignment>(
-                    @"select a.[ASSIGNMENT_ID] as Id, a.[DESCRIPTION] as Description, a.[CREATED] as Created, a.[PROJECT_ID] as ProjectId, a.[USER_ID] as UserId
+                    @"select a.[ASSIGNMENT_ID] as Id, a.[DESCRIPTION] as Description, a.[CREATED] as Created, a.[PROJECT_ID] as ProjectId, a.[USER_ID] as UserId,
+                        a.[STATUS] as Status, case when a.[FAVOURITE_YN] = 'Y' then 1 else 0 end as IsFavourite
                     from (
 	                    select *
 	                    from ASSIGNMENT
@@ -108,10 +123,29 @@ namespace TimeLogger.App.Core.Repository
 	                    from ASSIGNMENT
 	                    where USER_ID=@UserId and [DESCRIPTION] like '%' + @Query
                     ) as a
-                    group by a.[ASSIGNMENT_ID], a.[DESCRIPTION], a.[CREATED], a.[PROJECT_ID], a.[USER_ID]
-                    order by a.[DESCRIPTION], cast(floor(cast(a.[CREATED] as float)) as datetime) desc",
-                    new { Query = query, UserId = userId }
+                    where (a.[STATUS] = 'P' or a.[CREATED] >= @CreatedInLast12Months)
+                    group by a.[ASSIGNMENT_ID], a.[DESCRIPTION], a.[CREATED], a.[PROJECT_ID], a.[USER_ID], a.[STATUS], a.[FAVOURITE_YN]
+                    order by a.[FAVOURITE_YN] desc, a.[DESCRIPTION], cast(floor(cast(a.[CREATED] as float)) as datetime) desc",
+                    new { Query = query, UserId = userId, CreatedInLast12Months = DateTime.Today.AddYears(-1).AddDays(1) }
                     );
+            }
+        }
+
+        public override void Update(Assignment assignment)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                connection.Execute(
+                    @"update [ASSIGNMENT] 
+                    set [DESCRIPTION]=@Description, [STATUS]=@Status, [FAVOURITE_YN]=@FavouriteYN
+                    where [ASSIGNMENT_ID]=@Id",
+                    new {
+                        Description = assignment.Description,
+                        Status = assignment.Status,
+                        FavouriteYN = (assignment.IsFavourite) ? "Y" : "N",
+                        Id = assignment.Id
+                    });
             }
         }
 

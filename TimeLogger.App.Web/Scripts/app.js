@@ -9,8 +9,8 @@
         dailyReport,
         insightsChart = new InsightsChart('insightsGraph'),
         insightsReport,
-            taskList,
-            taskListSearch;
+        taskList,
+        taskListSearch;
 
     // #region TimeLogStatus
 
@@ -75,8 +75,6 @@
 
     DateNavigationBar.prototype.destroy = function () {
         $('li a', this.element).off('click');
-        //$('li:eq(1) a', this.element).off('click');
-        //$('li:eq(2) a', this.element).off('click');
     };
 
     DateNavigationBar.prototype.init = function () {
@@ -838,12 +836,20 @@
         this.resetClass(this.element.get(0), '');
     };
 
+    TaskStatus.prototype.displayCompleted = function () {
+        this.resetClass(this.element.get(0), 'fa fa-stop-circle');
+    };
+
     TaskStatus.prototype.displayError = function () {
         this.resetClass(this.element.get(0), 'fa fa-exclamation-circle');
     };
 
     TaskStatus.prototype.displayLoading = function () {
         this.resetClass(this.element.get(0), 'fa fa-spinner fa-pulse fa-fw');
+    };
+
+    TaskStatus.prototype.displayProgress = function () {
+        this.resetClass(this.element.get(0), 'fa fa-play-circle');
     };
 
     TaskStatus.prototype.displaySuccess = function () {
@@ -861,34 +867,76 @@
     function TaskList(id) {
         this.element = $('#' + id);
         this.body = $('tbody', this.element);
-        this.placeholderTask = '<tr data-id="{data-id}"><td><a href="#" class="action-favourite"><i class="fa fa-star-o"></i></a></td><td>{description}</td><td>{action}</td><td>{status}</td></tr>';
+        this.placeholderTask = '<tr data-id="{data-id}"><td><a href="#" class="action-favourite">{isfavourite}</a></td><td>{description}</td><td>{action}</td><td class="task-status">{status}</td></tr>';
         this.isUserActivated = glb_userRoles.indexOf("User") !== -1;
+        this.tasks = [];
+        this.modalWindow = $('#taskDetailsModal');
     }
 
+    TaskList.prototype.actionComplete = '<button class="action-complete"><i class="fa fa-stop"></i></button>';
+    TaskList.prototype.actionEdit = '<button class="action-edit" data-toggle="modal" data-target="#taskDetailsModal"><i class="fa fa-pencil-square-o"></i></button>';
+    TaskList.prototype.actionReopen = '<button class="action-reopen"><i class="fa fa-play"></i></button>';
+
     TaskList.prototype.clearData = function () {
+        this.tasks = [];
         $('tbody tr', this.element).remove();
     };
 
     TaskList.prototype.createItems = function (tasks) {
         var taskList = this;
-        $(tasks).each(function () {
+        taskList.tasks = tasks;
+        $(taskList.tasks).each(function () {
             var options = {
                 '{data-id}': this.id,
+                '{isfavourite}': (this.isfavourite) ? '<i class="fa fa-star"></i>' : '<i class="fa fa-star-o"></i>',
                 '{description}': this.description,
-                '{action}': (taskList.isUserActivated) ? '<button class="action-edit"><i class="fa fa-pencil-square-o"></i></button><button class="action-complete"><i class="fa fa-check"></i></button>' : '',
-                '{status}': '<i class="fa fa-check-circle"></i>'
+                '{action}': (taskList.isUserActivated) ? taskList.actionEdit + ((this.status === 'P') ? taskList.actionComplete : taskList.actionReopen) : '',
+                '{status}': (this.status === 'P') ? '<i class="fa fa-play-circle"></i>' : '<i class="fa fa-stop-circle"></i>'
             },
             formatter = new TemplateFormatter(options);
             taskList.body.append(formatter.format(taskList.placeholderTask));
         });
     };
 
-    TaskList.prototype.editItem = function (item) {
+    TaskList.prototype.displayAction = function (actionToReplace, action) {
+        $(action).insertAfter(actionToReplace);
+        actionToReplace.remove();
+    }
 
+    TaskList.prototype.displayActionComplete = function (tr) {
+        this.displayAction($(".action-reopen", tr), this.actionComplete);
     };
 
+    TaskList.prototype.displayActionReopen = function (tr) {
+        this.displayAction($(".action-complete", tr), this.actionReopen);
+    };
+    
     TaskList.prototype.getAllRows = function () {
         return $('tbody tr', this.element);
+    };
+
+    TaskList.prototype.getAndDisplayDetails = function (task, tr) {
+        var taskList = this,
+            errorHandler = new ErrorHandler($('#tasks-list-info')),
+            status = new TaskStatus(tr.find('td.task-status i')),
+            taskDetails = new TaskDetails(taskList.modalWindow);
+        taskDetails.getAndDisplay(task, function () {
+            status.displayLoading();
+            taskList.updateTask(task, function (success, merged) {
+                if (merged) {
+                    tr.remove();
+                }
+                else {
+                    if (task.status === 'C') {
+                        status.displayCompleted();
+                    }
+                    else {
+                        status.displayProgress();
+                    }
+                    tr.find('td:eq(1)').text(task.description);
+                }
+            });
+        });
     };
 
     TaskList.prototype.getDescriptionInRow = function (row) {
@@ -902,14 +950,22 @@
                 e.preventDefault();
                 taskList.markItemAsFavourite(this);
             });
-            $('tbody', this.element).on('click', 'tr .action-edit', function () {
-                taskList.editItem(this);
-            });
             $('tbody', this.element).on('click', 'tr .action-complete', function () {
                 taskList.markItemAsCompleted(this);
             });
+            $('tbody', this.element).on('click', 'tr .action-reopen', function () {
+                taskList.reopenItem(this);
+            });
         }
         taskList.load();
+        taskList.modalWindow.on('show.bs.modal', function (e) {
+            var tr = $(e.relatedTarget).parents('tr'),
+                id = tr.attr('data-id'),
+                task = taskList.tasks.filter(function (task) {
+                    return task.id === id;
+                })[0];
+            taskList.getAndDisplayDetails(task, tr);
+        });
     };
 
     TaskList.prototype.load = function () {
@@ -934,19 +990,167 @@
     };
 
     TaskList.prototype.markItemAsCompleted = function (item) {
-
+        var tr = $(item).parents('tr'),
+            id = tr.attr('data-id'),
+            taskList = this,
+            status = new TaskStatus(tr.find('td.task-status i')),
+            task = this.tasks.filter(function (task) {
+                return task.id === id;
+            })[0];
+        var oldStatus = task.status;
+        status.displayLoading();
+        if (task.status === 'P') {
+            task.status = 'C';
+        }
+        this.updateTask(task, function (success) {
+            if (!success) {
+                task.status = oldStatus;
+                return;
+            }
+            status.displayCompleted();
+            taskList.displayActionReopen(tr);
+        });
     };
 
     TaskList.prototype.markItemAsFavourite = function (item) {
-        var icon = $('i', item);
-        if (icon.hasClass('fa-star-o')) {
-            icon.removeClass('fa-star-o');
-            icon.addClass('fa-star');
+        var icon = $('i', item),
+            id = $(item).parents('tr').attr('data-id'),
+            task = this.tasks.filter(function (task) {
+                return task.id === id;
+            })[0];
+        task.isfavourite = !task.isfavourite;
+        this.updateTask(task, function (success) {
+            if (!success) {
+                task.isfavourite = !task.isfavourite;
+                return;
+            }
+            if (task.isfavourite) {
+                icon.removeClass('fa-star-o');
+                icon.addClass('fa-star');
+            }
+            else {
+                icon.removeClass('fa-star');
+                icon.addClass('fa-star-o');
+            }
+        });
+    };
+
+    TaskList.prototype.reopenItem = function (item) {
+        var tr = $(item).parents('tr'),
+            id = tr.attr('data-id'),
+            taskList = this,
+            status = new TaskStatus(tr.find('td.task-status i')),
+            task = this.tasks.filter(function (task) {
+                return task.id === id;
+            })[0];
+        var oldStatus = task.status;
+        status.displayLoading();
+        if (task.status === 'C') {
+            task.status = 'P';
         }
-        else {
-            icon.removeClass('fa-star');
-            icon.addClass('fa-star-o');
-        }
+        this.updateTask(task, function (success) {
+            if (!success) {
+                task.status = oldStatus;
+                return;
+            }
+            status.displayProgress();
+            taskList.displayActionComplete(tr);
+        });
+    };
+
+    TaskList.prototype.updateTask = function (task, callback) {
+        var tr = $('tbody tr[data-id=' + task.id + ']'),
+            status = new TimeLogStatus(tr.find('td:last-child i')),
+            errorHandler = new ErrorHandler($('#task-list-info'));
+        $.ajax({
+            url: '/App/api/assignment/',
+            method: 'PUT',
+            data: {
+                'id': task.id,
+                'description': task.description,
+                'status': task.status,
+                'isfavourite': task.isfavourite
+            },
+            statusCode: {
+                401: function () {
+                    errorHandler.redirectToLogin();
+                }
+            }
+        })
+        .done(function (data) {
+            callback(true, data.wasmerged);
+        })
+        .error(function (xhr, textStatus, errorThrown) {
+            status.displayError();
+            if (xhr.responseText) {
+                var json = $.parseJSON(xhr.responseText);
+                errorHandler.displayMessage('error', json.errorDescription ? json.errorDescription : json.Message);
+            }
+            else {
+                errorHandler.displayMessage('error', errorThrown);
+            }
+            callback(false);
+        });
+    };
+
+    // #endregion
+
+    // #region TaskDetails
+
+    function TaskDetails(element) {
+        this.element = element;
+        this.elementTimeLogs = $('#timeLogData tbody', this.element);
+        this.placeholderTimeLogs = '<tr data-id="{data-id}"><td>{date}</td><td class="time"><div contenteditable="true">{from}</div></td><td class="time"><div contenteditable="true">{to}</div></td><td class="description"><div contenteditable="true">{description}</div></td></tr>';
+    }
+
+    TaskDetails.prototype.getAndDisplay = function (task, saveCallback) {
+        var taskDetails = this,
+            errorHandler = new ErrorHandler($('#task-list-info'));
+        $.get('/App/api/assignment', { id: task.id })
+        .success(function (data) {
+            taskDetails.display(task, data.timelogs, saveCallback);
+        })
+        .fail(function (data) {
+            if (data.status === 401) {
+                errorHandler.redirectToLogin();
+            }
+            if (data.responseText) {
+                errorHandler.displayMessage('error', $.parseJSON(data.responseText).errorDescription);
+            }
+            else {
+                errorHandler.displayMessage('error', data.statusText);
+            }
+        });
+    };
+
+    TaskDetails.prototype.display = function (task, timelogs, saveCallback) {
+        var taskDetails = this,
+            taskTitle = taskDetails.element.find('.modal-title');
+        taskTitle.text(task.description);
+        taskTitle.click(function () {
+            taskTitle.prop('contenteditable', 'true');
+            taskTitle.focus();
+        });
+        $('tr', taskDetails.elementTimeLogs).remove();
+        $(timelogs).each(function () {
+            var options = {
+                '{data-id}': this.id,
+                '{date}': this.date,
+                '{from}': this.from,
+                '{to}': this.to ? this.to : '',
+                '{description}': this.description
+            },
+            formatter = new TemplateFormatter(options);
+            taskDetails.elementTimeLogs.append(formatter.format(taskDetails.placeholderTimeLogs));
+        });
+        var btnSave = taskDetails.element.find('.action-save');
+        btnSave.off('click');
+        btnSave.click(function () {
+            taskTitle.prop('contenteditable', false);
+            task.descriptionold = task.description;
+            task.description = taskTitle.text();
+            saveCallback();
+        });
     };
 
     // #endregion

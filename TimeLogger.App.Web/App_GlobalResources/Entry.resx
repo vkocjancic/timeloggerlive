@@ -123,6 +123,9 @@
   <data name="ClickToAdd" xml:space="preserve">
     <value>Click here to add new entry...</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>

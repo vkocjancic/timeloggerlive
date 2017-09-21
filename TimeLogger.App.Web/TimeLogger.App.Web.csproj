@@ -179,6 +179,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Insights.cshtml" />
+    <Content Include="App_Code\taskDetailsModalView.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -274,6 +275,7 @@
     <Compile Include="Code\Account\UserService.cs" />
     <Compile Include="Code\Assignment\AssignmentCollectionResponse.cs" />
     <Compile Include="Code\Assignment\AssignmentModelFactory.cs" />
+    <Compile Include="Code\Assignment\AssignmentResponse.cs" />
     <Compile Include="Code\Billing\AccountListCollectionResponse.cs" />
     <Compile Include="Code\Billing\AccountListResponse.cs" />
     <Compile Include="Code\Billing\AccountService.cs" />

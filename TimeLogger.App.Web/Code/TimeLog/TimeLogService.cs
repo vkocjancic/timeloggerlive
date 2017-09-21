@@ -63,6 +63,30 @@ namespace TimeLogger.App.Web.Code.TimeLog
             return timeLogModels.AsEnumerable();
         }
 
+        public static IEnumerable<TimeLogModel> GetAllForTask(string connectionString, Guid taskId, Guid userId)
+        {
+            var repo = new TimeLogRepository(connectionString);
+            var timeLogs = repo.GetAllForTask(taskId, userId);
+            var timeLogModels = new List<TimeLogModel>();
+            var adapter = new TimeLogAdapter();
+            foreach (var log in timeLogs)
+            {
+                timeLogModels.Add(adapter.ToDomainObject(log, "H:mm"));
+            }
+            return timeLogModels;
+        }
+
+        public static void UpdateAllForTask(string connectionString, Guid taskId, Guid userId, Action<Core.Business.TimeLog> updateTimeLog)
+        {
+            var repo = new TimeLogRepository(connectionString);
+            var timeLogs = repo.GetAllForTask(taskId, userId);
+            foreach(var log in timeLogs)
+            {
+                updateTimeLog(log);
+                repo.UpdateTimeLog(log);
+            }
+        }
+
         public static TimeLogResponse UpdateTimeLog(string connectionString, TimeLogModel timeLog)
         {
             var repo = new TimeLogRepository(connectionString);

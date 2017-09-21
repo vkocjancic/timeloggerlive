@@ -28,6 +28,8 @@ namespace TimeLogger.App.Core.Repository
 
         public abstract IEnumerable<TimeLog> GetAllFor(DateTime startDate, DateTime endDate, Guid accountId);
 
+        public abstract IEnumerable<TimeLog> GetAllForTask(Guid taskId, Guid accountId);
+
         public abstract TimeLog UpdateTimeLog(TimeLog timeLog);
 
         #endregion

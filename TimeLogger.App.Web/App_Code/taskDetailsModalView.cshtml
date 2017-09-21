@@ -1,0 +1,38 @@
+﻿@helper Display() {
+    <div class="modal fade" id="taskDetailsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    @DisplayTaskDetails()
+                    @DisplayTimeLogs()
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success action-save" data-dismiss="modal">@Resources.AssignmentResources.Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@Resources.AssignmentResources.Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@helper DisplayTaskDetails() { 
+
+}
+
+@helper DisplayTimeLogs() {
+    <table id="timeLogData" class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Resources.Entry.Date</th>
+                <th>@Resources.Entry.From</th>
+                <th>@Resources.Entry.To</th>
+                <th>@Resources.Entry.Description</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+}

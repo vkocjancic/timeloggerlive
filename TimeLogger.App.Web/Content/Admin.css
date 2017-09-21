@@ -134,10 +134,12 @@ body,
 .task-list tbody .fa-star-o {
   color: #eecc00;
 }
-.task-list tbody .fa-exclamation-circle {
+.task-list tbody .fa-exclamation-circle,
+.task-list tbody .fa-stop-circle {
   color: #c71f16;
 }
-.task-list tbody .fa-check-circle {
+.task-list tbody .fa-check-circle,
+.task-list tbody .fa-play-circle {
   color: #7eb914;
 }
 .app-date-nav,

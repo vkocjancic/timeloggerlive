@@ -16,7 +16,7 @@ namespace TimeLogger.App.Web.Controllers
         
         #region Constructors
 
-        public InsightsReportController() : base(typeof(InsightsChartController))
+        public InsightsReportController() : base(typeof(InsightsReportController))
         {
         }
 

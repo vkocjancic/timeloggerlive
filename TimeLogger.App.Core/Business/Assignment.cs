@@ -21,6 +21,10 @@ namespace TimeLogger.App.Core.Business
 
         public Guid? UserId { get; set; }
 
+        public string Status { get; set; }
+        
+        public bool IsFavourite { get; set; }
+
         #endregion
 
     }

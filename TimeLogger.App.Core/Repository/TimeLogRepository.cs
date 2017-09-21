@@ -81,6 +81,26 @@ namespace TimeLogger.App.Core.Repository
             }
         }
 
+        public override IEnumerable<TimeLog> GetAllForTask(Guid taskId, Guid accountId)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                return connection.Query<TimeLog>(
+                    @"select TIME_LOG_ID as Id, [FROM] as [From], [TO] as [To], [DESCRIPTION] as [Description], 
+                      CREATED as Created, ASSIGNMENT_ID as AssignmentId, USER_ID as UserId
+                      from [TIME_LOG] t
+                      where t.[USER_ID] = @AccountId
+                        and t.[ASSIGNMENT_ID] = @TaskId
+                      order by t.[FROM]",
+                    new
+                    {
+                        AccountId = accountId,
+                        TaskId = taskId
+                    });
+            }
+        }
+
         public override TimeLog UpdateTimeLog(TimeLog timeLog)
         {
             using (var connection = new SqlConnection(ConnectionString))
