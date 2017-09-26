@@ -88,7 +88,7 @@ namespace TimeLogger.App.Web.Controllers
                     model.WasMerged = true;
                     Log.Debug($"({User.Identity.Name}) Linking to assignment '{assignmentLinked.Id}' for '{model.UserId}'");
                 }
-                if (model.Description != model.DescriptionOld)
+                if (!string.IsNullOrEmpty(model.DescriptionOld) && (model.Description != model.DescriptionOld))
                 {
                     TimeLogService.UpdateAllForTask(this.ConnectionString, model.Id, model.UserId.Value, (timelog) =>
                     {
