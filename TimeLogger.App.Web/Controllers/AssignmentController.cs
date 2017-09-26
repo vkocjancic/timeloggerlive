@@ -76,7 +76,7 @@ namespace TimeLogger.App.Web.Controllers
             var response = new AssignmentResponse() { Code = HttpStatusCode.InternalServerError, Success = false };
             ExecuteCustomService(response, () =>
             {
-                model.UserId = this.UserId;
+                model.UserId = this.UserId;               
                 var assignmentLinked = AssignmentService.GetByDescription(this.ConnectionString, model.Description, model.UserId.Value);
                 if (null == assignmentLinked)
                 {
@@ -98,11 +98,11 @@ namespace TimeLogger.App.Web.Controllers
                             timelog.AssignmentId = assignmentLinked.Id;
                         }
                     });
-                }
-                if (model.WasMerged)
-                {
-                    Log.Debug($"({User.Identity.Name}) Deleting assignment '{model.Id}' for '{model.UserId}'");
-                    AssignmentService.Delete(this.ConnectionString, model.Id, model.UserId.Value);
+                    if (model.WasMerged)
+                    {
+                        Log.Debug($"({User.Identity.Name}) Deleting assignment '{model.Id}' for '{model.UserId}'");
+                        AssignmentService.Delete(this.ConnectionString, model.Id, model.UserId.Value);
+                    }
                 }
                 response.Code = HttpStatusCode.OK;
                 response.Success = true;
