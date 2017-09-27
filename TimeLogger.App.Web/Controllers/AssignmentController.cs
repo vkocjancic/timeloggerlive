@@ -78,7 +78,7 @@ namespace TimeLogger.App.Web.Controllers
             {
                 model.UserId = this.UserId;               
                 var assignmentLinked = AssignmentService.GetByDescription(this.ConnectionString, model.Description, model.UserId.Value);
-                if (null == assignmentLinked)
+                if ((null == assignmentLinked) || (model.Id == assignmentLinked.Id))
                 {
                     Log.Debug($"({User.Identity.Name}) Updating assignment '{model.Id}' for '{model.UserId}'");
                     AssignmentService.UpdateAssignment(this.ConnectionString, model);
