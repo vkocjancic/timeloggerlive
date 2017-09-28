@@ -1068,6 +1068,7 @@
             data: {
                 'id': task.id,
                 'description': task.description,
+                'descriptionold': task.descriptionold,
                 'status': task.status,
                 'isfavourite': task.isfavourite
             },
