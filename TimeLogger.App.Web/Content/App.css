@@ -142,6 +142,10 @@ body,
 .task-list tbody .fa-play-circle {
   color: #7eb914;
 }
+.entry-list tbody button:first-child,
+.task-list tbody button:first-child {
+  margin-right: 3px;
+}
 .app-date-nav,
 .app-action-nav {
   margin-bottom: 10px;

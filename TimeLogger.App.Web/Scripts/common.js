@@ -88,11 +88,11 @@
         var alert = { 'icon': '', 'bgcolor': '', 'message': message };
         if ('success' === type) {
             alert.icon = '<i class="fa fa-check-circle text-success"></i>';
-            alert.bgcolor = 'bg-success';
+            alert.bgcolor = 'alert alert-success';
         }
         else if ('error' === type) {
             alert.icon = '<i class="fa fa-exclamation-circle text-danger"></i>';
-            alert.bgcolor = 'bg-danger';
+            alert.bgcolor = 'alert alert-danger';
         }
         this.displayAlert(alert);
     };
@@ -103,8 +103,9 @@
         obj.html(alert.icon + '&nbsp;' + alert.message);
         obj.show();
         setTimeout(function () {
-            obj.removeClass(alert.bgcolor);
-            obj.hide();
+            //obj.removeClass(alert.bgcolor);
+            //obj.hide("slow");
+            obj.fadeOut("slow", function () { obj.removeClass(alert.bgcolor); });
         }, this.timeout);
     };
 

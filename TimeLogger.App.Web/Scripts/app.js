@@ -334,7 +334,7 @@
                 '{from}': this.from,
                 '{to}': this.to ? this.to : '',
                 '{description}': this.description,
-                '{action}': (obj.isUserActivated) ? '<button class="action-clear"><i class="fa fa-times"></i></button>' : '',
+                '{action}': (obj.isUserActivated) ? '<button class="btn btn-sm btn-danger action-clear"><i class="fa fa-times"></i></button>' : '',
                 '{status}': '<i class="fa fa-check-circle"></i>'
             },
             formatter = new TemplateFormatter(options);
@@ -365,7 +365,7 @@
                 }
             });
             if (!$('.action-save', obj).get(0)) {
-                $('<button class="action-save"><i class="fa fa-floppy-o"></i></button>').insertBefore($('td:eq(3) .action-clear', obj));
+                $('<button class="btn btn-sm btn-default action-save"><i class="fa fa-floppy-o"></i></button>').insertBefore($('td:eq(3) .action-clear', obj));
             }
             this.initTypeahead(obj);
         }
@@ -377,7 +377,7 @@
             '{from}': '',
             '{to}': '',
             '{description}': '',
-            '{action}': '<button class="action-save"><i class="fa fa-floppy-o"></i></button><button class="action-clear"><i class="fa fa-times"></i></button>',
+            '{action}': '<button class="btn btn-sm btn-default action-save"><i class="fa fa-floppy-o"></i></button><button class="btn btn-sm btn-danger action-clear"><i class="fa fa-times"></i></button>',
             '{status}': '<i class="fa fa-plus-circle"></i>'
         },
             formatter = new TemplateFormatter(options);
@@ -873,9 +873,9 @@
         this.modalWindow = $('#taskDetailsModal');
     }
 
-    TaskList.prototype.actionComplete = '<button class="action-complete"><i class="fa fa-stop"></i></button>';
-    TaskList.prototype.actionEdit = '<button class="action-edit" data-toggle="modal" data-target="#taskDetailsModal"><i class="fa fa-pencil-square-o"></i></button>';
-    TaskList.prototype.actionReopen = '<button class="action-reopen"><i class="fa fa-play"></i></button>';
+    TaskList.prototype.actionComplete = '<button class="btn btn-sm btn-danger action-complete"><i class="fa fa-stop"></i></button>';
+    TaskList.prototype.actionEdit = '<button class="btn btn-sm btn-default action-edit" data-toggle="modal" data-target="#taskDetailsModal"><i class="fa fa-pencil-square-o"></i></button>';
+    TaskList.prototype.actionReopen = '<button class="btn btn-sm btn-success action-reopen"><i class="fa fa-play"></i></button>';
 
     TaskList.prototype.clearData = function () {
         this.tasks = [];

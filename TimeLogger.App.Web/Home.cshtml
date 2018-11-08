@@ -24,7 +24,6 @@
 </div>
 
 <section>
-    <p id="entry-list-info" class="error-handler" style="display: none;"></p>
     <table class="table table-striped entry-list">
         <thead>
             <tr>
@@ -42,7 +41,7 @@
                     <td contenteditable="false" class="time">@timeLog.From</td>
                     <td contenteditable="false" class="time">@timeLog.To</td>
                     <td contenteditable="false" class="description">@timeLog.Description</td>
-                    <td><button class="action-clear"><i class="fa fa-times"></i></button>
+                    <td><button class="btn btn-sm btn-danger action-clear"><i class="fa fa-times"></i></button>
                     <td><i class="fa fa-check-circle"></i></td>
                 </tr>
             }
@@ -59,6 +58,7 @@
             </tr>
         </tfoot>
     </table>
+    <p id="entry-list-info" class="error-handler" style="display: none;"></p>
 </section>
 
 @reportModalView.Display()

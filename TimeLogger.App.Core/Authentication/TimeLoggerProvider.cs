@@ -169,7 +169,7 @@ namespace TimeLogger.App.Core.Authentication
                 status = MembershipCreateStatus.Success;
                 return UserAdapter.ToMembershipUser(user);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 status = MembershipCreateStatus.ProviderError;
                 return null;
