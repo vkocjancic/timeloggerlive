@@ -98,12 +98,19 @@ body,
 .entry-list th.status {
   width: 50px;
 }
+.entry-list th.action,
+.entry-list th.status {
+  text-align: right;
+}
 .entry-list tbody td {
-  vertical-align: middle;
+  vertical-align: middle !important;
 }
 .entry-list tbody td div {
   height: 100%;
   width: 100%;
+}
+.entry-list tbody td:nth-last-child(-n+2) {
+  text-align: right;
 }
 .entry-list tbody .fa-plus-circle {
   color: #eecc00;
@@ -118,6 +125,7 @@ body,
   cursor: pointer;
   font-size: 80%;
   font-style: italic;
+  text-align: left;
 }
 .entry-list tbody .entry-ph td:hover {
   color: #7eb914;
@@ -142,9 +150,9 @@ body,
 .task-list tbody .fa-play-circle {
   color: #7eb914;
 }
-.entry-list tbody button:first-child,
-.task-list tbody button:first-child {
-  margin-right: 3px;
+.entry-list tbody button:last-child,
+.task-list tbody button:last-child {
+  margin-left: 3px;
 }
 .app-date-nav,
 .app-action-nav {

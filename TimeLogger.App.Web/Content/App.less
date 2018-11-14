@@ -110,14 +110,22 @@ html, body, .container-table {
         width: 50px;
     }
 
+    th.action, th.status {
+        text-align: right;
+    }
+
     tbody {
         td {
-            vertical-align: middle;
+            vertical-align: middle !important;
 
             div {
                 height: 100%;
                 width: 100%;
             }
+        }
+
+        td:nth-last-child(-n+2) {
+            text-align: right;
         }
 
         .fa-plus-circle {
@@ -137,6 +145,7 @@ html, body, .container-table {
                 cursor: pointer;
                 font-size: 80%;
                 font-style: italic;
+                text-align:left;
             }
 
             td:hover {
@@ -176,7 +185,7 @@ html, body, .container-table {
 
 .entry-list, .task-list {
     tbody {
-         button:first-child { margin-right: 3px; }
+         button:last-child { margin-left: 3px; }
     }
 }
 
