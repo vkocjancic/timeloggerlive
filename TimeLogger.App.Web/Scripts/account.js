@@ -9,8 +9,10 @@
         warningField = $('#app-warning'),
 
         init = function () {
-            passwordConfirmField[0].oninput = inputPasswordCheck;
-            passwordField[0].oninput = passwordConfirmField[0].oninput;
+            if (passwordConfirmField[0]) {
+                passwordConfirmField[0].oninput = inputPasswordCheck;
+                passwordField[0].oninput = passwordConfirmField[0].oninput;
+            }
         },
 
         inputPasswordCheck = function (e) {
