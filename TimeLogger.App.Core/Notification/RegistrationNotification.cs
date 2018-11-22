@@ -26,17 +26,13 @@ namespace TimeLogger.App.Core.Notification
             return @"
 Hello!
 
-Thank you for early-bird registration to TimeLoggerLive. 
-The application is currently in public-beta and is expected to be production ready by November 1st, 2017. 
-Your early-bird registration guarantess: 
- * lower subscription price for first and following 3 years, 
- * access to all non-production releases,
- * hassle free, any-time money back guarantee,
- * personalized support.
+Welcome to TimeLoggerLive, the application that allows you to get hold of your time yet again. 
+In order to start using this app, please visit https://timelogger.eu/app, log in and enjoy your 90-day free trial.
 
 Thank you again for believing in us,
 Vladimir Kocjancic,
 Creator of TimeLoggerLive
+https://timelogger.eu
 ";
         }
 

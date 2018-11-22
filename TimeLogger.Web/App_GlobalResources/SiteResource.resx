@@ -150,6 +150,9 @@
   <data name="MoreButton" xml:space="preserve">
     <value>Read more</value>
   </data>
+  <data name="News" xml:space="preserve">
+    <value>News</value>
+  </data>
   <data name="Preorder" xml:space="preserve">
     <value>Preorder now!</value>
   </data>

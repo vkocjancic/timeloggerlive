@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -102,9 +103,17 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\author.jpg" />
     <Content Include="Content\images\TimeLogger-logo-alt.png" />
+    <Content Include="Content\images\timelogger.png" />
     <Content Include="Content\videos\time_log_entry.mp4" />
     <Content Include="Content\videos\insights_demo.mp4" />
     <Content Include="favicon.ico" />
+    <Content Include="Themes\2019\logo_header.png" />
+    <Content Include="Themes\2019\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Themes\2019\site.min.css">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
     <Content Include="Themes\Initial\logo_header.png" />
     <Content Include="Themes\Initial\site.css">
       <DependentUpon>site.less</DependentUpon>
@@ -131,6 +140,10 @@
     </None>
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Themes\Initial\PrivacyPolicy.cshtml" />
+    <Content Include="Themes\2019\_Layout.cshtml" />
+    <Content Include="Themes\2019\Home.cshtml" />
+    <Content Include="Themes\2019\PrivacyPolicy.cshtml" />
+    <Content Include="Themes\2019\site.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

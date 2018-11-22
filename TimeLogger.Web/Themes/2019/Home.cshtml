@@ -1,0 +1,96 @@
+﻿@using Resources
+@using TimeLogger.Web.Code.Common
+<article>
+    <section class="jumbotron">
+        <h1>Be master of your own time.</h1>
+        <h2>A time logging application for just about anyone</h2>
+        <p>
+            <a href="/app/register/personal" class="btn" title="Start your 90-day trial now">
+                Start your 90-day trial now
+            </a>
+        </p>
+        <img src="~/Content/images/timelogger.png" class="img-responsive" />
+    </section>
+
+    <section>
+        <h1 id="features">Easy to use</h1>
+        <p>@SiteResource.EasyToUseShortDescription</p>
+        <div class="video-container">
+            <div itemprop="video" class="embed-responsive embed-responsive-4by3">
+                <video controls="controls" class="embed-responsive-item">
+                    <source src="~/Content/videos/time_log_entry.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h1>Great insights</h1>
+        <p>@SiteResource.TransperentShortDescription</p>
+        <div class="video-container">
+            <div itemprop="video" class="embed-responsive embed-responsive-4by3">
+                <video controls="controls" class="embed-responsive-item">
+                    <source src="~/Content/videos/insights_demo.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h1 id="pricing">@SiteResource.Pricing</h1>
+
+        <div class="row">
+            <div class="col-md-3 col-md-offset-3">
+                <div class="pricing-plan panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Monthly billing</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>
+                            <span class="currency">$</span>
+                            2.99
+                            <span class="period">/mo.</span>
+                        </h4>
+                        <ul>
+                            <li><i class="fa fa-chevron-right"></i>90-day free trial without fees</li>
+                            <li><i class="fa fa-chevron-right"></i>You will be charged after free trial ends</li>
+                            <li><i class="fa fa-chevron-right"></i>No setup or hidden fees</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="pricing-plan panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Annual billing</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>
+                            <span class="currency">$</span>
+                            29.99
+                            <span class="period">/yr.</span>
+                        </h4>
+                        <ul>
+                            <li><i class="fa fa-chevron-right"></i>90-day free trial without fees</li>
+                            <li><i class="fa fa-chevron-right"></i>You will be charged after free trial ends</li>
+                            <li><i class="fa fa-chevron-right"></i>No setup or hidden fees</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="pricing-button">
+            <a href="/app/register/personal" class="btn" title="Start your 90-day trial now">
+                Start your 90-day trial now
+            </a>
+        </p>
+    </section>
+
+    <section>
+        <h1 id="news">@SiteResource.News</h1>
+        <ul class="custom-bullet">
+            <li><em>December 1, 2018</em> - <a href="https://blog.timelogger.eu/2018/website-redesign">Website re-design</a></li>
+            <li><em>November 14, 2018</em> - <a href="https://blog.timelogger.eu/2018/release-notes-v1.2.0">Release notes v1.2.0</a></li>
+        </ul>
+    </section>
+</article>

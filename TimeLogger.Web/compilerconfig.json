@@ -10,5 +10,9 @@
   {
     "outputFile": "Themes/Initial/site.css",
     "inputFile": "Themes/Initial/site.less"
+  },
+  {
+    "outputFile": "Themes/2019/site.css",
+    "inputFile": "Themes/2019/site.less"
   }
 ]
